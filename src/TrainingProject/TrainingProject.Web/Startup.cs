@@ -7,10 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-<<<<<<< HEAD
 using Microsoft.EntityFrameworkCore;
-=======
->>>>>>> bf6948f0f98359af1ee6243af8b3886a4e68ca1b
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,7 +28,6 @@ namespace TrainingProject.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-<<<<<<< HEAD
             services.AddLogging();
 
             services.AddDbContext<Domain.AppDbContext>(options =>
@@ -41,8 +37,6 @@ namespace TrainingProject.Web
                         builder => builder.MigrationsAssembly("TrainingProject.Domain"));
             });
 
-=======
->>>>>>> bf6948f0f98359af1ee6243af8b3886a4e68ca1b
             services.AddDomainServices();
             
             services.AddOpenApiDocument();
