@@ -7,10 +7,10 @@ namespace TrainingProject.Domain
 {
     public interface ICategoryRepository
     {
-        Category GetById(int id);
+        Category Get(int id);
         IEnumerable<Category> GetAll();
-        void UpdateCategory(Category categoryToUpdate, int id);
-        void DeleteCategory(int id);
-        Category AddCategory(Category category);
+        void Update(Category categoryToUpdate, int id);
+        void Delete(int id);
+        void Add(Category category);
     }
 }

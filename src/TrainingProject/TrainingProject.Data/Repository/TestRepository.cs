@@ -10,14 +10,14 @@ namespace TrainingProject.Data.Repository
 {
     public class TestRepository : ITestRepository
     {
-        private AppDbContext _context { get; set; }
+        private readonly AppDbContext _context;
 
         public TestRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public Test GetById(int id)
+        public Test Get(int id)
         {
             return _context.Tests.FirstOrDefault(test => test.Id == id);
         }
@@ -27,7 +27,7 @@ namespace TrainingProject.Data.Repository
             return _context.Tests.ToList();
         }
 
-        public void UpdateTest(Test testToUpdate, int id)
+        public void Update(Test testToUpdate, int id)
         {
             if (_context.Tests.First(test => test.Id == id) != null)
             {
@@ -36,7 +36,7 @@ namespace TrainingProject.Data.Repository
             }
         }
 
-        public void DeleteTest(int id)
+        public void Delete(int id)
         {
             var test = _context.Tests.Find(id);
             if (test != null)
@@ -46,18 +46,15 @@ namespace TrainingProject.Data.Repository
             }
         }
 
-        public Test AddTest(Test test)
+        public void Add(Test test)
         {
-            if (test != null)
-            {
-                _context.Tests.Add(test);
-                _context.SaveChanges();
-                return test;
-            }
-            else
-            {
-                return null;
-            }
+            _context.Tests.Add(test);
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Test> GetByCategory(Category category)
+        {
+            return _context.Tests.Where(c => c.Category.Id == category.Id);
         }
     }
 }

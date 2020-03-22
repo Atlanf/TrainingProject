@@ -9,14 +9,14 @@ namespace TrainingProject.Data.Repository
 {
     class CategoryRepository : ICategoryRepository
     {
-        private AppDbContext _context { get; set; }
+        private readonly AppDbContext _context;
 
         public CategoryRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public Category GetById(int id)
+        public Category Get(int id)
         {
             return _context.Categories.FirstOrDefault(category => category.Id == id);
         }
@@ -26,7 +26,7 @@ namespace TrainingProject.Data.Repository
             return _context.Categories.ToList();
         }
 
-        public void UpdateCategory(Category categoryToUpdate, int id)
+        public void Update(Category categoryToUpdate, int id)
         {
             if (_context.Categories.First(category => category.Id == id) != null)
             {
@@ -35,7 +35,7 @@ namespace TrainingProject.Data.Repository
             }
         }
 
-        public void DeleteCategory(int id)
+        public void Delete(int id)
         {
             var category = _context.Categories.Find(id);
             if (category != null)
@@ -45,18 +45,10 @@ namespace TrainingProject.Data.Repository
             }
         }
 
-        public Category AddCategory(Category category)
+        public void Add(Category category)
         {
-            if (category != null)
-            {
-                _context.Categories.Add(category);
-                _context.SaveChanges();
-                return category;
-            }
-            else
-            {
-                return null;
-            }
+            _context.Categories.Add(category);
+            _context.SaveChanges();
         }
     }
 }

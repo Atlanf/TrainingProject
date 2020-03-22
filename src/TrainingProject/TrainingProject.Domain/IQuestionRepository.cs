@@ -7,10 +7,10 @@ namespace TrainingProject.Domain
 {
     public interface IQuestionRepository
     {
-        Question GetById(int id);
+        Question Get(int id);
         IEnumerable<Question> GetAll();
-        void UpdateQuestion(Question questionToUpdate, int id);
-        void DeleteQuestion(int id);
-        Question AddQuestion(Question question);
+        void Update(Question questionToUpdate, int id);
+        void Delete(int id);
+        void Add(Question question);
     }
 }

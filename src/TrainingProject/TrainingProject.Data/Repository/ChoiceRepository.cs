@@ -9,14 +9,14 @@ namespace TrainingProject.Data.Repository
 {
     public class ChoiceRepository : IChoiceRepository
     {
-        private AppDbContext _context { get; set; }
+        private readonly AppDbContext _context;
 
         public ChoiceRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public Choice GetById(int id)
+        public Choice Get(int id)
         {
             return _context.Choices.FirstOrDefault(choice => choice.Id == id);
         }
@@ -26,7 +26,7 @@ namespace TrainingProject.Data.Repository
             return _context.Choices.ToList();
         }
 
-        public void UpdateChoice(Choice choiceToUpdate, int id)
+        public void Update(Choice choiceToUpdate, int id)
         {
             if (_context.Choices.First(choice => choice.Id == id) != null)
             {
@@ -35,7 +35,7 @@ namespace TrainingProject.Data.Repository
             }
         }
 
-        public void DeleteChoice(int id)
+        public void Delete(int id)
         {
             var choice = _context.Choices.Find(id);
             if (choice != null)
@@ -45,18 +45,10 @@ namespace TrainingProject.Data.Repository
             }
         }
 
-        public Choice AddChoice(Choice choice)
+        public void Add(Choice choice)
         {
-            if (choice != null)
-            {
-                _context.Choices.Add(choice);
-                _context.SaveChanges();
-                return choice;
-            }
-            else
-            {
-                return null;
-            }
+            _context.Choices.Add(choice);
+            _context.SaveChanges();
         }
     }
 }

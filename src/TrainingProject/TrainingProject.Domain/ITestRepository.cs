@@ -7,10 +7,11 @@ namespace TrainingProject.Domain
 {
     public interface ITestRepository
     {
-        Test GetById(int id);
+        Test Get(int id);
         IEnumerable<Test> GetAll();
-        void UpdateTest(Test testToUpdate, int id);
-        void DeleteTest(int id);
-        Test AddTest(Test test);
+        void Update(Test testToUpdate, int id);
+        void Delete(int id);
+        void Add(Test test);
+        IEnumerable<Test> GetByCategory(Category category);
     }
 }

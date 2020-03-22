@@ -9,28 +9,20 @@ namespace TrainingProject.Data.Repository
 {
     public class QuestionRepository : IQuestionRepository
     {
-        private AppDbContext _context;
+        private readonly AppDbContext _context;
 
         public QuestionRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public Question AddQuestion(Question question)
+        public void Add(Question question)
         {
-            if (question != null)
-            {
-                _context.Questions.Add(question);
-                _context.SaveChanges();
-                return question;
-            }
-            else
-            {
-                return null;
-            }
+            _context.Questions.Add(question);
+            _context.SaveChanges();
         }
 
-        public void DeleteQuestion(int id)
+        public void Delete(int id)
         {
             var question = _context.Questions.Find(id);
             if (question != null)
@@ -45,12 +37,12 @@ namespace TrainingProject.Data.Repository
             return _context.Questions.ToList();
         }
 
-        public Question GetById(int id)
+        public Question Get(int id)
         {
             return _context.Questions.FirstOrDefault(question => question.Id == id);
         }
 
-        public void UpdateQuestion(Question questionToUpdate, int id)
+        public void Update(Question questionToUpdate, int id)
         {
             if (_context.Questions.First(question => question.Id == id) != null)
             {
