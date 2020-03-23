@@ -41,7 +41,8 @@ namespace TrainingProject.Data.Repository
             var test = _context.Tests.Find(id);
             if (test != null)
             {
-                _context.Tests.Remove(test);
+                test.IsDeleted = true;
+                // _context.Tests.Remove(test);
                 _context.SaveChanges();
             }
         }

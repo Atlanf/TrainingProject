@@ -27,7 +27,8 @@ namespace TrainingProject.Data.Repository
             var question = _context.Questions.Find(id);
             if (question != null)
             {
-                _context.Questions.Remove(question);
+                question.IsDeleted = true;
+                // _context.Questions.Remove(question);
                 _context.SaveChanges();
             }
         }

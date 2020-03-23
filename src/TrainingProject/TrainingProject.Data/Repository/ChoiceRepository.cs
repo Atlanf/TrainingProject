@@ -40,7 +40,8 @@ namespace TrainingProject.Data.Repository
             var choice = _context.Choices.Find(id);
             if (choice != null)
             {
-                _context.Choices.Remove(choice);
+                choice.IsDeleted = true;
+                // _context.Choices.Remove(choice);
                 _context.SaveChanges();
             }
         }

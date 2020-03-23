@@ -10,7 +10,8 @@ namespace TrainingProject.Domain.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
-
+        public bool IsDeleted { get; set; }
+        
         public ICollection<Result> Results { get; set; }
     }
 }

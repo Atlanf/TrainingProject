@@ -13,6 +13,5 @@ namespace TrainingProject.Domain.Models
         public int CorrectAnswers { get; set; }
         public bool TestFinished { get; set; }
         public DateTime DateFinished { get; set; }
-        
     }
 }

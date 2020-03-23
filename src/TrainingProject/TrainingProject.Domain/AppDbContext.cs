@@ -28,12 +28,14 @@ namespace TrainingProject.Domain
             modelBuilder.Entity<Result>()
                 .HasOne(r => r.Test)
                 .WithMany(u => u.Results)
-                .HasForeignKey(r => r.UserId);
+                .HasForeignKey(r => r.TestId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Result>()
                 .HasOne(r => r.User)
                 .WithMany(t => t.Results)
-                .HasForeignKey(r => r.TestId);
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

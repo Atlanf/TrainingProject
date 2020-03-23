@@ -40,7 +40,8 @@ namespace TrainingProject.Data.Repository
             var category = _context.Categories.Find(id);
             if (category != null)
             {
-                _context.Categories.Remove(category);
+                category.IsDeleted = true;
+                // _context.Categories.Remove(category);
                 _context.SaveChanges();
             }
         }
