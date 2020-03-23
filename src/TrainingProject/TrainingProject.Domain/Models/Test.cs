@@ -13,5 +13,6 @@ namespace TrainingProject.Domain.Models
         public Category Category { get; set; }
         public DateTime DateCreated { get; set; }
         public User Author { get; set; }
+        public ICollection<Result> Results { get; set; }
     }
 }

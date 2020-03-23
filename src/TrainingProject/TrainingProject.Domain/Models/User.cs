@@ -11,5 +11,6 @@ namespace TrainingProject.Domain.Models
         public string LastName { get; set; }
         public string UserName { get; set; }
 
+        public ICollection<Result> Results { get; set; }
     }
 }

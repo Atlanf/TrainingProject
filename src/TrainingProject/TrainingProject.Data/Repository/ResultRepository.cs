@@ -7,16 +7,16 @@ using TrainingProject.Domain.Models;
 
 namespace TrainingProject.Data.Repository
 {
-    public class TestResultRepository : ITestResultRepository
+    public class ResultRepository : IResultRepository
     {
         private readonly AppDbContext _context;
 
-        public TestResultRepository(AppDbContext context)
+        public ResultRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public void Add(TestResult result)
+        public void Add(Result result)
         {
             throw new NotImplementedException();
         }
@@ -26,27 +26,27 @@ namespace TrainingProject.Data.Repository
             throw new NotImplementedException();
         }
 
-        public TestResult Get(int id)
+        public Result Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TestResult> GetAll()
+        public IEnumerable<Result> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TestResult> GetByTest(int id)
+        public IEnumerable<Result> GetByTest(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TestResult> GetByUser(int id)
+        public IEnumerable<Result> GetByUser(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(TestResult resultToUpdate, int id)
+        public void Update(Result resultToUpdate, int id)
         {
             throw new NotImplementedException();
         }
