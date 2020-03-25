@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
+using TrainingProject.Data.Repository;
+using TrainingProject.Domain;
 
 namespace TrainingProject.Data
 {
@@ -7,7 +9,11 @@ namespace TrainingProject.Data
     {
         public static IServiceCollection AddDataServices(this IServiceCollection services)
         {
-            //configure your Data Layer services here
+            services.AddTransient<ITestRepository, TestRepository>();
+            services.AddTransient<IChoiceRepository, ChoiceRepository>();
+            services.AddTransient<IQuestionRepository, QuestionRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            /* User repo */
             return services;
         }
     }

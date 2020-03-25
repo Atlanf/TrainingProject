@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using TrainingProject.Data;
 using TrainingProject.Domain.Logic;
 
 namespace TrainingProject.Web
@@ -28,7 +29,8 @@ namespace TrainingProject.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            DataExtensions.AddDataServices(services); //
+
             services.AddLogging();
 
             services.AddDbContext<Domain.AppDbContext>(options =>
@@ -43,6 +45,11 @@ namespace TrainingProject.Web
             services.AddOpenApiDocument();
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup).Assembly);
+
+            services.AddSwaggerGen(options => options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+            {
+                Title = "Training Project", Version = "v1"
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
