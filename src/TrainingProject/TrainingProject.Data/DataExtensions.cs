@@ -13,7 +13,9 @@ namespace TrainingProject.Data
             services.AddTransient<IChoiceRepository, ChoiceRepository>();
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
-            /* User repo */
+            services.AddTransient<IResultRepository, ResultRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+
             return services;
         }
     }

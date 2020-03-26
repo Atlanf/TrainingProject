@@ -17,9 +17,11 @@ namespace TrainingProject.Domain
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base (options)
         {
+            this.ChangeTracker.LazyLoadingEnabled = false;
             Database.EnsureDeleted();
             Database.EnsureCreated();
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             /*modelBuilder.Entity<Result>()
@@ -36,7 +38,7 @@ namespace TrainingProject.Domain
                 .WithMany(t => t.Results)
                 .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.SetNull);*/
-                
+            
             DataSeeding.Seed(modelBuilder);
         }
     }

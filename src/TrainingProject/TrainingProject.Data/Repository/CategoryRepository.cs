@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TrainingProject.Domain;
 using TrainingProject.Domain.Models;
 
@@ -16,40 +18,38 @@ namespace TrainingProject.Data.Repository
             _context = context;
         }
 
-        public Category Get(int id)
+        public async Task<Category> GetAsync(int id)
         {
-            return _context.Categories.FirstOrDefault(category => category.Id == id);
+            return await _context.Categories.FirstOrDefaultAsync(category => category.Id == id);
         }
 
-        public IEnumerable<Category> GetAll()
+        public async Task<IEnumerable<Category>> GetAllAsync()
         {
-            return _context.Categories.ToList();
+            return await _context.Categories.ToListAsync();
         }
 
-        public void Update(Category categoryToUpdate, int id)
+        public async Task<Category> UpdateAsync(Category categoryToUpdate)
         {
-            if (_context.Categories.First(category => category.Id == id) != null)
-            {
-                _context.Categories.Update(categoryToUpdate);
-                _context.SaveChanges();
-            }
+            _context.Entry(categoryToUpdate).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return categoryToUpdate;
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var category = _context.Categories.Find(id);
+            var category = await _context.Categories.FindAsync(id);
             if (category != null)
             {
                 category.IsDeleted = true;
-                // _context.Categories.Remove(category);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
 
-        public void Add(Category category)
+        public async Task<Category> AddAsync(Category category)
         {
-            _context.Categories.Add(category);
-            _context.SaveChanges();
+            await _context.Categories.AddAsync(category);
+            await _context.SaveChangesAsync();
+            return category;
         }
     }
 }

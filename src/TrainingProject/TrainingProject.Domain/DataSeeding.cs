@@ -18,6 +18,9 @@ namespace TrainingProject.Domain
                     FirstName = "Ivan",
                     LastName = "Ivanov",
                     UserName = "UserIvan",
+                    Password = "PswTest1",
+                    Email = "SomeMail@test.by",
+                    RoleId = 1,
                     IsDeleted = false
                 },
                 new
@@ -26,6 +29,9 @@ namespace TrainingProject.Domain
                     FirstName = "Petr",
                     LastName = "Petrov",
                     UserName = "User_Petr",
+                    Password = "PswTest2",
+                    Email = "SomeMail2@test.by",
+                    RoleId = 1,
                     IsDeleted = false
                 } 
             );
@@ -194,6 +200,14 @@ namespace TrainingProject.Domain
                 }
             );
 
+            #endregion
+            #region Populating Roles
+            modelBuilder.Entity<Role>().HasData(
+                new
+                {
+                    Id = 1,
+                    Name = "Role name 1"
+                });
             #endregion
         }
     }

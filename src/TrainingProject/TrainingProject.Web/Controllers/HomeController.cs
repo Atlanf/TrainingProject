@@ -12,22 +12,25 @@ namespace TrainingProject.Web.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        private readonly ICategoryRepository _categoryRepository;
-        public HomeController(ICategoryRepository categoryRepository)
+        private readonly IQuestionRepository _questionRepository;
+        private readonly IChoiceRepository _choiceRepository;
+        public HomeController(IQuestionRepository questionRepository, IChoiceRepository choiceRepository)
         {
-            _categoryRepository = categoryRepository;
+            _questionRepository = questionRepository;
+            _choiceRepository = choiceRepository;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_categoryRepository.GetAll());
+            return Ok(_questionRepository.GetAll());
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return Ok(_categoryRepository.Get(id));
+            var result = await _questionRepository.GetAsync(id);
+            return Ok(result);
         }
     }
 }

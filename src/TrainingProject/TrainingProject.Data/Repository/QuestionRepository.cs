@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TrainingProject.Domain;
 using TrainingProject.Domain.Models;
 
@@ -16,40 +18,42 @@ namespace TrainingProject.Data.Repository
             _context = context;
         }
 
-        public void Add(Question question)
+        public async Task<Question> AddAsync(Question question)
         {
-            _context.Questions.Add(question);
-            _context.SaveChanges();
+            await _context.Questions.AddAsync(question);
+            await _context.SaveChangesAsync();
+            return question;
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var question = _context.Questions.Find(id);
+            var question = await _context.Questions.FindAsync(id);
             if (question != null)
             {
                 question.IsDeleted = true;
-                // _context.Questions.Remove(question);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
 
-        public IEnumerable<Question> GetAll()
+        public async Task<IEnumerable<Question>> GetAllAsync()
         {
-            return _context.Questions.ToList();
+            return await _context.Questions
+                .Include(c => c.Choices)
+                .ToListAsync();
         }
 
-        public Question Get(int id)
+        public async Task<Question> GetAsync(int id)
         {
-            return _context.Questions.FirstOrDefault(question => question.Id == id);
+            return await _context.Questions
+                .Include(c => c.Choices)
+                .FirstOrDefaultAsync(q => q.Id == id);
         }
 
-        public void Update(Question questionToUpdate, int id)
+        public async Task<Question> UpdateAsync(Question questionToUpdate)
         {
-            if (_context.Questions.First(question => question.Id == id) != null)
-            {
-                _context.Questions.Update(questionToUpdate);
-                _context.SaveChanges();
-            }
+            _context.Entry(questionToUpdate).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return questionToUpdate;
         }
     }
 }
