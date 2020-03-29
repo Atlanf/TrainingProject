@@ -14,6 +14,7 @@ namespace TrainingProject.Domain
         public DbSet<Choice> Choices { get; set; }
         public DbSet<Result> Results { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base (options)
         {
