@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TrainingProject.Domain;
 using TrainingProject.Domain.Models;
 
@@ -16,39 +18,39 @@ namespace TrainingProject.Data.Repository
             _context = context;
         }
 
-        public Choice Get(int id)
+        public async Task<Choice> GetAsync(int id)
         {
-            return _context.Choices.FirstOrDefault(choice => choice.Id == id);
+            var result = await _context.Choices.Include(q => q.Question).FirstOrDefaultAsync(c => c.Id == id); // 
+            return result;
         }
 
-        public IEnumerable<Choice> GetAll()
+        public async Task<IEnumerable<Choice>> GetAllAsync()
         {
-            return _context.Choices.ToList();
+            return await _context.Choices.ToListAsync();
         }
 
-        public void Update(Choice choiceToUpdate, int id)
+        public async Task<Choice> UpdateAsync(Choice choiceToUpdate)
         {
-            if (_context.Choices.First(choice => choice.Id == id) != null)
-            {
-                _context.Choices.Update(choiceToUpdate);
-                _context.SaveChanges();
-            }
+            _context.Entry(choiceToUpdate).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return choiceToUpdate;
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var choice = _context.Choices.Find(id);
+            var choice = await _context.Choices.FindAsync(id);
             if (choice != null)
             {
-                _context.Choices.Remove(choice);
-                _context.SaveChanges();
+                choice.IsDeleted = true;
+                await _context.SaveChangesAsync();
             }
         }
 
-        public void Add(Choice choice)
+        public async Task<Choice> AddAsync(Choice choice)
         {
-            _context.Choices.Add(choice);
-            _context.SaveChanges();
+            await _context.Choices.AddAsync(choice);
+            await _context.SaveChangesAsync();
+            return choice;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using TrainingProject.Domain;
 using TrainingProject.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace TrainingProject.Data.Repository
 {
@@ -17,39 +18,38 @@ namespace TrainingProject.Data.Repository
             _context = context;
         }
 
-        public Test Get(int id)
+        public async Task<Test> GetAsync(int id)
         {
-            return _context.Tests.FirstOrDefault(test => test.Id == id);
+            return await _context.Tests.FirstOrDefaultAsync(test => test.Id == id);
         }
 
-        public IEnumerable<Test> GetAll()
+        public async Task<IEnumerable<Test>> GetAllAsync()
         {
-            return _context.Tests.ToList();
+            return await _context.Tests.ToListAsync();
         }
 
-        public void Update(Test testToUpdate, int id)
+        public async Task<Test> UpdateAsync(Test testToUpdate)
         {
-            if (_context.Tests.First(test => test.Id == id) != null)
-            {
-                _context.Tests.Update(testToUpdate);
-                _context.SaveChanges();
-            }
+            _context.Entry(testToUpdate).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return testToUpdate;
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var test = _context.Tests.Find(id);
+            var test = await _context.Tests.FindAsync(id);
             if (test != null)
             {
-                _context.Tests.Remove(test);
-                _context.SaveChanges();
+                test.IsDeleted = true;
+                await _context.SaveChangesAsync();
             }
         }
 
-        public void Add(Test test)
+        public async Task<Test> AddAsync(Test test)
         {
-            _context.Tests.Add(test);
-            _context.SaveChanges();
+            await _context.Tests.AddAsync(test);
+            await _context.SaveChangesAsync();
+            return test;
         }
 
         public IEnumerable<Test> GetByCategory(Category category)

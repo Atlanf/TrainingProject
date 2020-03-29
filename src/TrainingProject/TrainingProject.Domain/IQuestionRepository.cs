@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TrainingProject.Domain.Models;
 
 namespace TrainingProject.Domain
 {
     public interface IQuestionRepository
     {
-        Question Get(int id);
-        IEnumerable<Question> GetAll();
-        void Update(Question questionToUpdate, int id);
-        void Delete(int id);
-        void Add(Question question);
+        Task<Question> GetAsync(int id);
+        Task<IEnumerable<Question>> GetAllAsync();
+        Task<Question> UpdateAsync(Question questionToUpdate);
+        Task DeleteAsync(int id);
+        Task<Question> AddAsync(Question question);
     }
 }

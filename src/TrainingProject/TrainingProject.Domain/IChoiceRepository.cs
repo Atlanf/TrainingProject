@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TrainingProject.Domain.Models;
 
 namespace TrainingProject.Domain
 {
     public interface IChoiceRepository
     {
-        Choice Get(int id);
-        IEnumerable<Choice> GetAll();
-        void Update(Choice choiceToUpdate, int id);
-        void Delete(int id);
-        void Add(Choice choice);
+        Task<Choice> GetAsync(int id);
+        Task<IEnumerable<Choice>> GetAllAsync();
+        Task<Choice> UpdateAsync(Choice choiceToUpdate);
+        Task DeleteAsync(int id);
+        Task<Choice> AddAsync(Choice choice);
     }
 }

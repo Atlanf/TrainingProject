@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrainingProject.Domain;
 
 namespace TrainingProject.Domain.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200324142945_ModelChangeAndDataSeed")]
+    partial class ModelChangeAndDataSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,7 +231,7 @@ namespace TrainingProject.Domain.Migrations
                         {
                             ResultId = 1,
                             CorrectAnswers = 2,
-                            DateFinished = new DateTime(2020, 3, 26, 12, 28, 20, 530, DateTimeKind.Local).AddTicks(5683),
+                            DateFinished = new DateTime(2020, 3, 24, 17, 29, 31, 221, DateTimeKind.Local).AddTicks(4474),
                             IsDeleted = false,
                             TestFinished = true,
                             TestId = 1,
@@ -239,33 +241,11 @@ namespace TrainingProject.Domain.Migrations
                         {
                             ResultId = 2,
                             CorrectAnswers = 1,
-                            DateFinished = new DateTime(2020, 3, 26, 12, 28, 20, 530, DateTimeKind.Local).AddTicks(8987),
+                            DateFinished = new DateTime(2020, 3, 24, 17, 29, 31, 221, DateTimeKind.Local).AddTicks(8275),
                             IsDeleted = false,
                             TestFinished = false,
                             TestId = 2,
                             UserId = 1
-                        });
-                });
-
-            modelBuilder.Entity("TrainingProject.Domain.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Role");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Role name 1"
                         });
                 });
 
@@ -308,7 +288,7 @@ namespace TrainingProject.Domain.Migrations
                             Id = 1,
                             AuthorId = 1,
                             CategoryId = 1,
-                            DateCreated = new DateTime(2020, 3, 26, 12, 28, 20, 520, DateTimeKind.Local).AddTicks(8610),
+                            DateCreated = new DateTime(2020, 3, 24, 17, 29, 31, 211, DateTimeKind.Local).AddTicks(3161),
                             Description = "Some kind of description",
                             IsDeleted = false,
                             Name = "C# Basics"
@@ -342,9 +322,6 @@ namespace TrainingProject.Domain.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
@@ -354,18 +331,10 @@ namespace TrainingProject.Domain.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
 
@@ -373,23 +342,17 @@ namespace TrainingProject.Domain.Migrations
                         new
                         {
                             Id = 1,
-                            Email = "SomeMail@test.by",
                             FirstName = "Ivan",
                             IsDeleted = false,
                             LastName = "Ivanov",
-                            Password = "PswTest1",
-                            RoleId = 1,
                             UserName = "UserIvan"
                         },
                         new
                         {
                             Id = 2,
-                            Email = "SomeMail2@test.by",
                             FirstName = "Petr",
                             IsDeleted = false,
                             LastName = "Petrov",
-                            Password = "PswTest2",
-                            RoleId = 1,
                             UserName = "User_Petr"
                         });
                 });
@@ -434,15 +397,6 @@ namespace TrainingProject.Domain.Migrations
                     b.HasOne("TrainingProject.Domain.Models.Category", "Category")
                         .WithMany("Tests")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TrainingProject.Domain.Models.User", b =>
-                {
-                    b.HasOne("TrainingProject.Domain.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
