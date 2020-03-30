@@ -23,7 +23,7 @@ namespace TrainingProject.Web.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_questionRepository.GetAll());
+            return Ok();
         }
 
         [HttpGet("{id}")]

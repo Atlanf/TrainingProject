@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TrainingProject.Domain.Models;
 
-namespace TrainingProject.Domain
+namespace TrainingProject.Data.Interfaces
 {
     public interface IResultRepository
     {

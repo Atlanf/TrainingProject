@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,13 @@ namespace TrainingProject.Domain.Logic.Managers
 {
     public class UserManager : IUserManager
     {
+        private readonly IMapper _mapper;
+
+        public UserManager(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
         public async Task<bool> LoginUser(LoginDTO user)
         {
             return true;

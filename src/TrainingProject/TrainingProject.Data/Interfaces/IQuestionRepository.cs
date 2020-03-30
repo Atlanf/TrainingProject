@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TrainingProject.Domain.Models;
 
-namespace TrainingProject.Domain
+namespace TrainingProject.Data.Interfaces
 {
     public interface IQuestionRepository
     {

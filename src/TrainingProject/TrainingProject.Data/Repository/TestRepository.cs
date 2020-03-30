@@ -6,6 +6,7 @@ using TrainingProject.Domain;
 using TrainingProject.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using TrainingProject.Data.Interfaces;
 
 namespace TrainingProject.Data.Repository
 {

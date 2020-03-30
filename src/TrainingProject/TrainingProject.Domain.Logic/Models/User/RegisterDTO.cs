@@ -11,6 +11,7 @@ namespace TrainingProject.Domain.Logic.Models.User
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "Укажите Email")]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Укажите пароль")]

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using TrainingProject.Data.Repository;
-using TrainingProject.Domain;
+using TrainingProject.Data.Interfaces;
 
 namespace TrainingProject.Data
 {

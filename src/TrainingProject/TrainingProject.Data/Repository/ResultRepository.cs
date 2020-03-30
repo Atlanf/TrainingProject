@@ -4,6 +4,7 @@ using System.Text;
 using TrainingProject.Domain;
 using System.Linq;
 using TrainingProject.Domain.Models;
+using TrainingProject.Data.Interfaces;
 
 namespace TrainingProject.Data.Repository
 {
