@@ -14,10 +14,10 @@ namespace TrainingProject.Domain.Logic.Profiles
         public UserProfile()
         {
             CreateMap<LoginDTO, User>()
-                .ForMember(d => d.Password, opt => opt.MapFrom(src => HashGenerator.Generate(src.Password)));
+                .ForMember(u => u.PasswordHash, opt => opt.MapFrom(x => x.Password));
 
-            CreateMap<RegisterDTO, User>()
-                .ForMember(d => d.Password, opt => opt.MapFrom(src => HashGenerator.Generate(src.Password)));
+            CreateMap<RegistrationDTO, User>()
+                .ForMember(u => u.UserName, opt => opt.MapFrom(x => x.UserName));
 
             // Configure
             CreateMap<User, ProfileDTO>();

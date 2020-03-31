@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TrainingProject.Domain.Logic.Models.User
 {
-    public class RegisterDTO
+    public class RegistrationDTO
     {
         [Required(ErrorMessage = "Укажите имя пользователя")]
         public string UserName { get; set; }
@@ -18,8 +18,8 @@ namespace TrainingProject.Domain.Logic.Models.User
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
+        [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
     }
 }

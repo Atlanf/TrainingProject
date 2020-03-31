@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,8 @@ namespace TrainingProject.Data.Interfaces
         Task<IEnumerable<User>> GetAllAsync();
         Task<User> UpdateAsync(User userToUpdate);
         Task DeleteAsync(int id);
-        Task<User> AddAsync(User user);
+        Task<IdentityResult> AddUserAsync(User user, string password);
+        Task<IdentityResult> AddRoleAsync(User user, string role);
         Task<bool> IsUserExist(User user);
     }
 }

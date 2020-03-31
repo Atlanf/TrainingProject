@@ -21,9 +21,14 @@ namespace TrainingProject.Data.Repository
             _userManager = userManager;
         }
 
-        public Task<User> AddAsync(User user)
+        public async Task<IdentityResult> AddUserAsync(User user, string password)
         {
-            throw new NotImplementedException();
+            return await _userManager.CreateAsync(user, user.PasswordHash);
+        }
+
+        public async Task<IdentityResult> AddRoleAsync(User user, string role)
+        {
+             return await _userManager.AddToRoleAsync(user, role);
         }
 
         public Task DeleteAsync(int id)

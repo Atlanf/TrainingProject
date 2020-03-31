@@ -11,30 +11,28 @@ namespace TrainingProject.Domain
         public static void Seed(ModelBuilder modelBuilder)
         {
             #region Populating User
-            modelBuilder.Entity<User>().HasData(
-                new
-                {
-                    Id = 1,
-                    FirstName = "Ivan",
-                    LastName = "Ivanov",
-                    UserName = "UserIvan",
-                    Password = "PswTest1",
-                    Email = "SomeMail@test.by",
-                    RoleId = 1,
-                    IsDeleted = false
-                },
-                new
-                {
-                    Id = 2,
-                    FirstName = "Petr",
-                    LastName = "Petrov",
-                    UserName = "User_Petr",
-                    Password = "PswTest2",
-                    Email = "SomeMail2@test.by",
-                    RoleId = 1,
-                    IsDeleted = false
-                } 
-            );
+            //modelBuilder.Entity<User>().HasData(
+            //    new
+            //    {
+            //        Id = 1,
+            //        FullName = "Ivan Ivanov",
+            //        UserName = "UserIvan",
+            //        Password = "PswTest1",
+            //        Email = "SomeMail@test.by",
+            //        RoleId = 1,
+            //        IsDeleted = false
+            //    },
+            //    new
+            //    {
+            //        Id = 2,
+            //        FullName = "Petr Petrov",
+            //        UserName = "User_Petr",
+            //        Password = "PswTest2",
+            //        Email = "SomeMail2@test.by",
+            //        RoleId = 1,
+            //        IsDeleted = false
+            //    } 
+            //);
             #endregion
             #region Populating Test
             modelBuilder.Entity<Test>().HasData(
@@ -66,7 +64,7 @@ namespace TrainingProject.Domain
                     DateCreated = DateTime.Parse("10-03-2020"),
                     IsDeleted = false,
                     CategoryId = 2,
-                    AuthorId = 2
+                    AuthorId = 1
                 }
             );
             #endregion
@@ -202,12 +200,12 @@ namespace TrainingProject.Domain
 
             #endregion
             #region Populating Roles
-            modelBuilder.Entity<Role>().HasData(
-                new
-                {
-                    Id = 1,
-                    Name = "Role name 1"
-                });
+            //modelBuilder.Entity<Role>().HasData(
+            //    new
+            //    {
+            //        Id = 1,
+            //        Name = "Role name 1"
+            //    });
             #endregion
         }
     }

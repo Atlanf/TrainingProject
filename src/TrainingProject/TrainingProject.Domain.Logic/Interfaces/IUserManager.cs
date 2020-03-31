@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,9 +9,9 @@ namespace TrainingProject.Domain.Logic.Interfaces
 {
     public interface IUserManager
     {
-        public Task<bool> LoginUser(LoginDTO user);
+        public Task<IdentityResult> LoginUser(LoginDTO user);
 
-        public Task<bool> RegisterUser(RegisterDTO user);
+        public Task<IdentityResult> RegisterUser(RegistrationDTO user);
        
     }
 }
