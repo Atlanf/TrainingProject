@@ -23,12 +23,17 @@ namespace TrainingProject.Data.Repository
 
         public async Task<IdentityResult> AddUserAsync(User user, string password)
         {
-            return await _userManager.CreateAsync(user, user.PasswordHash);
+            return await _userManager.CreateAsync(user, password);
         }
 
         public async Task<IdentityResult> AddRoleAsync(User user, string role)
         {
              return await _userManager.AddToRoleAsync(user, role);
+        }
+
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            return await _userManager.FindByEmailAsync(email);
         }
 
         public Task DeleteAsync(int id)

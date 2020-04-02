@@ -16,6 +16,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TrainingProject.Data;
 using TrainingProject.Domain.Logic;
+using TrainingProject.Domain.Logic.Profiles;
+using TrainingProject.Domain.Models;
 
 namespace TrainingProject.Web
 {
@@ -31,6 +33,8 @@ namespace TrainingProject.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddOpenApiDocument(c => c.DocumentName = "API v1");
+
             DataExtensions.AddDataServices(services); //
 
             services.AddLogging();
@@ -44,37 +48,42 @@ namespace TrainingProject.Web
 
             services.AddIdentity<Domain.Models.User, IdentityRole>()
                 .AddEntityFrameworkStores<Domain.AppDbContext>();
-                
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //    .AddCookie(options =>
-            //    {
-            //        options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
-            //    });
+
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new UserProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddDomainServices();
             
-            services.AddOpenApiDocument();
             services.AddControllers();
-            services.AddAutoMapper(typeof(Startup).Assembly);
 
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            services.AddSwaggerGen(options => options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-            {
-                Title = "Training Project", Version = "v1"
-            }));
+            //services.AddSwaggerGen(options => options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+            //{
+            //    Title = "Training Project",
+            //    Version = "v1"
+            //}));
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseSwaggerUI(options => {
+                //    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Training Project v1");
+                //});
                 app.UseOpenApi().UseSwaggerUi3();
             }
+
 
             app.UseHttpsRedirection();
 
@@ -87,3 +96,23 @@ namespace TrainingProject.Web
         }
     }
 }
+
+//{
+//  "email": "mail@example.com",
+//  "password": "Admin_1",
+//  "rememberMe": true
+//}
+
+
+//{
+//  "userName": "Name",
+//  "email": "user@example.com",
+//  "password": "1_User",
+//  "confirmPassword": "1_User"
+//}
+
+//{
+//  "email": "test@example.com",
+//  "password": "T_est1",
+//  "rememberMe": true
+//}

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,7 @@ namespace TrainingProject.Domain
         public static void Seed(ModelBuilder modelBuilder)
         {
             #region Populating User
+
             //modelBuilder.Entity<User>().HasData(
             //    new
             //    {
@@ -200,13 +202,77 @@ namespace TrainingProject.Domain
 
             #endregion
             #region Populating Roles
-            //modelBuilder.Entity<Role>().HasData(
-            //    new
-            //    {
-            //        Id = 1,
-            //        Name = "Role name 1"
-            //    });
+
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole
+                {
+                    Name = "Visitor",
+                    NormalizedName = "VISITOR"
+                },
+                new IdentityRole
+                {
+                    Name = "Moderator",
+                    NormalizedName = "MODERATOR"
+                },
+                new IdentityRole
+                {
+                    Name = "Administrator",
+                    NormalizedName = "ADMINISTRATOR"
+                });
+
             #endregion
+        }
+
+        public static void SeedIdentity(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            SeedRoles(roleManager);
+            SeedUsers(userManager);
+        }
+
+        public static void SeedUsers(UserManager<User> userManager)
+        {
+            if (userManager.FindByNameAsync("user1").Result == null)
+            {
+                var user = new User();
+                user.UserName = "user1";
+                user.Email = "example@example.com";
+                user.FullName = "Nancy Davolio";
+
+                IdentityResult result = userManager.CreateAsync(user, "1Pass_word").Result;
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, "Visitor").Wait();
+                }
+            }
+
+            if (userManager.FindByNameAsync("admin").Result == null)
+            {
+                var user = new User();
+                user.UserName = "admin";
+                user.Email = "mail@example.com";
+                user.FullName = "Mark Smith";
+
+                IdentityResult result = userManager.CreateAsync(user, "Admin_1").Result;
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, "Administrator").Wait();
+                }
+            }
+        }
+
+        public static void SeedRoles(RoleManager<IdentityRole> roleManager)
+        {
+            string[] roles = new string[] { "Administrator", "Moderator", "Visitor" };
+
+            foreach (string role in roles)
+            {
+                if (!roleManager.RoleExistsAsync(role).Result)
+                {
+                    roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
         }
     }
 }

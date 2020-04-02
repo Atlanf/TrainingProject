@@ -13,9 +13,9 @@ namespace TrainingProject.Domain.Configurations
 {
     public class UserConfiguration
     {
-        public static void Configure(ModelBuilder builder, AppDbContext context)
+        public static void Configure(AppDbContext context)
         {
-            string[] roles = new string[] { "Administrator", "Moderator", "Visitor" };
+           /* string[] roles = new string[] { "Administrator", "Moderator", "Visitor" };
 
             foreach (string role in roles)
             {
@@ -48,7 +48,7 @@ namespace TrainingProject.Domain.Configurations
                 var userStore = new UserStore<User>(context);
                 userStore.CreateAsync(admin);
                 userStore.AddToRoleAsync(admin, "Admin");
-            }
+            } */
         }
     }
 }

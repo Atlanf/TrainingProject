@@ -15,6 +15,7 @@ namespace TrainingProject.Data.Interfaces
         Task DeleteAsync(int id);
         Task<IdentityResult> AddUserAsync(User user, string password);
         Task<IdentityResult> AddRoleAsync(User user, string role);
+        Task<User> GetUserByEmailAsync(string email);
         Task<bool> IsUserExist(User user);
     }
 }
