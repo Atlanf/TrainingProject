@@ -13,7 +13,7 @@ using TrainingProject.Domain.Models;
 
 namespace TrainingProject.Domain.Logic.Services
 {
-    public class UserService : IUserManager
+    public class UserService : IUserService
     {
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;

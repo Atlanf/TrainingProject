@@ -56,5 +56,12 @@ namespace TrainingProject.Data.Repository
             await _context.SaveChangesAsync();
             return questionToUpdate;
         }
+
+        public async Task<Question> ApproveQuestionAsync(Question question)
+        {
+            _context.Entry(question).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return question;
+        }
     }
 }

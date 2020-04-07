@@ -8,7 +8,7 @@ using TrainingProject.Domain.Logic.Models.User;
 
 namespace TrainingProject.Domain.Logic.Interfaces
 {
-    public interface IUserManager
+    public interface IUserService
     {
         public Task<ClaimsIdentity> LoginUser(LoginDTO user);
 

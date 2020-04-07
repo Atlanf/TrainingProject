@@ -20,7 +20,7 @@ namespace TrainingProject.Domain.Models
 
         public ICollection<Result> Results { get; set; }
 
-        public int AuthorId { get; set; }
-        public User Author { get; set; }
+        //public int AuthorId { get; set; }
+        //public User Author { get; set; }
     }
 }

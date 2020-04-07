@@ -97,16 +97,18 @@ namespace TrainingProject.Domain
                     MultipleAnswers = false,
                     Image = "",
                     IsDeleted = false,
-                    TestId = 1
+                    TestId = 1,
+                    AuthorId = 1
                 },
                 new
                 {
                     Id = 2,
                     Description = "Test 1 Question #2 text",
-                    MultipleAnswers = false,
+                    MultipleAnswers = true,
                     Image = "Some image path",
                     IsDeleted = false,
-                    TestId = 1
+                    TestId = 1,
+                    AuthorId = 1
                 },
                 new
                 {
@@ -115,7 +117,8 @@ namespace TrainingProject.Domain
                     MultipleAnswers = true,
                     Image = "",
                     IsDeleted = false,
-                    TestId = 1
+                    TestId = 1,
+                    AuthorId = 1
                 },
                 new
                 {
@@ -124,7 +127,8 @@ namespace TrainingProject.Domain
                     MultipleAnswers = false,
                     Image = "Image",
                     IsDeleted = false,
-                    TestId = 2
+                    TestId = 2,
+                    AuthorId = 1
                 }
             );
 
@@ -135,42 +139,34 @@ namespace TrainingProject.Domain
                 new
                 {
                     Id = 1,
-                    Description = "Choice 1 for question 1",
-                    IsAnswer = false,
+                    Choices = new string[] { "choice 1", "choice 2", "choice 3" },
+                    Answers = new int[] { 1 },
                     IsDeleted = false,
                     QuestionId = 1
                 },
                 new
                 {
                     Id = 2,
-                    Description = "Choice 2 for question 1",
-                    IsAnswer = true,
+                    Choices = new string[] { "choice 4", "choice 5", "choice 6", "choice 7" },
+                    Answers = new int[] { 1, 2 },
                     IsDeleted = false,
-                    QuestionId = 1
+                    QuestionId = 2
                 },
                 new
                 {
                     Id = 3,
-                    Description = "Choice 3 for question 1",
-                    IsAnswer = false,
+                    Choices = new string[] { "choice 8", "choice 9", "choice 10", "choice 11" },
+                    Answers = new int[] { 1, 3 },
                     IsDeleted = false,
-                    QuestionId = 1
+                    QuestionId = 3
                 },
                 new
                 {
                     Id = 4,
-                    Description = "Choice 1 for question 2",
-                    IsAnswer = true,
+                    Choices = new string[] { "choice 12", "choice 13", "choice 14", "choice 15" },
+                    Answers = new int[] { 2 },
                     IsDeleted = false,
-                    QuestionId = 2
-                },
-                new
-                {
-                    Id = 5,
-                    Description = "Choice 2 for question 2",
-                    IsAnswer = false,
-                    IsDeleted = false,
-                    QuestionId = 2
+                    QuestionId = 4
                 }
             );
 

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrainingProject.Domain;
 
 namespace TrainingProject.Domain.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200407202707_ChangedQuestionAndChoices")]
+    partial class ChangedQuestionAndChoices
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,22 +50,22 @@ namespace TrainingProject.Domain.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "897b153e-57ab-4d02-9fb6-19bad08e69ec",
-                            ConcurrencyStamp = "8e1ae4a4-d11f-40e6-b879-c06f29a528cd",
+                            Id = "46e5dea4-c794-43c2-b6e7-121cf383cbd7",
+                            ConcurrencyStamp = "2213a4f1-ef57-48ce-bc9c-0961b7b548fa",
                             Name = "Visitor",
                             NormalizedName = "VISITOR"
                         },
                         new
                         {
-                            Id = "6d368753-e09f-4b21-9bed-241dc52d3f9c",
-                            ConcurrencyStamp = "22d1f6ef-058b-46bb-b2e4-b5fe1b1e1c4e",
+                            Id = "1194d141-a297-4e07-8f9b-580f351759b6",
+                            ConcurrencyStamp = "b4ed74b0-dfd2-4285-97b3-3cc228c70597",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         },
                         new
                         {
-                            Id = "ab90c57c-6c5c-4d6a-9047-260cb695bf47",
-                            ConcurrencyStamp = "a9c9fda6-1634-415e-aae2-ee5c3210c72e",
+                            Id = "6d0c9509-ef76-4f62-b62f-3976073ce6c7",
+                            ConcurrencyStamp = "04a45091-ff86-4492-89bf-b9303a7199a6",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -397,7 +399,7 @@ namespace TrainingProject.Domain.Migrations
                         {
                             ResultId = 1,
                             CorrectAnswers = 2,
-                            DateFinished = new DateTime(2020, 4, 7, 23, 43, 50, 119, DateTimeKind.Local).AddTicks(4712),
+                            DateFinished = new DateTime(2020, 4, 7, 23, 27, 2, 426, DateTimeKind.Local).AddTicks(6962),
                             IsDeleted = false,
                             TestFinished = true,
                             TestId = 1,
@@ -407,7 +409,7 @@ namespace TrainingProject.Domain.Migrations
                         {
                             ResultId = 2,
                             CorrectAnswers = 1,
-                            DateFinished = new DateTime(2020, 4, 7, 23, 43, 50, 119, DateTimeKind.Local).AddTicks(7804),
+                            DateFinished = new DateTime(2020, 4, 7, 23, 27, 2, 427, DateTimeKind.Local).AddTicks(248),
                             IsDeleted = false,
                             TestFinished = false,
                             TestId = 2,
@@ -448,7 +450,7 @@ namespace TrainingProject.Domain.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            DateCreated = new DateTime(2020, 4, 7, 23, 43, 50, 107, DateTimeKind.Local).AddTicks(3707),
+                            DateCreated = new DateTime(2020, 4, 7, 23, 27, 2, 413, DateTimeKind.Local).AddTicks(5418),
                             Description = "Some kind of description",
                             IsDeleted = false,
                             Name = "C# Basics"

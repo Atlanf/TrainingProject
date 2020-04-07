@@ -52,7 +52,7 @@ namespace TrainingProject.Web
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new UserProfile());
+                mc.AddProfile(new MapperProfiles());
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);

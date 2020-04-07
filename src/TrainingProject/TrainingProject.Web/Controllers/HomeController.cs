@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TrainingProject.Data.Interfaces;
 using TrainingProject.Domain;
+using TrainingProject.Domain.Logic.Models.Question;
 using TrainingProject.Domain.Logic.Models.User;
 using TrainingProject.Domain.Models;
 
@@ -25,12 +26,14 @@ namespace TrainingProject.Web.Controllers
         private readonly IMapper _mapper;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
-        public HomeController(IMapper mapper, IUserRepository userRepository, SignInManager<User> signInManager, UserManager<User> userManager)
+        public HomeController(IMapper mapper, IUserRepository userRepository, SignInManager<User> signInManager, UserManager<User> userManager, IQuestionRepository questionRepository, IChoiceRepository choiceRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _signInManager = signInManager;
             _userManager = userManager;
+            _questionRepository = questionRepository;
+            _choiceRepository = choiceRepository;
         }
 
         [HttpGet]
@@ -80,5 +83,32 @@ namespace TrainingProject.Web.Controllers
 
             return Ok();
         }
+
+        [HttpPost("CreateQuestion")]
+        public async Task<IActionResult> AddQuestion(CreateQuestionDTO questionModel)
+        {
+            var q = new Domain.Logic.Services.QuestionService(_mapper, _questionRepository, _choiceRepository);
+            await q.CreateQuestion(questionModel);
+            return Ok();
+        }
     }
 }
+
+
+/* 
+ {
+  "testId": 1,
+  "questionDescription": "Some kind of description",
+  "multipleAnswers": false,
+  "choices": [
+    "choice numba van",
+"choice numba too",
+"choice numba tree"
+  ],
+  "answers": [
+    1
+  ],
+  "userId": 1
+}
+     
+     */

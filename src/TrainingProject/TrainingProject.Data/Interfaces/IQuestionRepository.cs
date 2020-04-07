@@ -13,5 +13,6 @@ namespace TrainingProject.Data.Interfaces
         Task<Question> UpdateAsync(Question questionToUpdate);
         Task DeleteAsync(int id);
         Task<Question> AddAsync(Question question);
+        Task<Question> ApproveQuestionAsync(Question question);
     }
 }
