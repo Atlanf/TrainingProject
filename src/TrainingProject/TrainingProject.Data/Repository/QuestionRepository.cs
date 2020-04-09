@@ -43,13 +43,6 @@ namespace TrainingProject.Data.Repository
                 .ToListAsync();
         }
 
-        public async Task<Question> GetAsync(int id)
-        {
-            return await _context.Questions
-                .Include(c => c.Choices)
-                .FirstOrDefaultAsync(q => q.Id == id);
-        }
-
         public async Task<Question> UpdateAsync(Question questionToUpdate)
         {
             _context.Entry(questionToUpdate).State = EntityState.Modified;
@@ -62,6 +55,13 @@ namespace TrainingProject.Data.Repository
             _context.Entry(question).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return question;
+        }
+
+        public async Task<Question> GetQuestionAsync(int id)
+        {
+            return await _context.Questions
+                .Include(c => c.Choices)
+                .FirstOrDefaultAsync(q => q.Id == id);
         }
     }
 }

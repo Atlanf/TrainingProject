@@ -53,5 +53,12 @@ namespace TrainingProject.Data.Repository
             await _context.SaveChangesAsync();
             return choice;
         }
+
+        public async Task<int[]> GetCorrectAnswersAsync(int id)
+        {
+            var result = await _context.Choices.FirstOrDefaultAsync(i => i.QuestionId == id);
+
+            return result.Answers;
+        }
     }
 }

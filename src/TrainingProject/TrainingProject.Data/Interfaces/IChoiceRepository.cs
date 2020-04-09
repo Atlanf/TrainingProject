@@ -13,5 +13,6 @@ namespace TrainingProject.Data.Interfaces
         Task<Choice> UpdateAsync(Choice choiceToUpdate);
         Task DeleteAsync(int id);
         Task<Choice> AddAsync(Choice choice);
+        Task<int[]> GetCorrectAnswersAsync(int id);
     }
 }

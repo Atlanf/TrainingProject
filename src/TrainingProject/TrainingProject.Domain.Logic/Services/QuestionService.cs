@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TrainingProject.Data.Interfaces;
@@ -21,6 +22,26 @@ namespace TrainingProject.Domain.Logic.Services
             _mapper = mapper;
             _questionRepository = questionRepository;
             _choiceRepository = choiceRepository;
+        }
+
+        public async Task<AnswerResultDTO> AnswerQuestion(QuestionAnswerDTO questionModel)
+        {
+            var result = new AnswerResultDTO()
+            {
+                QuestionId = questionModel.QuestionId, IsCorrect = false 
+            };
+
+            if (questionModel.Choices.Length != 0)
+            {
+                var correctAnswers = await _choiceRepository.GetCorrectAnswersAsync(questionModel.QuestionId); 
+
+                if (questionModel.Choices.SequenceEqual(correctAnswers))
+                {
+                    result.IsCorrect = true;
+                }
+            }
+
+            return result;
         }
 
         public async Task ApproveQuestion(ApproveQuestionDTO questionModel)
@@ -45,13 +66,22 @@ namespace TrainingProject.Domain.Logic.Services
 
             question.Choices = choices;
 
-            await _questionRepository.AddAsync(question);
+            if (choices.Answers.Length > 1)
+            {
+                question.MultipleAnswers = true;
+            }
 
+            await _questionRepository.AddAsync(question);
         }
 
-        public Task<Question> GetQuestion(QuestionDTO questionModel)
+        //
+        public async Task<QuestionDTO> GetQuestion(int questionId)
         {
-            throw new NotImplementedException();
+            var question = await _questionRepository.GetQuestionAsync(questionId);
+
+            var result = _mapper.Map<QuestionDTO>(question);
+
+            return result;
         }
     }
 }

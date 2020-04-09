@@ -22,6 +22,7 @@ namespace TrainingProject.Domain.Logic.Profiles
             CreateMap<ProfileDTO, User>();
 
             /* Question profiles */
+
             CreateMap<CreateQuestionDTO, Question>()
                 .ForMember(q => q.Description, opt => opt.MapFrom(x => x.QuestionDescription))
                 .ForMember(q => q.MultipleAnswers, opt => opt.MapFrom(x => x.MultipleAnswers))
@@ -30,13 +31,22 @@ namespace TrainingProject.Domain.Logic.Profiles
                 .ForMember(q => q.TestId, opt => opt.MapFrom(x => x.TestId))
                 .ForMember(q => q.Choices, opt => opt.Ignore());
 
-            CreateMap<CreateQuestionDTO, Choice>()
-                .ForMember(q => q.Choices, opt => opt.MapFrom(x => x.Choices))
-                .ForMember(q => q.Answers, opt => opt.MapFrom(x => x.Answers));
-
             CreateMap<ApproveQuestionDTO, Question>()
                 .ForMember(q => q.Id, opt => opt.MapFrom(x => x.QuestionId))
                 .ForMember(q => q.IsApproved, opt => opt.MapFrom(x => x.QuestionApproved));
+
+            CreateMap<Question, QuestionDTO>()
+                .ForMember(q => q.QuestionId, opt => opt.MapFrom(x => x.Id))
+                .ForMember(q => q.Description, opt => opt.MapFrom(x => x.Description))
+                .ForMember(q => q.Image, opt => opt.MapFrom(x => x.Image))
+                .ForMember(q => q.MultipleAnswers, opt => opt.MapFrom(x => x.MultipleAnswers))
+                .ForMember(q => q.Choices, opt => opt.MapFrom(x => x.Choices.Choices));
+
+            /* Choice profiles */
+
+            CreateMap<CreateQuestionDTO, Choice>()
+                .ForMember(q => q.Choices, opt => opt.MapFrom(x => x.Choices))
+                .ForMember(q => q.Answers, opt => opt.MapFrom(x => x.Answers));
         }
     }
 }

@@ -33,8 +33,6 @@ namespace TrainingProject.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddOpenApiDocument(c => c.DocumentName = "API v1");
-
             DataExtensions.AddDataServices(services); //
 
             services.AddLogging();
@@ -64,11 +62,6 @@ namespace TrainingProject.Web
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            //services.AddSwaggerGen(options => options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-            //{
-            //    Title = "Training Project",
-            //    Version = "v1"
-            //}));
             services.AddSwaggerDocument();
         }
 
@@ -78,9 +71,6 @@ namespace TrainingProject.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseSwaggerUI(options => {
-                //    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Training Project v1");
-                //});
                 app.UseOpenApi().UseSwaggerUi3();
             }
 
