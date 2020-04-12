@@ -57,5 +57,15 @@ namespace TrainingProject.Data.Repository
         {
             return _context.Tests.Where(c => c.Category.Id == category.Id);
         }
+
+        public int GetMaxQuestions(int testId)
+        {
+            return Convert.ToInt32(_context.Tests.Where(t => t.Id == testId).Select(m => m.MaxQuestions));
+        }
+
+        public async Task<ICollection<Category>> GetTestsWithCategoryAsync()
+        {
+            return await _context.Categories.Include(t => t.Tests).ToListAsync();
+        }
     }
 }

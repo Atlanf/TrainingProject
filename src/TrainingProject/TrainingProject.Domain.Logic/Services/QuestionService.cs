@@ -28,14 +28,15 @@ namespace TrainingProject.Domain.Logic.Services
         {
             var result = new AnswerResultDTO()
             {
-                QuestionId = questionModel.QuestionId, IsCorrect = false 
+                QuestionId = questionModel.QuestionId,
+                IsCorrect = false 
             };
 
-            if (questionModel.Choices.Length != 0)
+            if (questionModel.Choices.Count != 0)
             {
                 var correctAnswers = await _choiceRepository.GetCorrectAnswersAsync(questionModel.QuestionId); 
 
-                if (questionModel.Choices.SequenceEqual(correctAnswers))
+                if (questionModel.Choices.SequenceEqual(correctAnswers.ToList()))
                 {
                     result.IsCorrect = true;
                 }

@@ -14,5 +14,7 @@ namespace TrainingProject.Data.Interfaces
         Task DeleteAsync(int id);
         Task<Test> AddAsync(Test test);
         IEnumerable<Test> GetByCategory(Category category);
+        int GetMaxQuestions(int testId);
+        Task<ICollection<Category>> GetTestsWithCategoryAsync();
     }
 }

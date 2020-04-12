@@ -10,6 +10,7 @@ namespace TrainingProject.Domain.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime DateCreated { get; set; }
+        public int MaxQuestions { get; set; } = 10;
         public bool IsDeleted { get; set; }
 
         public int CategoryId { get; set; }
@@ -19,8 +20,5 @@ namespace TrainingProject.Domain.Models
         public List<Question> Questions { get; set; }
 
         public ICollection<Result> Results { get; set; }
-
-        //public int AuthorId { get; set; }
-        //public User Author { get; set; }
     }
 }

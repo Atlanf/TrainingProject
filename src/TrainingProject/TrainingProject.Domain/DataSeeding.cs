@@ -44,6 +44,7 @@ namespace TrainingProject.Domain
                     Name = "C# Basics",
                     Description = "Some kind of description",
                     DateCreated = DateTime.Now,
+                    MaxQuestions = 10,
                     IsDeleted = false,
                     CategoryId = 1,
                     AuthorId = 1
@@ -54,6 +55,7 @@ namespace TrainingProject.Domain
                     Name = "C# OOP",
                     Description = "Another description",
                     DateCreated = DateTime.Parse("20-03-2020"),
+                    MaxQuestions = 10,
                     IsDeleted = false,
                     CategoryId = 1,
                     AuthorId = 1
@@ -64,6 +66,7 @@ namespace TrainingProject.Domain
                     Name = "Java Basics",
                     Description = "Java description",
                     DateCreated = DateTime.Parse("10-03-2020"),
+                    MaxQuestions = 15,
                     IsDeleted = false,
                     CategoryId = 2,
                     AuthorId = 1

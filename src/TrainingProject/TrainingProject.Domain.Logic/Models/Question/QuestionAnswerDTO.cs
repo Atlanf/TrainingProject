@@ -8,6 +8,6 @@ namespace TrainingProject.Domain.Logic.Models.Question
     public class QuestionAnswerDTO
     {
         public int QuestionId { get; set; }
-        public int[] Choices { get; set; }
+        public ICollection<int> Choices { get; set; }
     }
 }

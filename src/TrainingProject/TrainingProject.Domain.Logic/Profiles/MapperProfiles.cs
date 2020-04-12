@@ -6,6 +6,8 @@ using TrainingProject.Domain.Logic.Models.User;
 using TrainingProject.Domain.Models;
 using System.Security.Cryptography;
 using TrainingProject.Domain.Logic.Models.Question;
+using TrainingProject.Domain.Logic.Models.Test;
+using System.Linq;
 
 namespace TrainingProject.Domain.Logic.Profiles
 {
@@ -40,13 +42,16 @@ namespace TrainingProject.Domain.Logic.Profiles
                 .ForMember(q => q.Description, opt => opt.MapFrom(x => x.Description))
                 .ForMember(q => q.Image, opt => opt.MapFrom(x => x.Image))
                 .ForMember(q => q.MultipleAnswers, opt => opt.MapFrom(x => x.MultipleAnswers))
-                .ForMember(q => q.Choices, opt => opt.MapFrom(x => x.Choices.Choices));
+                .ForMember(q => q.Choices, opt => opt.MapFrom(x => x.Choices.Choices.ToList()));
 
             /* Choice profiles */
 
             CreateMap<CreateQuestionDTO, Choice>()
-                .ForMember(q => q.Choices, opt => opt.MapFrom(x => x.Choices))
-                .ForMember(q => q.Answers, opt => opt.MapFrom(x => x.Answers));
+                .ForMember(c => c.Choices, opt => opt.MapFrom(x => x.Choices.ToArray()))
+                .ForMember(c => c.Answers, opt => opt.MapFrom(x => x.Answers.ToArray()));
+
+            /* Test profiles */
+
         }
     }
 }

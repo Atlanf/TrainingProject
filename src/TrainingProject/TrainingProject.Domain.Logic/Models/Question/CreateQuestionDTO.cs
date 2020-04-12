@@ -20,9 +20,9 @@ namespace TrainingProject.Domain.Logic.Models.Question
         [Required(ErrorMessage = "На вопрос должно быть не менее 2 вариантов ответа.")]
         [MinLength(2)]
         [MaxLength(6)]
-        public string[] Choices { get; set; }
+        public ICollection<string> Choices { get; set; }
 
         [Required(ErrorMessage = "У вопроса должен быть хотя бы 1 верный ответ.")]
         [MinLength(1)]
-        public int[] Answers { get; set; }    }
+        public ICollection<int> Answers { get; set; }    }
 }

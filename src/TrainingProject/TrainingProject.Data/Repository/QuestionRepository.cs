@@ -63,5 +63,14 @@ namespace TrainingProject.Data.Repository
                 .Include(c => c.Choices)
                 .FirstOrDefaultAsync(q => q.Id == id);
         }
+
+        public async Task<List<int>> GetQuestionsByTestAsync(int testId)
+        {
+            return await _context.Questions
+                .Where(t => t.TestId == testId)
+                .OrderBy(i => i.Id)
+                .Select(i => i.Id)
+                .ToListAsync();
+        }
     }
 }

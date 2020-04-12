@@ -9,6 +9,6 @@ namespace TrainingProject.Domain.Logic.Models.Test
     {
         public int TestId { get; set; }
 
-        public int[] QuestionsId { get; set; }
+        public ICollection<int> QuestionsId { get; set; }
     }
 }

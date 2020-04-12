@@ -44,9 +44,8 @@ namespace TrainingProject.Web
                         builder => builder.MigrationsAssembly("TrainingProject.Domain"));
             });
 
-            services.AddIdentity<Domain.Models.User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<Domain.AppDbContext>();
-
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
