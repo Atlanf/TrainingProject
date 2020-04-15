@@ -42,10 +42,10 @@ Welcome to your new app.
 
     protected async override Task OnInitializedAsync()
     {
-        var response = await HttpClient.GetAsync($"/api/Index");
+        var response = await HttpClient.GetAsync($"api/Index");
 
         response.EnsureSuccessStatusCode();
 
-        await response.Content.ReadAsJsonAsync<TestCategoryDTO>();
+        testWithCategory = await response.Content.ReadAsJsonAsync<TestCategoryDTO>();
     }
 }

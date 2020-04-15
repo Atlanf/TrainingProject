@@ -24,7 +24,7 @@ namespace TrainingProject.Web.Controllers
         public async Task<ActionResult<TestCategoryDTO>> GetAsync()
         {
             var result = await _testService.GetTestsByCategoryAsync();
-            return Ok(result.TestsByCategory);
+            return Ok(result);
         }
     }
 }

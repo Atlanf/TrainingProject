@@ -33,14 +33,11 @@ namespace TrainingProject.Client
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
 
-            services.AddScoped<HttpClient>(s =>
-            {
-                var uriHelper = s.GetRequiredService<NavigationManager>();
-                return new HttpClient
+            services.AddScoped(_ =>
+                new HttpClient
                 {
-                    BaseAddress = new Uri(uriHelper.BaseUri)
-                };
-            });
+                    BaseAddress = new Uri(Configuration["serviceUrl"])
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
