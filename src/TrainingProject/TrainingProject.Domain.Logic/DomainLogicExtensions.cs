@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using TrainingProject.Data;
+using TrainingProject.Domain.Logic.Interfaces;
+using TrainingProject.Domain.Logic.Services;
 
 namespace TrainingProject.Domain.Logic
 {
@@ -10,6 +12,10 @@ namespace TrainingProject.Domain.Logic
         {
             services.AddDataServices();
 
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IQuestionService, QuestionService>();
+            services.AddTransient<ITestService, TestService>();
+            services.AddTransient<IResultService, ResultService>();
 
             //configure your Domain Logic Layer services here
             return services;

@@ -39,16 +39,19 @@ namespace TrainingProject.Domain.Logic.Services
             return test;
         }
 
-        public async Task<TestsWithCategoryDTO> GetTestsByCategoryAsync()
+        public async Task<TestCategoryDTO> GetTestsByCategoryAsync()
         {
-            var result = new TestsWithCategoryDTO();
+            var tests = new Dictionary<string, ICollection<string>>();
 
             var categories = await _testRepository.GetTestsWithCategoryAsync();
 
             foreach(var category in categories)
             {
-                result.TestsByCategory.Add(category.Name, ExtractTestNames(category));
+                tests.Add(category.Name, ExtractTestNames(category));
             }
+
+            var result = new TestCategoryDTO();
+            result.TestsByCategory = tests;
 
             return result;
         }

@@ -10,6 +10,6 @@ namespace TrainingProject.Domain.Logic.Interfaces
     {
         public Task<TestDTO> GetTestAsync(int testId);
 
-        public Task<TestsWithCategoryDTO> GetTestsByCategoryAsync();
+        public Task<TestCategoryDTO> GetTestsByCategoryAsync();
     }
 }

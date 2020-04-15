@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TrainingProject.Domain.Logic.Models.Test
 {
-    public class TestsWithCategoryDTO
+    public class TestCategoryDTO
     {
 
         /* Category - Key; Tests, related to category - Item*/

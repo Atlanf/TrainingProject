@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TrainingProject.Data.Interfaces;
 using TrainingProject.Domain;
+using TrainingProject.Domain.Logic.Interfaces;
 using TrainingProject.Domain.Logic.Models.Question;
 using TrainingProject.Domain.Logic.Models.User;
 using TrainingProject.Domain.Models;
@@ -20,14 +21,21 @@ namespace TrainingProject.Web.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
+        private readonly ITestService _testService;
+
+
         private readonly IQuestionRepository _questionRepository;
         private readonly IChoiceRepository _choiceRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
-        public HomeController(IMapper mapper, IUserRepository userRepository, SignInManager<User> signInManager, UserManager<User> userManager, IQuestionRepository questionRepository, IChoiceRepository choiceRepository)
+
+        
+        public HomeController(IMapper mapper, IUserRepository userRepository, SignInManager<User> signInManager, UserManager<User> userManager, IQuestionRepository questionRepository, IChoiceRepository choiceRepository, ITestService testService)
         {
+            _testService = testService;
+
             _userRepository = userRepository;
             _mapper = mapper;
             _signInManager = signInManager;
@@ -35,6 +43,8 @@ namespace TrainingProject.Web.Controllers
             _questionRepository = questionRepository;
             _choiceRepository = choiceRepository;
         }
+
+
 
         [HttpGet]
         public IActionResult Get()

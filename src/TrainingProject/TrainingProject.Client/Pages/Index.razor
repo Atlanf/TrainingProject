@@ -1,0 +1,51 @@
+﻿@page "/"
+
+@inject HttpClient HttpClient
+
+@using TrainingProject.Domain.Logic.Models.Test
+@using System.Net.Http
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+<div class="main">
+
+    @if (testWithCategory != null)
+    {
+        <ul class="category-block">
+            @foreach (var category in testWithCategory.TestsByCategory)
+            {
+                <li style="display: list-item">
+                    @category.Key
+                    <ul class="test-block">
+                        @foreach (var test in category.Value)
+                        {
+                            <li style="color: red; display: list-item">@test</li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <span>Loading...</span>
+    }
+</div>
+
+
+@code{
+    TestCategoryDTO testWithCategory;
+
+    protected async override Task OnInitializedAsync()
+    {
+        var response = await HttpClient.GetAsync($"/api/Index");
+
+        response.EnsureSuccessStatusCode();
+
+        await response.Content.ReadAsJsonAsync<TestCategoryDTO>();
+    }
+}

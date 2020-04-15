@@ -33,8 +33,6 @@ namespace TrainingProject.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            DataExtensions.AddDataServices(services); //
-
             services.AddLogging();
 
             services.AddDbContext<Domain.AppDbContext>(options =>
@@ -43,7 +41,6 @@ namespace TrainingProject.Web
                         Configuration.GetConnectionString("TrainingProjectDBConnection"),
                         builder => builder.MigrationsAssembly("TrainingProject.Domain"));
             });
-
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<Domain.AppDbContext>();
 
@@ -62,17 +59,19 @@ namespace TrainingProject.Web
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerDocument();
+
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseOpenApi().UseSwaggerUi3();
             }
-
 
             app.UseHttpsRedirection();
 
@@ -86,22 +85,24 @@ namespace TrainingProject.Web
     }
 }
 
-//{
-//  "email": "mail@example.com",
-//  "password": "Admin_1",
-//  "rememberMe": true
-//}
+/*
+{
+  "email": "mail@example.com",
+  "password": "Admin_1",
+  "rememberMe": true
+}
 
 
-//{
-//  "userName": "Name",
-//  "email": "user@example.com",
-//  "password": "1_User",
-//  "confirmPassword": "1_User"
-//}
+{
+  "userName": "Name",
+  "email": "user@example.com",
+  "password": "1_User",
+  "confirmPassword": "1_User"
+}
 
-//{
-//  "email": "test@example.com",
-//  "password": "T_est1",
-//  "rememberMe": true
-//}
+{
+  "email": "test@example.com",
+  "password": "T_est1",
+  "rememberMe": true
+}
+*/
