@@ -55,7 +55,8 @@ namespace TrainingProject.Data.Repository
 
         public IEnumerable<Test> GetByCategory(Category category)
         {
-            return _context.Tests.Where(c => c.Category.Id == category.Id);
+            return _context.Tests
+                .Where(c => c.Category.Id == category.Id);
         }
 
         public int GetMaxQuestions(int testId)
@@ -65,7 +66,16 @@ namespace TrainingProject.Data.Repository
 
         public async Task<ICollection<Category>> GetTestsWithCategoryAsync()
         {
-            return await _context.Categories.Include(t => t.Tests).ToListAsync();
+            return await _context.Categories
+                .Include(t => t.Tests)
+                .ToListAsync();
+        }
+
+        public async Task<Test> GetTestDetailsAsync(string shortName)
+        {
+            return await _context.Tests
+                .Where(t => t.MinimizedName == shortName)
+                .FirstOrDefaultAsync();
         }
     }
 }

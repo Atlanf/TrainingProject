@@ -9,7 +9,7 @@ namespace TrainingProject.Domain.Logic.Interfaces
     public interface ITestService
     {
         public Task<TestDTO> GetTestAsync(int testId);
-
         public Task<TestCategoryDTO> GetTestsByCategoryAsync();
+        Task<TestDetailsDTO> GetTestDetailsAsync(string shortName);
     }
 }

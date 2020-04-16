@@ -23,6 +23,17 @@ namespace TrainingProject.Domain.Logic.Services
             _questionRepository = questionRepository;
         }
 
+        public async Task<TestDetailsDTO> GetTestDetailsAsync(string shortName)
+        {
+            var test = await _testRepository.GetTestDetailsAsync(shortName);
+
+            var result = _mapper.Map<TestDetailsDTO>(test);
+
+            result.QuestionsApproved = await _questionRepository.GetQuestionsCountAsync(test.Id);
+
+            return result;
+        }
+
         public async Task<TestDTO> GetTestAsync(int testId)
         {
             var maxQuestions = _testRepository.GetMaxQuestions(testId);
@@ -41,17 +52,22 @@ namespace TrainingProject.Domain.Logic.Services
 
         public async Task<TestCategoryDTO> GetTestsByCategoryAsync()
         {
-            var tests = new Dictionary<string, ICollection<string>>();
+            var result = new TestCategoryDTO()
+            {
+                TestsByCategory = new Dictionary<string, ICollection<string>>(),
+                TestNames = new Dictionary<string, string>()
+            };
 
             var categories = await _testRepository.GetTestsWithCategoryAsync();
 
             foreach(var category in categories)
             {
-                tests.Add(category.Name, ExtractTestNames(category));
+                result.TestsByCategory.Add(category.Name, ExtractTestNames(category));
+                foreach (var test in category.Tests)
+                {
+                    result.TestNames.Add(test.Name, test.MinimizedName);
+                }
             }
-
-            var result = new TestCategoryDTO();
-            result.TestsByCategory = tests;
 
             return result;
         }

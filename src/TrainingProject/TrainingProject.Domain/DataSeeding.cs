@@ -42,6 +42,7 @@ namespace TrainingProject.Domain
                 {
                     Id = 1,
                     Name = "C# Basics",
+                    MinimizedName = "cs-basics",
                     Description = "Some kind of description",
                     DateCreated = DateTime.Now,
                     MaxQuestions = 10,
@@ -53,6 +54,7 @@ namespace TrainingProject.Domain
                 {
                     Id = 2,
                     Name = "C# OOP",
+                    MinimizedName = "cs-oop",
                     Description = "Another description",
                     DateCreated = DateTime.Parse("20-03-2020"),
                     MaxQuestions = 10,
@@ -64,6 +66,7 @@ namespace TrainingProject.Domain
                 {
                     Id = 3,
                     Name = "Java Basics",
+                    MinimizedName = "java-basics",
                     Description = "Java description",
                     DateCreated = DateTime.Parse("10-03-2020"),
                     MaxQuestions = 15,

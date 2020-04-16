@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainingProject.Domain", "T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainingProject.Common", "TrainingProject.Common\TrainingProject.Common.csproj", "{B6B4FCA5-89E3-4EDB-8513-67B0A3706780}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainingProject.Client", "TrainingProject.Client\TrainingProject.Client.csproj", "{E32C7BA3-145D-474C-856D-FDA8BFA51AEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainingProject.Client", "TrainingProject.Client\TrainingProject.Client.csproj", "{E32C7BA3-145D-474C-856D-FDA8BFA51AEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

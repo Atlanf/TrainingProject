@@ -51,7 +51,12 @@ namespace TrainingProject.Domain.Logic.Profiles
                 .ForMember(c => c.Answers, opt => opt.MapFrom(x => x.Answers.ToArray()));
 
             /* Test profiles */
-
+            CreateMap<Test, TestDetailsDTO>()
+                .ForMember(t => t.TestId, opt => opt.MapFrom(x => x.Id))
+                .ForMember(t => t.Name, opt => opt.MapFrom(x => x.Name))
+                .ForMember(t => t.MinimizedName, opt => opt.MapFrom(x => x.MinimizedName))
+                .ForMember(t => t.TestDescription, opt => opt.MapFrom(x => x.Description))
+                .ForMember(t => t.QuestionsApproved, opt => opt.Ignore());
         }
     }
 }
