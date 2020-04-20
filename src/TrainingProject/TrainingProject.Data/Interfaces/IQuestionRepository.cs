@@ -14,7 +14,7 @@ namespace TrainingProject.Data.Interfaces
         Task<Question> AddAsync(Question question);
         Task<Question> ApproveQuestionAsync(Question question);
         Task<Question> GetQuestionAsync(int id);
-        Task<List<int>> GetQuestionsByTestAsync(int testId);
+        Task<List<Question>> GetQuestionsByTestAsync(int testId);
         Task<int> GetQuestionsCountAsync(int testId);
     }
 }

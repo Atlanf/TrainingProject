@@ -61,7 +61,10 @@ namespace TrainingProject.Data.Repository
 
         public int GetMaxQuestions(int testId)
         {
-            return Convert.ToInt32(_context.Tests.Where(t => t.Id == testId).Select(m => m.MaxQuestions));
+            return _context.Tests
+                .Where(t => t.Id == testId)
+                .Select(m => m.MaxQuestions)
+                .FirstOrDefault();
         }
 
         public async Task<ICollection<Category>> GetTestsWithCategoryAsync()

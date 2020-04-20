@@ -1,0 +1,50 @@
+﻿<form>
+    <div class="container-fluid">
+        <div>
+            @QuestionModel.Description
+        </div>
+        @if (QuestionModel.MultipleAnswers)
+        {
+            foreach (var choice in QuestionModel.Choices)
+            {
+                <input type="checkbox" id="@choice" name = "@QuestionModel.QuestionId" value="@choice" @onchange="(e => AssignValueCheckbox(e, QuestionModel.Choices.IndexOf(choice)))" />
+                <label for="@choice">@choice</label><br>
+            }
+        }
+        else
+        {
+            foreach (var choice in QuestionModel.Choices)
+            {
+                <input type="radio" id="@choice" name = "@QuestionModel.QuestionId" value="@choice" @onchange="(e => AssignValueRadio(e, QuestionModel.Choices.IndexOf(choice)))" />
+                <label for="@choice">@choice</label><br>
+            }
+        }
+    </div>
+</form>
+
+@code {
+    [Parameter]
+    public QuestionDTO QuestionModel { get; set; }
+
+    public List<int> UserChoices { get; set; } = new List<int>();
+
+    protected void AssignValueCheckbox(ChangeEventArgs e, int choice)
+    {
+        choice += 1;
+        if (UserChoices.Contains(choice))
+        {
+            UserChoices.Remove(choice);
+        }
+        else
+        {
+            UserChoices.Add(choice);
+        }
+    }
+
+    protected void AssignValueRadio(ChangeEventArgs e, int choice)
+    {
+        choice += 1;
+        UserChoices.Clear();
+        UserChoices.Add(choice);
+    }
+}

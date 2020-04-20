@@ -1,8 +1,9 @@
 ﻿@page "/"
 
 @inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
 
-@using TrainingProject.Domain.Logic.Models.Test
+@using System.Text
 
 <h1>Hello, world!</h1>
 
@@ -22,7 +23,13 @@ Welcome to your new app.
                     <ul class="test-block">
                         @foreach (var test in category.Value)
                         {
-                            <li style="color: red; display: list-item">@test</li>
+                            <li style="color: red; display: list-item">
+                                <NavLink href="" class="nav-link" @onclick="@(e => RedirectTo(testWithCategory.TestNames[test]))">
+                                    @test
+                                </NavLink>
+                                @*<a href="@String.Concat("test/", testWithCategory.TestNames[test])">@test</a>*@ 
+                                @*<a @onclick="@(e => RedirectTo(testWithCategory.TestNames[test]))">@test</a>*@
+                            </li>
                         }
                     </ul>
                 </li>
@@ -45,5 +52,10 @@ Welcome to your new app.
         response.EnsureSuccessStatusCode();
 
         testWithCategory = await response.Content.ReadAsJsonAsync<TestCategoryDTO>();
+    }
+
+    public void RedirectTo(string shortName)
+    {
+        NavigationManager.NavigateTo($"TestDetails/{shortName}", false);
     }
 }

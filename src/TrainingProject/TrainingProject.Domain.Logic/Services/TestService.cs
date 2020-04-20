@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TrainingProject.Data.Interfaces;
 using TrainingProject.Domain.Logic.Interfaces;
+using TrainingProject.Domain.Logic.Models.Question;
 using TrainingProject.Domain.Logic.Models.Test;
 using TrainingProject.Domain.Models;
 
@@ -34,20 +35,21 @@ namespace TrainingProject.Domain.Logic.Services
             return result;
         }
 
-        public async Task<TestDTO> GetTestAsync(int testId)
+        public async Task<List<QuestionDTO>> GetTestAsync(int testId)
         {
             var maxQuestions = _testRepository.GetMaxQuestions(testId);
             var questions = await _questionRepository.GetQuestionsByTestAsync(testId);
 
-            var result = GetRandomQuestions(questions, maxQuestions);
+            var questionList = GetRandomQuestions(questions, maxQuestions);
 
-            var test = new TestDTO()
+            var result = new List<QuestionDTO>();
+
+            foreach (var question in questionList)
             {
-                TestId = testId,
-                QuestionsId = result
-            };
+                result.Add(_mapper.Map<QuestionDTO>(question));
+            }
 
-            return test;
+            return result;
         }
 
         public async Task<TestCategoryDTO> GetTestsByCategoryAsync()
@@ -72,7 +74,7 @@ namespace TrainingProject.Domain.Logic.Services
             return result;
         }
 
-        private List<int> GetRandomQuestions(List<int> questions, int maxQuestions)
+        private List<Question> GetRandomQuestions(List<Question> questions, int maxQuestions)
         {
             var rand = new Random();
 
@@ -81,7 +83,7 @@ namespace TrainingProject.Domain.Logic.Services
                 maxQuestions = questions.Count;
             }
 
-            var result = new List<int>();
+            var result = new List<Question>();
 
             for (int i = 0; i < maxQuestions; i++)
             {

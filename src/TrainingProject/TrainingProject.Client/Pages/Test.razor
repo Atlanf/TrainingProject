@@ -1,30 +1,46 @@
-﻿@page "/test/"
-@page "/test/{name}"
-
-@using TrainingProject.Domain.Logic.Models.Test
+﻿@page "/Test/"
+@page "/Test/{testId}"
 
 @inject HttpClient HttpClient
 
 <h3>Test</h3>
 
+@if (TestQuestions != null)
+{
+    foreach (var question in TestQuestions)
+    {
+        <QuestionComponent QuestionModel="question">
+        </QuestionComponent>
+    }
+}
+else
+{
+    <h2>Loading</h2>
+}
+
 @code {
     [Parameter]
-    public string TestShortName { get; set; }
+    public string TestId { get; set; }
 
-    public TestDetailsDTO TestDetails { get; set; }
+    public List<QuestionDTO> TestQuestions { get; set; }
+
+    public AnswerResultDTO AnswerResult { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await HttpClient.GetAsync($"api/Index");
+        var response = await HttpClient.GetAsync($"api/Test/{TestId}");
 
         response.EnsureSuccessStatusCode();
 
-        TestDetails = await response.Content.ReadAsJsonAsync<TestDetailsDTO>();
+        TestQuestions = await response.Content.ReadAsJsonAsync<List<QuestionDTO>>();
     }
 
-    /* Структура страницы
-     * Описание теста, количество вопросов, текущий статус для пользователя(?), кнопка "пройти тест", кнопка "добавить вопрос"
-     * При нажатии "Пройти тест страница ререндерится в список вопросов. 
-     * Решить: структура теста (количество вопросов, как они размещены)"
-     */
+    protected async Task AnswerQuestion(QuestionAnswerDTO answer)
+    {
+        var response = await HttpClient.PostJsonAsync($"api/Test", answer);
+
+        response.EnsureSuccessStatusCode();
+
+        AnswerResult = await response.Content.ReadAsJsonAsync<AnswerResultDTO>();
+    }
 }

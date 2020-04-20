@@ -39,6 +39,7 @@ namespace TrainingProject.Domain.Logic.Profiles
 
             CreateMap<Question, QuestionDTO>()
                 .ForMember(q => q.QuestionId, opt => opt.MapFrom(x => x.Id))
+                .ForMember(q => q.TestId, opt => opt.MapFrom(x => x.TestId))
                 .ForMember(q => q.Description, opt => opt.MapFrom(x => x.Description))
                 .ForMember(q => q.Image, opt => opt.MapFrom(x => x.Image))
                 .ForMember(q => q.MultipleAnswers, opt => opt.MapFrom(x => x.MultipleAnswers))

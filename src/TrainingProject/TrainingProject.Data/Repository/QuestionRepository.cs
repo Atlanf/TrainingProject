@@ -64,12 +64,12 @@ namespace TrainingProject.Data.Repository
                 .FirstOrDefaultAsync(q => q.Id == id);
         }
 
-        public async Task<List<int>> GetQuestionsByTestAsync(int testId)
+        public async Task<List<Question>> GetQuestionsByTestAsync(int testId)
         {
             return await _context.Questions
                 .Where(t => t.TestId == testId && t.IsApproved == true)
                 .OrderBy(i => i.Id)
-                .Select(i => i.Id)
+                .Include(c => c.Choices)
                 .ToListAsync();
         }
 

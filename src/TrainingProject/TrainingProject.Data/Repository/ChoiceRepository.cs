@@ -56,9 +56,9 @@ namespace TrainingProject.Data.Repository
 
         public async Task<int[]> GetCorrectAnswersAsync(int id)
         {
-            var result = await _context.Choices.FirstOrDefaultAsync(i => i.QuestionId == id);
-
-            return result.Answers;
+            return await _context.Choices
+                .Select(a => a.Answers)
+                .FirstOrDefaultAsync();
         }
     }
 }

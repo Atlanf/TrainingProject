@@ -1,0 +1,44 @@
+﻿@page "/TestDetails/"
+@page "/TestDetails/{shortName}"
+
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+@if (TestInfo != null)
+{
+    <h3>@TestInfo.Name</h3>
+
+    <h2>@TestInfo.QuestionsApproved</h2>
+
+    <button @onclick="RedirectTo">Начать тест</button>
+}
+else
+{
+    <h3>Loading...</h3>
+}
+@code {
+    [Parameter]
+    public string ShortName { get; set; }
+
+    public TestDetailsDTO TestInfo { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await HttpClient.GetAsync($"api/TestDetails/{ShortName}");
+
+        response.EnsureSuccessStatusCode();
+
+        TestInfo = await response.Content.ReadAsJsonAsync<TestDetailsDTO>();
+    }
+
+    public void RedirectTo()
+    {
+        NavigationManager.NavigateTo($"Test/{TestInfo.TestId}", false);
+    }
+
+    /* Структура страницы
+     * Описание теста, количество вопросов, текущий статус для пользователя(?), кнопка "пройти тест", кнопка "добавить вопрос"
+     * При нажатии "Пройти тест страница ререндерится в список вопросов.
+     * Решить: структура теста (количество вопросов, как они размещены)"
+     */
+}
