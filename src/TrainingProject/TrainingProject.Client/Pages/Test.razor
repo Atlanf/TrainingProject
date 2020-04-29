@@ -2,6 +2,7 @@
 @page "/Test/{testId}"
 
 @inject HttpClient HttpClient
+@inject IJSRuntime JSRuntime
 
 <h3>Test</h3>
 
@@ -9,7 +10,7 @@
 {
     foreach (var question in TestQuestions)
     {
-        <QuestionComponent QuestionModel="question">
+        <QuestionComponent QuestionModel="question" SubmitAnswer="AnswerQuestion" Result="AnswerResult">
         </QuestionComponent>
     }
 }
@@ -29,10 +30,9 @@ else
     protected override async Task OnInitializedAsync()
     {
         var response = await HttpClient.GetAsync($"api/Test/{TestId}");
-
         response.EnsureSuccessStatusCode();
-
         TestQuestions = await response.Content.ReadAsJsonAsync<List<QuestionDTO>>();
+
     }
 
     protected async Task AnswerQuestion(QuestionAnswerDTO answer)

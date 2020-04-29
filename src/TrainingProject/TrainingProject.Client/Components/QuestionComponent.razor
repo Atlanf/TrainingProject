@@ -20,11 +20,18 @@
             }
         }
     </div>
+    <input class="btn btn-primary" type="submit" value="Подтвердить" @onclick="(() => SubmitAnswer.InvokeAsync(SetValues()))"/>
 </form>
 
 @code {
     [Parameter]
     public QuestionDTO QuestionModel { get; set; }
+
+    [Parameter]
+    public EventCallback<QuestionAnswerDTO> SubmitAnswer { get; set; }
+
+    [Parameter]
+    public AnswerResultDTO Result { get; set; }
 
     public List<int> UserChoices { get; set; } = new List<int>();
 
@@ -47,4 +54,37 @@
         UserChoices.Clear();
         UserChoices.Add(choice);
     }
+
+    private QuestionAnswerDTO SetValues()
+    {
+        return new QuestionAnswerDTO()
+        {
+            QuestionId = QuestionModel.QuestionId,
+            Choices = UserChoices
+        };
+    }
+
+    // Check Blazor Render Fragment
+
+    //public string QuestionBgStyle { get; set; }
+
+    //private void ChangeBgColor()
+    //{
+    //    if (Result.IsCorrect)
+    //    {
+    //        QuestionBgStyle = "background-color: rgba(17, 223, 44, 0.31)";
+    //    }
+    //    else
+    //    {
+    //        QuestionBgStyle = "background-color: rgba(223, 17, 17, 0.31)";
+    //    }
+    //}
+
+    //protected override void OnParametersSet()
+    //{
+    //    if (Result != null)
+    //    {
+    //        ChangeBgColor();
+    //    }
+    //}
 }

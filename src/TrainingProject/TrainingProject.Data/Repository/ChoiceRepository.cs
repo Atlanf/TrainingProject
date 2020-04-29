@@ -57,6 +57,7 @@ namespace TrainingProject.Data.Repository
         public async Task<int[]> GetCorrectAnswersAsync(int id)
         {
             return await _context.Choices
+                .Where(c => c.Id == id)
                 .Select(a => a.Answers)
                 .FirstOrDefaultAsync();
         }

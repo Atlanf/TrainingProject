@@ -15,18 +15,27 @@ namespace TrainingProject.Web.Controllers
     public class TestController : ControllerBase
     {
         private readonly ITestService _testService;
+        private readonly IQuestionService _questionService;
 
-        public TestController(ITestService testService)
+        public TestController(ITestService testService, IQuestionService questionService)
         {
             _testService = testService;
+            _questionService = questionService;
         }
 
         [HttpPost]
-        public AnswerResultDTO Post(QuestionAnswerDTO questionAnswer)
+        public async Task<ActionResult<AnswerResultDTO>> Post(QuestionAnswerDTO questionAnswer)
         {
+            var result = await _questionService.AnswerQuestion(questionAnswer);
 
-
-            return new AnswerResultDTO();
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return Problem();
+            }
         }
 
         [HttpGet("{testId}")]

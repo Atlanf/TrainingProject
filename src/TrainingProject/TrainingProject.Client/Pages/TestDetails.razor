@@ -3,6 +3,7 @@
 
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
+@inject IModalService Modal
 
 @if (TestInfo != null)
 {
@@ -10,7 +11,14 @@
 
     <h2>@TestInfo.QuestionsApproved</h2>
 
-    <button @onclick="RedirectTo">Начать тест</button>
+    <button @onclick="@(() => RedirectTo("test"))">Начать тест</button>
+    <button @onclick="@(() => ShowCreatingDialog())">Добавить вопрос</button>
+    @*<button @onclick="@(() => RedirectTo("create"))">Добавить вопрос</button>
+    <button @onclick="@ShowCreatingDialog">Добавить вопрос</button>
+    if (createQuestionDialog)
+    {
+        <CreateQuestionDialogComponent TestId="@TestInfo.TestId.ToString()"></CreateQuestionDialogComponent>
+    }*@
 }
 else
 {
@@ -22,6 +30,8 @@ else
 
     public TestDetailsDTO TestInfo { get; set; }
 
+    private bool createQuestionDialog = false;
+
     protected override async Task OnInitializedAsync()
     {
         var response = await HttpClient.GetAsync($"api/TestDetails/{ShortName}");
@@ -31,9 +41,19 @@ else
         TestInfo = await response.Content.ReadAsJsonAsync<TestDetailsDTO>();
     }
 
-    public void RedirectTo()
+    public void RedirectTo(string path)
     {
-        NavigationManager.NavigateTo($"Test/{TestInfo.TestId}", false);
+        NavigationManager.NavigateTo($"{path}/{TestInfo.TestId}", false);
+    }
+
+    protected void ShowCreatingDialog()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(CreateQuestionDialogComponent.TestId), TestInfo.TestId.ToString());
+
+        createQuestionDialog = true;
+
+        Modal.Show<CreateQuestionDialogComponent>(TestInfo.Name, parameters);
     }
 
     /* Структура страницы

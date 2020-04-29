@@ -32,7 +32,7 @@ namespace TrainingProject.Domain.Logic.Services
                 IsCorrect = false 
             };
 
-            if (questionModel.Choices.Count != 0)
+            if (questionModel.Choices.Count > 0)
             {
                 var correctAnswers = await _choiceRepository.GetCorrectAnswersAsync(questionModel.QuestionId); 
 

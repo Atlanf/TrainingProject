@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TrainingProject.Client.Data;
+using Blazored.Modal;
 
 namespace TrainingProject.Client
 {
@@ -32,6 +33,8 @@ namespace TrainingProject.Client
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+
+            services.AddBlazoredModal();
 
             services.AddScoped(_ =>
                 new HttpClient

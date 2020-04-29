@@ -1,0 +1,132 @@
+﻿@inject HttpClient HttpClient
+
+<div class="">
+    <div class="">
+        <EditForm Model="questionModel" OnValidSubmit="CreateQuestion">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div>
+                <InputText @bind-Value="questionModel.QuestionDescription"></InputText>
+
+                <br />
+
+                <input class="" type="checkbox" id="multiple" @bind-value="questionModel.MultipleAnswers" />
+                <label for="multiple">Несколько верных вариантов ответа</label>
+
+                <br />
+
+                <button class="btn" @onclick="IncreaseCounter">+</button>
+                <button class="btn" @onclick="DecreaseCounter">-</button>
+
+                <br />
+
+                @if (questionModel.MultipleAnswers)
+                {
+                    _controlType = "checkbox";
+                }
+                else
+                {
+                    _controlType = "radio";
+                }
+                @if (questionModel.Choices != null && questionModel.Answers != null)
+                {
+                    for (int i = 0; i < questionModel.Choices.Count; i++)
+                    {
+                        int index = i;
+                        <input type="@_controlType" name="answer" @onchange="(() => OnChangeAnswer(index, _controlType))"/>
+                        <input type="text" @bind-value="questionModel.Choices[index]" />
+                    }
+                }
+                <br />
+
+                <input type="submit" value="Подтвердить" />
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public string TestId { get; set; }
+
+    public CreateQuestionDTO questionModel { get; set; }
+
+    private int _choicesCount { get; set; } = 2;
+
+    private string _controlType { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        questionModel = new CreateQuestionDTO() { Answers = new List<int>(), Choices = new List<string>(2) { "test", "test" } };
+    }
+
+    protected async void CreateQuestion()
+    {
+        var response = await HttpClient.PostJsonAsync($"api/CreateQuestion", FillQuestionId(questionModel));
+
+        response.EnsureSuccessStatusCode();
+    }
+
+    private CreateQuestionDTO FillQuestionId(CreateQuestionDTO model)
+    {
+        model.TestId = Convert.ToInt32(TestId);
+        model.UserId = 1;
+        return model;
+    }
+
+    protected void IncreaseCounter()
+    {
+        if (_choicesCount >= 2 && _choicesCount < 6)
+        {
+            _choicesCount++;
+            ChangeCollection('+');
+        }
+    }
+
+    protected void DecreaseCounter()
+    {
+        if (_choicesCount > 2 && _choicesCount <= 6)
+        {
+            _choicesCount--;
+            ChangeCollection('-');
+        }
+    }
+
+    private void ChangeCollection(char c)
+    {
+        // JSRuntime.InvokeVoidAsync("uncheckElements");
+        questionModel.Answers.Clear();
+        if (c == '+')
+        {
+            questionModel.Choices.Add("");
+        }
+        else if (c == '-')
+        {
+            questionModel.Choices.RemoveAt(questionModel.Choices.Count - 1);
+        }
+    }
+
+    private void OnChangeAnswer(int i, string controlType)
+    {
+        var value = i + 1;
+        if (controlType == "checkbox")
+        {
+            if (!questionModel.Answers.Contains(value))
+            {
+                questionModel.Answers.Add(value);
+            }
+            else
+            {
+                questionModel.Answers.Remove(value);
+            }
+        }
+        else if (controlType == "radio")
+        {
+            questionModel.Answers.Clear();
+            questionModel.Answers.Add(value);
+        }
+    }
+}
