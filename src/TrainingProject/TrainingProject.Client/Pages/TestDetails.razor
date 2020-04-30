@@ -46,14 +46,28 @@ else
         NavigationManager.NavigateTo($"{path}/{TestInfo.TestId}", false);
     }
 
-    protected void ShowCreatingDialog()
+    protected async Task ShowCreatingDialog()
     {
         var parameters = new ModalParameters();
         parameters.Add(nameof(CreateQuestionDialogComponent.TestId), TestInfo.TestId.ToString());
 
         createQuestionDialog = true;
 
-        Modal.Show<CreateQuestionDialogComponent>(TestInfo.Name, parameters);
+        var formModal = Modal.Show<CreateQuestionDialogComponent>(TestInfo.Name, parameters);
+
+        var result = await formModal.Result;
+
+        if (!result.Cancelled)
+        {
+            await CreateQuestionAsync(result.Data as CreateQuestionDTO);
+        }
+    }
+
+    private async Task CreateQuestionAsync(CreateQuestionDTO questionModel)
+    {
+        var response = await HttpClient.PostJsonAsync($"api/CreateQuestion", questionModel);
+
+        response.EnsureSuccessStatusCode();
     }
 
     /* Структура страницы

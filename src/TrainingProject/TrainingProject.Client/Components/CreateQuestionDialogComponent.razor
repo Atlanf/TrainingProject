@@ -40,7 +40,7 @@
                 }
                 <br />
 
-                <input type="submit" value="Подтвердить" />
+                <input class="btn btn-success" type="submit" value="Подтвердить" />
             </div>
         </EditForm>
     </div>
@@ -51,6 +51,8 @@
 
     [Parameter]
     public string TestId { get; set; }
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
 
     public CreateQuestionDTO questionModel { get; set; }
 
@@ -63,17 +65,19 @@
         questionModel = new CreateQuestionDTO() { Answers = new List<int>(), Choices = new List<string>(2) { "test", "test" } };
     }
 
-    protected async void CreateQuestion()
+    protected async Task CreateQuestion()
     {
-        var response = await HttpClient.PostJsonAsync($"api/CreateQuestion", FillQuestionId(questionModel));
+        //var response = await HttpClient.PostJsonAsync($"api/CreateQuestion", FillQuestionId(questionModel));
 
-        response.EnsureSuccessStatusCode();
+        //response.EnsureSuccessStatusCode();
+
+        BlazoredModal.Close(ModalResult.Ok<CreateQuestionDTO>(FillQuestionId(questionModel)));
     }
 
     private CreateQuestionDTO FillQuestionId(CreateQuestionDTO model)
     {
         model.TestId = Convert.ToInt32(TestId);
-        model.UserId = 1;
+        model.UserId = 1; // Change to current user id
         return model;
     }
 

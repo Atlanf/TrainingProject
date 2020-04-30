@@ -23,11 +23,11 @@ namespace TrainingProject.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Task<QuestionDTO>> Post(CreateQuestionDTO questionModel)
+        public async Task<ActionResult<QuestionDTO>> Post(CreateQuestionDTO questionModel)
         {
             if (ModelState.IsValid)
             {
-                _questionService.CreateQuestion(questionModel);
+                await _questionService.CreateQuestion(questionModel);
 
                 return Ok();
             }

@@ -72,7 +72,7 @@ namespace TrainingProject.Domain.Logic.Services
                 question.MultipleAnswers = true;
             }
 
-            await _questionRepository.AddAsync(question);
+            var result = await _questionRepository.AddAsync(question);
         }
 
         //
