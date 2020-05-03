@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TrainingProject.Client.Data;
 using Blazored.Modal;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace TrainingProject.Client
 {
@@ -35,6 +36,9 @@ namespace TrainingProject.Client
             services.AddSingleton<WeatherForecastService>();
 
             services.AddBlazoredModal();
+
+            services.AddAuthorizationCore();
+            services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
 
             services.AddScoped(_ =>
                 new HttpClient
@@ -61,6 +65,9 @@ namespace TrainingProject.Client
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -19,5 +19,6 @@ namespace TrainingProject.Domain.Logic.Models.User
 
         [Display(Name = "Запомнить?")]
         public bool RememberMe { get; set; }
+        public string RedirectUri { get; set; }
     }
 }

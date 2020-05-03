@@ -1,0 +1,91 @@
+﻿@inject HttpClient HttpClient
+@inject IModalService Modal
+
+<div class="">
+    <AuthorizeView>
+        <Authorizing>
+            <text>...</text>
+        </Authorizing>
+        <Authorized>
+            <div>
+                <span class="">@context.User.Identity.Name</span>
+                <a class="" href="user/signout">Выйти</a>
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <div>
+                <input type="button" @onclick="ShowLoginComponent" value="Войти" />
+                <NavLink class="" href="" @onclick="ShowLoginComponent">Войти</NavLink>
+                <a class="" href="user/signin">Войти</a>
+            </div>
+            <div>
+                <NavLink class="" href="" @onclick="ShowRegisterComponent">Регистрация</NavLink>
+                <a class="" href="user/register">Регистрация</a>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
+@code {
+    protected bool ErrorOccured { get; set; } = false;
+
+    public string ErrorMessage { get; set; }
+
+    //[CascadingParameter] Task<AuthenticationState> AuthenticationStateTask { get; set; }
+
+    public async Task ShowLoginComponent()
+    {
+        var formModal = Modal.Show<SigninComponent>("Вход");
+
+        var result = await formModal.Result;
+
+        if (!result.Cancelled)
+        {
+            var response = await HttpClient.PostJsonAsync($"api/user/signin", result.Data as LoginDTO);
+
+            try
+            {
+                response.EnsureSuccessStatusCode();
+
+                //var authState = await AuthenticationStateTask;
+
+                //if (authState.User.Identity.IsAuthenticated)
+                //{
+                //    Console.WriteLine("User is authenticated");
+                //}
+                //else
+                //{
+                //    Console.WriteLine("Nope. Life sucks.");
+                //}
+            }
+            catch (HttpRequestException httpRequestEx)
+            {
+                ErrorOccured = true;
+                ErrorMessage = "Ошибка при входе.";
+            }
+        }
+    }
+
+    public async Task ShowRegisterComponent()
+    {
+        var formModal = Modal.Show<RegistrationComponent>("Регистрация");
+
+        var result = await formModal.Result;
+
+        if (!result.Cancelled)
+        {
+            var response = await HttpClient.PostJsonAsync($"user/register", result.Data as RegistrationDTO);
+
+            try
+            {
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException httpRequestEx)
+            {
+                ErrorOccured = true;
+                ErrorMessage = "Ошибка при регистрации.";
+            }
+
+        }
+    }
+}

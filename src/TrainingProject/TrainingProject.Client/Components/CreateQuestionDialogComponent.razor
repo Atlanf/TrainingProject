@@ -67,10 +67,6 @@
 
     protected async Task CreateQuestion()
     {
-        //var response = await HttpClient.PostJsonAsync($"api/CreateQuestion", FillQuestionId(questionModel));
-
-        //response.EnsureSuccessStatusCode();
-
         BlazoredModal.Close(ModalResult.Ok<CreateQuestionDTO>(FillQuestionId(questionModel)));
     }
 

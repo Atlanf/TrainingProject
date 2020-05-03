@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,14 +30,14 @@ namespace TrainingProject.Domain.Logic.Services
         public async Task<ClaimsIdentity> LoginUser(LoginDTO userModel)
         {
             var user = await _userRepository.GetUserByEmailAsync(userModel.Email);
+            var roles = await _userRepository.GetUserRolesAsync(user);
 
             if (user != null && await _userManager.CheckPasswordAsync(user, userModel.Password))
             {
-                var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
-                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
-                identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+                var claims = GetClaims(user, roles);
+                var id = new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme, user.UserName, roles.FirstOrDefault());
 
-                return identity;               
+                return id;
             }
             else
             {
@@ -56,6 +57,16 @@ namespace TrainingProject.Domain.Logic.Services
             {
                 return result;
             }
+        }
+
+        private List<Claim> GetClaims(User user, IList<string> roles)
+        {
+            return new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Role, roles.FirstOrDefault())
+                };
         }
     }
 }

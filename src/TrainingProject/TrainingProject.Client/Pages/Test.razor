@@ -25,10 +25,13 @@ else
 
     public List<QuestionDTO> TestQuestions { get; set; }
 
+    public bool ErrorOccured { get; set; }
+
     public AnswerResultDTO AnswerResult { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+
         var response = await HttpClient.GetAsync($"api/Test/{TestId}");
         response.EnsureSuccessStatusCode();
         TestQuestions = await response.Content.ReadAsJsonAsync<List<QuestionDTO>>();
@@ -37,10 +40,17 @@ else
 
     protected async Task AnswerQuestion(QuestionAnswerDTO answer)
     {
-        var response = await HttpClient.PostJsonAsync($"api/Test", answer);
+        try
+        {
+            var response = await HttpClient.PostJsonAsync($"api/Test", answer);
 
-        response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCode();
 
-        AnswerResult = await response.Content.ReadAsJsonAsync<AnswerResultDTO>();
+            AnswerResult = await response.Content.ReadAsJsonAsync<AnswerResultDTO>();
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorOccured = true;
+        }
     }
 }

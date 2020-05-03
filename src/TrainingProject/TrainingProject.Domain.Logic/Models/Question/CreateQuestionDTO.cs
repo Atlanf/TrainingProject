@@ -23,6 +23,7 @@ namespace TrainingProject.Domain.Logic.Models.Question
         [MinLength(2, ErrorMessage = "В вопросе должно быть не менее 2 вариантов ответа.")]
         [MaxLength(6, ErrorMessage = "В вопросе должно быть не более 6 вариантов ответа.")]
         [EnsureListIsNotEmpty(ErrorMessage = "Требуется заполнить все поля")]
+        [EnsureNoForbiddenCharacters(ErrorMessage = "Символ \" | \" является запрещенным.")]
         public IList<string> Choices { get; set; }
 
         [Required(ErrorMessage = "Укажите, пожалуйста, верные варианты ответа.")]

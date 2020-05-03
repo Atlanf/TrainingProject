@@ -12,6 +12,7 @@ namespace TrainingProject.Data.Interfaces
         Task<User> GetAsync(int id);
         Task<IEnumerable<User>> GetAllAsync();
         Task<User> UpdateAsync(User userToUpdate);
+        Task<IList<string>> GetUserRolesAsync(User user);
         Task DeleteAsync(int id);
         Task<IdentityResult> AddUserAsync(User user, string password);
         Task<IdentityResult> AddRoleAsync(User user, string role);

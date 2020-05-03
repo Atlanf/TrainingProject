@@ -1,0 +1,24 @@
+﻿<div>
+    <EditForm Model="loginModel" OnValidSubmit="Signin">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <input class="form-group input-group" type="email" @bind-value="loginModel.Email" />
+        <input class="form-group input-group" type="password" @bind-value="loginModel.Password" />
+
+        @*<input type="checkbox" @bind-value="loginModel.RememberMe" />*@
+
+        <input class="btn btn-success" type="submit" value="Войти" />
+    </EditForm>
+</div>
+
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
+
+    protected LoginDTO loginModel { get; set; } = new LoginDTO();
+
+    public void Signin()
+    {
+        BlazoredModal.Close(ModalResult.Ok<LoginDTO>(loginModel));
+    }
+}

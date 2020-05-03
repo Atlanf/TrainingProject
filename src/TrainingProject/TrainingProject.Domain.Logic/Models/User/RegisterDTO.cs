@@ -21,5 +21,6 @@ namespace TrainingProject.Domain.Logic.Models.User
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
+        public string RedirectUri { get; set; }
     }
 }

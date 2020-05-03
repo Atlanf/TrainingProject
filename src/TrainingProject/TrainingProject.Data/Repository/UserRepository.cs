@@ -26,6 +26,11 @@ namespace TrainingProject.Data.Repository
             return await _userManager.CreateAsync(user, password);
         }
 
+        public async Task<IList<string>> GetUserRolesAsync(User user)
+        {
+            return await _userManager.GetRolesAsync(user);
+        }
+
         public async Task<IdentityResult> AddRoleAsync(User user, string role)
         {
              return await _userManager.AddToRoleAsync(user, role);
@@ -60,6 +65,8 @@ namespace TrainingProject.Data.Repository
         {
             throw new NotImplementedException();
         }
+
+
 
         //public async Task<IdentityUser> AddAsync(User user)
         //{
