@@ -1,0 +1,28 @@
+﻿@page "/admin"
+@page "/admin/{pageType}"
+
+@using TrainingProject.Client.Components;
+
+@if (PageType == "questions")
+{
+    <AdminQuestionsComponent />
+}
+else if (PageType == "test")
+{
+
+}
+else if (PageType == "category")
+{
+
+}
+else
+{
+    <h1>Ошибка при загрузке страницы</h1>
+}
+
+@code {
+    [Parameter]
+    public string PageType { get; set; }
+
+
+}

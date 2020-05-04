@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using TrainingProject.Domain.Logic.Models.Question;
 using TrainingProject.Domain.Logic.Models.Test;
 using System.Linq;
+using TrainingProject.Domain.Logic.Models.Admin;
 
 namespace TrainingProject.Domain.Logic.Profiles
 {
@@ -58,6 +59,13 @@ namespace TrainingProject.Domain.Logic.Profiles
                 .ForMember(t => t.MinimizedName, opt => opt.MapFrom(x => x.MinimizedName))
                 .ForMember(t => t.TestDescription, opt => opt.MapFrom(x => x.Description))
                 .ForMember(t => t.QuestionsApproved, opt => opt.Ignore());
+
+            /* Admin profiles */
+            CreateMap<Question, QuestionToApproveDTO>()
+                .ForMember(q => q.QuestionId, opt => opt.MapFrom(x => x.Id))
+                .ForMember(q => q.Description, opt => opt.MapFrom(x => x.Description))
+                .ForMember(q => q.Choices, opt => opt.MapFrom(x => x.Choices.Choices.ToList()))
+                .ForMember(q => q.TestName, opt => opt.MapFrom(x => x.Test.Name));
         }
     }
 }

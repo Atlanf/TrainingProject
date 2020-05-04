@@ -12,9 +12,11 @@ namespace TrainingProject.Data.Interfaces
         Task<Question> UpdateAsync(Question questionToUpdate);
         Task DeleteAsync(int id);
         Task<Question> AddAsync(Question question);
-        Task<Question> ApproveQuestionAsync(Question question);
         Task<Question> GetQuestionAsync(int id);
         Task<List<Question>> GetQuestionsByTestAsync(int testId);
         Task<int> GetQuestionsCountAsync(int testId);
+
+        Task<Question> ApproveQuestionAsync(Question question);
+        Task<IList<Question>> GetUnapprovedQuestionsAsync();
     }
 }

@@ -16,6 +16,7 @@ namespace TrainingProject.Domain.Logic
             services.AddTransient<IQuestionService, QuestionService>();
             services.AddTransient<ITestService, TestService>();
             services.AddTransient<IResultService, ResultService>();
+            services.AddTransient<IAdminService, AdminService>();
 
             //configure your Domain Logic Layer services here
             return services;

@@ -1,0 +1,75 @@
+﻿@using TrainingProject.Domain.Logic.Models.Admin;
+
+@inject HttpClient HttpClient
+
+@foreach(var q in QuestionList)
+{
+    <div>
+        @{
+            int index = q.QuestionId;
+        }
+        <div>@q.QuestionId</div>
+        <input type="radio" name="question" id="Approve" @onchange="(() => OnChangeValue(index, 'a'))" />
+        <label for="Approve">Подтвердить</label>
+        <input type="radio" name="question" id="Delete" value="Удалить" @onchange="(() => OnChangeValue(index, 'd'))" />
+        <label for="Delete">Удалить</label>
+        <input type="submit" value="Подтвердить" @onclick="UpdateQuestion" />
+    </div>
+}
+
+@code {
+
+    protected bool ErrorOccured { get; set; } = false;
+    public List<QuestionToApproveDTO> QuestionList = new List<QuestionToApproveDTO>();
+
+    public ApproveQuestionDTO QuestionApprovement { get; set; } = new ApproveQuestionDTO();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await HttpClient.GetAsync("api/Admin");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorOccured = true;
+            return;
+        }
+
+        QuestionList = await response.Content.ReadAsJsonAsync<List<QuestionToApproveDTO>>();
+    }
+
+    protected async Task UpdateQuestion()
+    {
+        if (QuestionApprovement.QuestionApproved == !QuestionApprovement.DeleteQuestion)
+        {
+            var response = await HttpClient.PutJsonAsync("api/Admin", QuestionApprovement);
+
+            try
+            {
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException ex)
+            {
+                ErrorOccured = true;
+                return;
+            }
+        }
+    }
+
+    private void OnChangeValue(int i, char action)
+    {
+        QuestionApprovement.QuestionId = i;
+        if (action == 'a')
+        {
+            QuestionApprovement.QuestionApproved = true;
+            QuestionApprovement.DeleteQuestion = false;
+        }
+        else if (action == 'd')
+        {
+            QuestionApprovement.QuestionApproved = false;
+            QuestionApprovement.DeleteQuestion = true;
+        }
+    }
+}

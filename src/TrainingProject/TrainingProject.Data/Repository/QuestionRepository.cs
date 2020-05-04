@@ -50,13 +50,6 @@ namespace TrainingProject.Data.Repository
             return questionToUpdate;
         }
 
-        public async Task<Question> ApproveQuestionAsync(Question question)
-        {
-            _context.Entry(question).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return question;
-        }
-
         public async Task<Question> GetQuestionAsync(int id)
         {
             return await _context.Questions
@@ -78,6 +71,22 @@ namespace TrainingProject.Data.Repository
             return await _context.Questions
                 .Where(t => t.TestId == testId)
                 .CountAsync();
+        }
+
+        public async Task<Question> ApproveQuestionAsync(Question question)
+        {
+            _context.Entry(question).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return question;
+        }
+
+        public async Task<IList<Question>> GetUnapprovedQuestionsAsync()
+        {
+            return await _context.Questions
+                .Where(a => a.IsApproved == false && a.IsDeleted == false)
+                .Include(c => c.Choices)
+                .Include(t => t.Test)
+                .ToListAsync();
         }
     }
 }
