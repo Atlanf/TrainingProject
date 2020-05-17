@@ -13,5 +13,7 @@ namespace TrainingProject.Data.Interfaces
         Task<Category> UpdateAsync(Category categoryToUpdate);
         Task DeleteAsync(int id);
         Task<Category> AddAsync(Category category);
+        Task<string> GetCategoryNameAsync(string categoryName);
+        Task<Category> GetCategoryByNameAsync(string categoryName);
     }
 }

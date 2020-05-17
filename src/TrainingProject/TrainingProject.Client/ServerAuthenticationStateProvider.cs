@@ -25,7 +25,7 @@ namespace TrainingProject.Client
             }
             catch (HttpRequestException ex)
             {
-                return new AuthenticationState(new ClaimsPrincipal());
+                return null;//new AuthenticationState(new ClaimsPrincipal());
             }
 
             var userInfo = await response.Content.ReadAsJsonAsync<UserInfo>();
@@ -37,6 +37,10 @@ namespace TrainingProject.Client
                         new Claim(ClaimTypes.Role, userInfo.Role)
                     }, "serverauth")
                 : new ClaimsIdentity();
+
+            //var authState = Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity)));
+
+            //NotifyAuthenticationStateChanged(authState);
 
             return new AuthenticationState(new ClaimsPrincipal(identity));
         }

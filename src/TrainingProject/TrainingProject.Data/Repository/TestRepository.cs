@@ -81,14 +81,12 @@ namespace TrainingProject.Data.Repository
                 .FirstOrDefaultAsync();
         }
 
-        /*
-        public async Task<string> GetTestNameAsync(int id)
+        public async Task<string> GetTestNameAsync(string testName, string shortName)
         {
             return await _context.Tests
-                .Where(t => t.Id == id)
+                .Where(t => t.Name == testName || t.MinimizedName == shortName)
                 .Select(n => n.Name)
                 .FirstOrDefaultAsync();
         }
-        */
     }
 }

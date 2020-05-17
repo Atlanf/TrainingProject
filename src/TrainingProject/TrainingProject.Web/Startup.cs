@@ -44,6 +44,11 @@ namespace TrainingProject.Web
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<Domain.AppDbContext>();
 
+            services.ConfigureApplicationCookie(opt =>
+            {
+                opt.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+            });
+
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MapperProfiles());
@@ -79,6 +84,7 @@ namespace TrainingProject.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

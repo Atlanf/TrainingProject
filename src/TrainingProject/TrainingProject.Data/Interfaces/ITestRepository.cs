@@ -17,5 +17,6 @@ namespace TrainingProject.Data.Interfaces
         int GetMaxQuestions(int testId);
         Task<ICollection<Category>> GetTestsWithCategoryAsync();
         Task<Test> GetTestDetailsAsync(string shortName);
+        Task<string> GetTestNameAsync(string testName, string shortName);
     }
 }

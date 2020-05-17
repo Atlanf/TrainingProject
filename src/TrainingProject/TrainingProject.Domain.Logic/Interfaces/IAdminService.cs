@@ -11,5 +11,7 @@ namespace TrainingProject.Domain.Logic.Interfaces
     {
         Task<List<QuestionToApproveDTO>> GetQuestionsToApproveAsync();
         Task ApproveQuestionAsync(ApproveQuestionDTO question);
+        Task<bool> CreateCategoryAsync(CreateCategoryDTO categoryModel);
+        Task<bool> CreateTestAsync(CreateTestDTO testModel);
     }
 }

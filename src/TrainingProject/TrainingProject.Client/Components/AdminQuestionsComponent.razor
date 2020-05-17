@@ -9,16 +9,18 @@
             int index = q.QuestionId;
         }
         <div>@q.QuestionId</div>
+        <div>@q.TestName</div>
+        <div>@q.Description</div>
         <input type="radio" name="question" id="Approve" @onchange="(() => OnChangeValue(index, 'a'))" />
         <label for="Approve">Подтвердить</label>
         <input type="radio" name="question" id="Delete" value="Удалить" @onchange="(() => OnChangeValue(index, 'd'))" />
         <label for="Delete">Удалить</label>
         <input type="submit" value="Подтвердить" @onclick="UpdateQuestion" />
     </div>
+    <br />
 }
 
 @code {
-
     protected bool ErrorOccured { get; set; } = false;
     public List<QuestionToApproveDTO> QuestionList = new List<QuestionToApproveDTO>();
 

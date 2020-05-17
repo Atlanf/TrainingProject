@@ -52,5 +52,20 @@ namespace TrainingProject.Data.Repository
             await _context.SaveChangesAsync();
             return category;
         }
+
+        public async Task<string> GetCategoryNameAsync(string categoryName)
+        {
+            return await _context.Categories
+                .Select(c => c.Name)
+                .Where(c => c.Equals(categoryName))
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Category> GetCategoryByNameAsync(string categoryName)
+        {
+            return await _context.Categories
+                .Where(c => c.Name == categoryName && !c.IsDeleted)
+                .FirstOrDefaultAsync();
+        }
     }
 }

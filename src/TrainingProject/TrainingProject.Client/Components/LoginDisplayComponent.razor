@@ -1,5 +1,6 @@
 ﻿@inject HttpClient HttpClient
 @inject IModalService Modal
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <div class="">
     <AuthorizeView>
@@ -8,15 +9,13 @@
         </Authorizing>
         <Authorized>
             <div>
-                <span class="">@context.User.Identity.Name</span>
+                <span class="">@CurrentUser.Name</span>
                 <a class="" href="user/signout">Выйти</a>
             </div>
         </Authorized>
         <NotAuthorized>
             <div>
-                <input type="button" @onclick="ShowLoginComponent" value="Войти" />
-                <NavLink class="" href="" @onclick="ShowLoginComponent">Войти</NavLink>
-                <a class="" href="user/signin">Войти</a>
+                <input type="button" @onclick="ShowLoginComponent" value="Sign In" />
             </div>
             <div>
                 <NavLink class="" href="" @onclick="ShowRegisterComponent">Регистрация</NavLink>
@@ -30,6 +29,8 @@
     protected bool ErrorOccured { get; set; } = false;
 
     public string ErrorMessage { get; set; }
+
+    public UserInfo CurrentUser { get; set; } = new UserInfo();
 
     //[CascadingParameter] Task<AuthenticationState> AuthenticationStateTask { get; set; }
 
@@ -47,16 +48,18 @@
             {
                 response.EnsureSuccessStatusCode();
 
-                //var authState = await AuthenticationStateTask;
+                var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 
-                //if (authState.User.Identity.IsAuthenticated)
-                //{
-                //    Console.WriteLine("User is authenticated");
-                //}
-                //else
-                //{
-                //    Console.WriteLine("Nope. Life sucks.");
-                //}
+                var user = authState.User;
+
+                //HttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("cookie", user.Claims);
+
+                if (user.Identity.IsAuthenticated)
+                {
+                    CurrentUser.IsAuthenticated = true;
+                    CurrentUser.Name = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+                    CurrentUser.Role = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+                }
             }
             catch (HttpRequestException httpRequestEx)
             {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using TrainingProject.Domain.Logic.Interfaces;
 using TrainingProject.Domain.Logic.Models.Test;
 
@@ -25,6 +26,10 @@ namespace TrainingProject.Web.Controllers
         {
             var result = await _testService.GetTestsByCategoryAsync();
             return Ok(result);
+
+
+            return StatusCode(500);
+
         }
     }
 }

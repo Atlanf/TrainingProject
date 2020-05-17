@@ -30,14 +30,19 @@ namespace TrainingProject.Web.Controllers
         [HttpGet("user")]
         public UserInfo GetUser()
         {
-            return User.Identity.IsAuthenticated
-                ? new UserInfo
-                {
-                    Name = User.Identity.Name,
-                    IsAuthenticated = User.Identity.IsAuthenticated,
-                    Role = User.Claims.FirstOrDefault(c => c.Type == "Role").Value
-                }
-                : LoggedOutUser;
+            
+            if (User.Identity.IsAuthenticated)
+            {
+                var result = new UserInfo();
+                result.Name = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+                result.Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+                result.IsAuthenticated = User.Identity.IsAuthenticated;
+                return result;
+            }
+            else
+            {
+                return LoggedOutUser;
+            }
         }
 
         [HttpPost("signin")]
@@ -49,6 +54,7 @@ namespace TrainingProject.Web.Controllers
             {
                 await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                     new ClaimsPrincipal(claims));
+                
             }
 
             return Ok();

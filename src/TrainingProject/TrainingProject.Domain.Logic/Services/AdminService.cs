@@ -7,6 +7,7 @@ using TrainingProject.Data.Interfaces;
 using TrainingProject.Domain.Logic.Interfaces;
 using TrainingProject.Domain.Logic.Models.Admin;
 using TrainingProject.Domain.Logic.Models.Question;
+using TrainingProject.Domain.Models;
 
 namespace TrainingProject.Domain.Logic.Services
 {
@@ -14,9 +15,13 @@ namespace TrainingProject.Domain.Logic.Services
     {
         private readonly IMapper _mapper;
         private readonly IQuestionRepository _quesitonRepository;
-        public AdminService(IQuestionRepository questionRepository, IMapper mapper)
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly ITestRepository _testRepository;
+        public AdminService(IQuestionRepository questionRepository, ICategoryRepository categoryRepository, ITestRepository testRepository, IMapper mapper)
         {
             _quesitonRepository = questionRepository;
+            _categoryRepository = categoryRepository;
+            _testRepository = testRepository;
             _mapper = mapper;
         }
 
@@ -46,6 +51,45 @@ namespace TrainingProject.Domain.Logic.Services
             }
 
             return result;
+        }
+
+        public async Task<bool> CreateCategoryAsync(CreateCategoryDTO categoryModel)
+        {
+            if (string.IsNullOrEmpty(await _categoryRepository.GetCategoryNameAsync(categoryModel.CategoryName)))
+            {
+                var category = _mapper.Map<Category>(categoryModel);
+                await _categoryRepository.AddAsync(category);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> CreateTestAsync(CreateTestDTO testModel)
+        {
+            if (string.IsNullOrEmpty(await _testRepository.GetTestNameAsync(testModel.TestName, testModel.ShortName)))
+            {
+                var test = _mapper.Map<Test>(testModel);
+                var testCategory = await _categoryRepository.GetCategoryByNameAsync(testModel.CategoryName);
+
+                if (testCategory != null)
+                {
+                    test.Category = testCategory;
+                    await _testRepository.AddAsync(test);
+                }
+                else
+                {
+                    return false;
+                }
+                
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
