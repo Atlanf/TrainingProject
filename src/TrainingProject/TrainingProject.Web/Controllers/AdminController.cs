@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using TrainingProject.Domain.Logic.Interfaces;
 using TrainingProject.Domain.Logic.Models.Admin;
 using TrainingProject.Domain.Logic.Models.Question;
+using TrainingProject.Domain.Logic.Models.Test;
 
 namespace TrainingProject.Web.Controllers
 {
@@ -18,7 +19,8 @@ namespace TrainingProject.Web.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
-        public AdminController(IAdminService adminService)
+        private readonly ITestService _testService;
+        public AdminController(IAdminService adminService, ITestService testService)
         {
             _adminService = adminService;
         }
@@ -73,6 +75,14 @@ namespace TrainingProject.Web.Controllers
             {
                 return Problem("Something went wrong");
             }
+        }
+
+        [HttpPost("test/get")]
+        public async Task<ActionResult<List<TestCategoryDTO>>> GetExistingCategoriesAsync()
+        {
+            var result = await _testService.GetTestsByCategoryAsync();
+
+            return Ok(result);
         }
     }
 }

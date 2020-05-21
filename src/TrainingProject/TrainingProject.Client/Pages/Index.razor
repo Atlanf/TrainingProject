@@ -86,8 +86,6 @@
 
     private string _searchTerm = "";
 
-    //private string filterTerm { get; set; } = null;
-
     protected async override Task OnInitializedAsync()
     {
         var response = await HttpClient.GetAsync($"api/Index");

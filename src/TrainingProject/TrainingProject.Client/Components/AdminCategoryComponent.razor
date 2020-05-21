@@ -1,7 +1,36 @@
 ﻿@inject HttpClient HttpClient
 
+<EditForm Model="categoryModel" OnValidSubmit="CreateCategory">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText name="name" placeholder="Category Name" @bind-Value="categoryModel.CategoryName"></InputText>
+    <label for="name">Category name</label>
+    
+    <InputTextArea name="description" placeholder="Category Description (Optional)" @bind-Value="categoryModel.CategoryDescription"></InputTextArea>
+    <label for="description">Category description</label>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+</EditForm>
+
 @code {
     protected bool ErrorOccured { get; set; } = false;
 
+    public CreateCategoryDTO categoryModel { get; set; } = new CreateCategoryDTO();
 
+    public async Task CreateCategory()
+    {
+        var response = await HttpClient.PostJsonAsync("api/admin/category/create", categoryModel);
+
+        try
+        {
+            response.EnsureSuccessStatusCode();
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorOccured = true;
+            return;
+        }
+
+    }
 }

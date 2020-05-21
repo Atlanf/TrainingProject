@@ -1,8 +1,92 @@
 ﻿@inject HttpClient HttpClient
 
+<EditForm Model="testModel" OnValidSubmit="CreateTest">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group row input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Select category</span>
+        </div>
+        <select class="form-control" id="filterSelect" @bind="testModel.CategoryName">
+            @if (categories != null)
+            {
+                <option value="" selected></option>
+                @foreach (var cat in categories)
+                {
+                    <option value="@cat.CategoryName">@cat.CategoryName</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group row input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Name of test</span>
+        </div>
+        <input type="text" class="form-control" @bind-value="testModel.TestName" />
+    </div>
+
+    <div class="form-group row input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Short name</span>
+        </div>
+        <input type="text" class="form-control" @bind-value="testModel.ShortName" />
+    </div>
+
+    <div class="form-group row input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Maximum questions for 1 test</span>
+        </div>
+        <input type="number" class="form-control" @bind-value="testModel.MaxQuestions" />
+    </div>
+
+    <div class="form-group row input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Description</span>
+        </div>
+        <textarea class="form-control" @bind="testModel.TestDescription" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</EditForm>
+
 
 @code {
     protected bool ErrorOccured { get; set; } = false;
+    protected List<TestCategoryDTO> categories { get; set; }
 
+    protected CreateTestDTO testModel { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await HttpClient.GetAsync("/api/admin/test/get");
+
+        try
+        {
+            response.EnsureSuccessStatusCode();
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorOccured = true;
+            return;
+        }
+
+        categories = await response.Content.ReadAsJsonAsync<List<TestCategoryDTO>>();
+    }
+
+    protected async Task CreateTest()
+    {
+        var response = await HttpClient.PostJsonAsync("api/admin/test/create", testModel);
+
+        try
+        {
+            response.EnsureSuccessStatusCode();
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorOccured = true;
+            return;
+        }
+    }
 }
