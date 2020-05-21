@@ -3,47 +3,90 @@
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
-@using System.Text
+<div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Search by test name" @bind-value="_searchTerm" aria-describedby="basic-addon-2" />
+    <div class="input-group-append btn-group">
+        <button class="btn btn-primary" @onclick="ProcessSearch">Search</button>
+        <button class="btn btn-primary" @onclick="ClearSearchTerm">Clear</button>
+        <select class="custom-select" id="filterSelect" @onchange="ProcessFilter">
+            @if (testCategoryList != null)
+            {
+                <option value="" selected></option>
+                @foreach (var cat in testCategoryList)
+                {
+                    <option value="@cat.CategoryName">@cat.CategoryName</option>
+                }
+            }
+        </select>
+    </div>
+</div>
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
-
-<div class="main">
-
+<div class="container">
     @if (testWithCategory != null)
     {
-        <ul class="category-block">
-            @foreach (var category in testWithCategory.TestsByCategory)
+        if (testWithCategory.Count != 0)
+        {
+            if (_searchTerm != "")
             {
-                <li style="display: list-item">
-                    @category.Key
-                    <ul class="test-block">
-                        @foreach (var test in category.Value)
-                        {
-                            <li style="color: red; display: list-item">
-                                <NavLink href="" class="nav-link" @onclick="@(e => RedirectTo(testWithCategory.TestNames[test]))">
-                                    @test
-                                </NavLink>
-                                @*<a href="@String.Concat("test/", testWithCategory.TestNames[test])">@test</a>*@ 
-                                @*<a @onclick="@(e => RedirectTo(testWithCategory.TestNames[test]))">@test</a>*@
-                            </li>
-                        }
-                    </ul>
-                </li>
+                <h3 class="content h3">Search rusult for "@_searchTerm": </h3>
             }
-        </ul>
+            <div class="card-deck mb-3 text-center">
+                @foreach (var item in testWithCategory)
+                {
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">@item.CategoryName</h4>
+                        </div>
+
+                        <div class="card-body">
+                            <ul class="list-unstyled mt-3 mb-4">
+                                @{
+                                    var names = item.TestFullNames.Zip(item.TestShortNames, (f, s) => new { Full = f, Short = s });
+                                }
+                                @foreach (var name in names)
+                                {
+                                    <li style="color: red; display: list-item">
+                                        <NavLink href="" class="nav-link" @onclick="@(e => RedirectTo(name.Short))">
+                                            @name.Full
+                                        </NavLink>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <h3 class="content h3">Nothing has been found for "@_searchTerm"</h3>
+        }
+
     }
     else
     {
-        <span>Loading...</span>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
     }
+
 </div>
 
 @code{
-    TestCategoryDTO testWithCategory;
+    List<TestCategoryDTO> testWithCategory { get; set; } = null;
+
+    TestCategoryDTO filterResult { get; set; } = null;
+
+    List<TestCategoryDTO> searchResult { get; set; } = null;
+
+    List<TestCategoryDTO> testCategoryList { get; set; } = null;
+
+    private string _searchTerm = "";
+
+    //private string filterTerm { get; set; } = null;
 
     protected async override Task OnInitializedAsync()
     {
@@ -51,11 +94,73 @@ Welcome to your new app.
 
         response.EnsureSuccessStatusCode();
 
-        testWithCategory = await response.Content.ReadAsJsonAsync<TestCategoryDTO>();
+        testCategoryList = await response.Content.ReadAsJsonAsync<List<TestCategoryDTO>>();
+
+        testWithCategory = testCategoryList;
     }
 
     public void RedirectTo(string shortName)
     {
         NavigationManager.NavigateTo($"TestDetails/{shortName}", false);
+    }
+
+    public void ProcessSearch()
+    {
+        if (_searchTerm == "")
+        {
+            searchResult = null;
+            testWithCategory = testCategoryList;
+        }
+        else
+        {
+            searchResult = new List<TestCategoryDTO>();
+            foreach (var cat in testWithCategory)
+            {
+                var names = cat.TestFullNames.Zip(cat.TestShortNames, (f, s) => new { Full = f, Short = s });
+                List<string> fullNames = new List<string>();
+                List<string> shortNames = new List<string>();
+                foreach (var n in names)
+                {
+                    if (n.Full.ToLower().Contains(_searchTerm.ToLower()))
+                    {
+                        fullNames.Add(n.Full);
+                        shortNames.Add(n.Short);
+                    }
+                }
+                if (fullNames.Count > 0)
+                {
+                    searchResult.Add(new TestCategoryDTO()
+                    {
+                        CategoryName = cat.CategoryName,
+                        TestFullNames = fullNames,
+                        TestShortNames = shortNames
+                    });
+                }
+            }
+            testWithCategory = searchResult;
+        }
+    }
+
+    public void ProcessFilter(ChangeEventArgs e)
+    {
+        var filterTerm = e.Value.ToString();
+        if (filterTerm == "")
+        {
+            testWithCategory = testCategoryList;
+        }
+        else
+        {
+            testWithCategory = new List<TestCategoryDTO>();
+            filterResult = testCategoryList
+                .Where(category => category.CategoryName == filterTerm)
+                .FirstOrDefault();
+            testWithCategory.Add(filterResult);
+        }
+    }
+
+    public void ClearSearchTerm()
+    {
+        _searchTerm = "";
+        testWithCategory = testCategoryList;
     }
 }

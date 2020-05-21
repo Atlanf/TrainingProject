@@ -22,9 +22,11 @@ namespace TrainingProject.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<TestCategoryDTO>> GetAsync()
+        public async Task<ActionResult<List<TestCategoryDTO>>> GetAsync()
         {
             var result = await _testService.GetTestsByCategoryAsync();
+            
+
             return Ok(result);
 
 

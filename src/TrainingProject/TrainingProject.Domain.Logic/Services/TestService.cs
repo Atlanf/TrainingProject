@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TrainingProject.Data.Interfaces;
@@ -52,27 +53,57 @@ namespace TrainingProject.Domain.Logic.Services
             return result;
         }
 
-        public async Task<TestCategoryDTO> GetTestsByCategoryAsync()
+        public async Task<List<TestCategoryDTO>> GetTestsByCategoryAsync()
         {
-            var result = new TestCategoryDTO()
-            {
-                TestsByCategory = new Dictionary<string, ICollection<string>>(),
-                TestNames = new Dictionary<string, string>()
-            };
-
             var categories = await _testRepository.GetTestsWithCategoryAsync();
 
-            foreach(var category in categories)
+            var result = new List<TestCategoryDTO>();
+
+            foreach (var category in categories)
             {
-                result.TestsByCategory.Add(category.Name, ExtractTestNames(category));
-                foreach (var test in category.Tests)
+                result.Add(new TestCategoryDTO
                 {
-                    result.TestNames.Add(test.Name, test.MinimizedName);
-                }
+                    CategoryName = category.Name,
+                    TestFullNames = category.Tests.Select(t => t.Name).ToList(),
+                    TestShortNames = category.Tests.Select(t => t.MinimizedName).ToList()
+                });
+
             }
 
             return result;
         }
+            //foreach (var test in category.Tests)
+            //{
+            //    result.Add(new TestCategoryDTO
+            //    {
+            //        CategoryName = category.Name,
+
+            //        TestFullName = test.Name,
+            //        TestShortName = test.MinimizedName
+            //    });
+            //}
+            //result = result
+            //    .GroupBy(t => t.CategoryName)
+            //    .Select(g => g.First())
+            //    .ToList();
+
+            //var result = new TestCategoryDTO()
+            //{
+            //    TestsByCategory = new Dictionary<string, IList<string>>(),
+            //    TestNames = new Dictionary<string, string>()
+            //};
+
+
+
+            //foreach(var category in categories)
+            //{
+            //    result.TestsByCategory.Add(category.Name, ExtractTestNames(category));
+            //    foreach (var test in category.Tests)
+            //    {
+            //        result.TestNames.Add(test.Name, test.MinimizedName);
+            //    }
+            //}
+
 
         private List<Question> GetRandomQuestions(List<Question> questions, int maxQuestions)
         {

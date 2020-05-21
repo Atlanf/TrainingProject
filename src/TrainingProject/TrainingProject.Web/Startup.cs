@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TrainingProject.Data;
+using TrainingProject.Domain;
 using TrainingProject.Domain.Logic;
 using TrainingProject.Domain.Logic.Profiles;
 using TrainingProject.Domain.Models;
@@ -43,6 +45,7 @@ namespace TrainingProject.Web
             });
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<Domain.AppDbContext>();
+
 
             services.ConfigureApplicationCookie(opt =>
             {

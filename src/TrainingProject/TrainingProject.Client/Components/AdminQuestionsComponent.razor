@@ -12,10 +12,10 @@
         <div>@q.TestName</div>
         <div>@q.Description</div>
         <input type="radio" name="question" id="Approve" @onchange="(() => OnChangeValue(index, 'a'))" />
-        <label for="Approve">Подтвердить</label>
-        <input type="radio" name="question" id="Delete" value="Удалить" @onchange="(() => OnChangeValue(index, 'd'))" />
-        <label for="Delete">Удалить</label>
-        <input type="submit" value="Подтвердить" @onclick="UpdateQuestion" />
+        <label for="Approve">Approve</label>
+        <input type="radio" name="question" id="Delete" value="Delete" @onchange="(() => OnChangeValue(index, 'd'))" />
+        <label for="Delete">Delete</label>
+        <input type="submit" value="OK" @onclick="UpdateQuestion" />
     </div>
     <br />
 }
