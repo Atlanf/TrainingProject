@@ -11,11 +11,9 @@
     int index = 0;
     foreach (var question in TestQuestions)
     {
-        <QuestionComponent QuestionModel="question" ComponentId="index++" />
-        @*<QuestionComponent QuestionModel="question" SubmitAnswer="AnswerQuestion" Result="AnswerResult">
-        </QuestionComponent>*@
+        <QuestionComponent QuestionModel="question" ComponentId="index++" OnAnswer="AnswerQuestion"/>
     }
-    <button @onclick="FinishTest">Finish</button>
+    <button class="btn btn-primary" @onclick="FinishTest">Finish</button>
 }
 else
 {
@@ -30,7 +28,7 @@ else
 
     public List<AnswerResultDTO> UserAnswers { get; set; }
 
-    public bool ErrorOccured { get; set; }
+    public bool ErrorOccured { get; set; } = false;
 
     public AnswerResultDTO AnswerResult { get; set; }
 
@@ -38,25 +36,33 @@ else
     {
 
         var response = await HttpClient.GetAsync($"api/Test/{TestId}");
-        response.EnsureSuccessStatusCode();
-        TestQuestions = await response.Content.ReadAsJsonAsync<List<QuestionDTO>>();
-
-    }
-
-    protected async Task AnswerQuestion(QuestionAnswerDTO answer)
-    {
         try
         {
-            var response = await HttpClient.PostJsonAsync($"api/Test", answer);
-
             response.EnsureSuccessStatusCode();
-
-            AnswerResult = await response.Content.ReadAsJsonAsync<AnswerResultDTO>();
         }
-        catch (HttpRequestException ex)
+        catch(HttpRequestException ex)
         {
             ErrorOccured = true;
+            return;
         }
+
+        TestQuestions = await response.Content.ReadAsJsonAsync<List<QuestionDTO>>();
+
+        UserAnswers = new List<AnswerResultDTO>();
+
+        foreach (var test in TestQuestions)
+        {
+            UserAnswers.Add(new AnswerResultDTO
+            {
+                QuestionId = test.QuestionId,
+                IsCorrect = false
+            });
+        };
+    }
+
+    protected async Task AnswerQuestion(HelperAnswerResult answerModel)
+    {
+        UserAnswers[answerModel.QuestionPosition] = answerModel.AnswerResult;
     }
 
     protected async Task FinishTest()
