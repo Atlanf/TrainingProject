@@ -13,5 +13,6 @@ namespace TrainingProject.Domain.Logic.Interfaces
         Task CreateQuestion(CreateQuestionDTO questionModel);
         Task ApproveQuestion(ApproveQuestionDTO questionModel);
         Task<AnswerResultDTO> AnswerQuestion(QuestionAnswerDTO questionModel);
+        Task<AnswerDTO> GetAnswerAsync(int questionId);
     }
 }

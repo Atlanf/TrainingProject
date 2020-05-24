@@ -19,3 +19,8 @@ namespace TrainingProject.Domain.Models
         public User User { get; set; }
     }
 }
+
+/*
+ public DateTime TestStarted { get; set; }
+        public DateTime TestSupposedFinish { get; set; }
+     */

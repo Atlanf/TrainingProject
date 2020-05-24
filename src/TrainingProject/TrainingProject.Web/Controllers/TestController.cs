@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrainingProject.Domain.Logic.Interfaces;
 using TrainingProject.Domain.Logic.Models.Question;
+using TrainingProject.Domain.Logic.Models.Result;
 using TrainingProject.Domain.Logic.Models.Test;
 
 namespace TrainingProject.Web.Controllers
@@ -38,6 +39,12 @@ namespace TrainingProject.Web.Controllers
             }
         }
 
+        [HttpPost("finish")]
+        public async Task<ActionResult<ResultDTO>> FinishTest(List<AnswerResultDTO> resultsModel)
+        {
+            return Ok();
+        }
+
         [HttpGet("{testId}")]
         public async Task<ActionResult<List<QuestionDTO>>> Get(string testId)
         {
@@ -48,6 +55,21 @@ namespace TrainingProject.Web.Controllers
             if (test != null)
             {
                 return Ok(test);
+            }
+            else
+            {
+                return Problem();
+            }
+        }
+
+        [HttpGet("answer/{questionId}")]
+        public async Task<ActionResult<AnswerDTO>> GetAnswer(int questionId)
+        {
+            var result = await _questionService.GetAnswerAsync(questionId);
+
+            if (result != null)
+            {
+                return Ok(result);
             }
             else
             {

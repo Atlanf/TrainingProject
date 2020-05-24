@@ -5,6 +5,8 @@ using TrainingProject.Domain;
 using System.Linq;
 using TrainingProject.Domain.Models;
 using TrainingProject.Data.Interfaces;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace TrainingProject.Data.Repository
 {
@@ -50,6 +52,15 @@ namespace TrainingProject.Data.Repository
         public void Update(Result resultToUpdate, int id)
         {
             throw new NotImplementedException();
+        }
+        
+        public async Task<Result> GetResultAsync(string userId, int testId)
+        {
+            //return await _context.Results
+            //    .Where(r => r.UserId == userId && r.TestId == testId && r.TestFinished)
+            //    .LastOrDefaultAsync();
+
+            return null;
         }
     }
 }

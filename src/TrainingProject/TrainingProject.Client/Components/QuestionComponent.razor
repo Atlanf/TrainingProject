@@ -1,39 +1,65 @@
-﻿<form>
-    <div class="container-fluid">
-        <div>
-            @QuestionModel.Description
+﻿@inject HttpClient HttpClient
+
+    <form>
+        <div class="container-fluid">
+            <div>
+                @QuestionModel.Description
+            </div>
+            @if (QuestionModel.MultipleAnswers)
+            {
+                foreach (var choice in QuestionModel.Choices)
+                {
+                    <input type="checkbox" id="@choice" name="@QuestionModel.QuestionId" value="@choice" @onchange="(e => AssignValueCheckbox(e, QuestionModel.Choices.IndexOf(choice)))" />
+                    <label for="@choice">@choice</label><br>
+                }
+            }
+            else
+            {
+                foreach (var choice in QuestionModel.Choices)
+                {
+                    <input type="radio" id="@choice" name="@QuestionModel.QuestionId" value="@choice" @onchange="(e => AssignValueRadio(e, QuestionModel.Choices.IndexOf(choice)))" />
+                    <label for="@choice">@choice</label><br>
+                }
+            }
         </div>
-        @if (QuestionModel.MultipleAnswers)
-        {
-            foreach (var choice in QuestionModel.Choices)
-            {
-                <input type="checkbox" id="@choice" name = "@QuestionModel.QuestionId" value="@choice" @onchange="(e => AssignValueCheckbox(e, QuestionModel.Choices.IndexOf(choice)))" />
-                <label for="@choice">@choice</label><br>
-            }
-        }
-        else
-        {
-            foreach (var choice in QuestionModel.Choices)
-            {
-                <input type="radio" id="@choice" name = "@QuestionModel.QuestionId" value="@choice" @onchange="(e => AssignValueRadio(e, QuestionModel.Choices.IndexOf(choice)))" />
-                <label for="@choice">@choice</label><br>
-            }
-        }
-    </div>
-    <input class="btn btn-primary" type="submit" value="Подтвердить" @onclick="(() => SubmitAnswer.InvokeAsync(SetValues()))"/>
-</form>
+        <input class="btn btn-primary" type="button" value="Подтвердить" @onclick="AnswerQuestion" />
+        @*<input class="btn btn-primary" type="submit" value="Подтвердить" @onclick="(() => SubmitAnswer.InvokeAsync(SetValues()))" />*@
+    </form>
 
 @code {
     [Parameter]
+    public int ComponentId { get; set; }
+
+    [Parameter]
     public QuestionDTO QuestionModel { get; set; }
 
-    [Parameter]
-    public EventCallback<QuestionAnswerDTO> SubmitAnswer { get; set; }
+    protected AnswerDTO CorrectAnswer { get; set; }
 
-    [Parameter]
+    //[Parameter]
+    //public EventCallback<QuestionAnswerDTO> SubmitAnswer { get; set; }
+
+    //[Parameter]
     public AnswerResultDTO Result { get; set; }
 
     public List<int> UserChoices { get; set; } = new List<int>();
+
+    public bool ErrorOccured { get; set; } = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await HttpClient.GetAsync($"api/test/answer/{QuestionModel.QuestionId}");
+
+        try
+        {
+            response.EnsureSuccessStatusCode();
+        }
+        catch(HttpRequestException ex)
+        {
+            ErrorOccured = true;
+        }
+
+        CorrectAnswer = await response.Content.ReadAsJsonAsync<AnswerDTO>();
+    }
 
     protected void AssignValueCheckbox(ChangeEventArgs e, int choice)
     {
@@ -62,6 +88,21 @@
             QuestionId = QuestionModel.QuestionId,
             Choices = UserChoices
         };
+    }
+
+    protected void AnswerQuestion()
+    {
+        Result = new AnswerResultDTO();
+        if (UserChoices.SequenceEqual(CorrectAnswer.CorrectAnswers))
+        {
+            Result.QuestionId = CorrectAnswer.QuestionId;
+            Result.IsCorrect = true;
+        }
+    }
+
+    protected void AnswerSubmited(ChangeEventArgs e)
+    {
+
     }
 
     // Check Blazor Render Fragment

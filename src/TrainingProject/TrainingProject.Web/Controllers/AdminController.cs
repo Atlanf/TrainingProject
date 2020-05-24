@@ -15,7 +15,7 @@ namespace TrainingProject.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Administrator")]
+    //[Authorize(Roles = "Administrator")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
@@ -23,6 +23,7 @@ namespace TrainingProject.Web.Controllers
         public AdminController(IAdminService adminService, ITestService testService)
         {
             _adminService = adminService;
+            _testService = testService;
         }
 
         [HttpGet]
@@ -77,7 +78,7 @@ namespace TrainingProject.Web.Controllers
             }
         }
 
-        [HttpPost("test/get")]
+        [HttpGet("test/get")]
         public async Task<ActionResult<List<TestCategoryDTO>>> GetExistingCategoriesAsync()
         {
             var result = await _testService.GetTestsByCategoryAsync();

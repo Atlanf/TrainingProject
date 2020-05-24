@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TrainingProject.Domain.Models;
 
 namespace TrainingProject.Data.Interfaces
@@ -14,5 +15,6 @@ namespace TrainingProject.Data.Interfaces
         void Add(Result result);
         IEnumerable<Result> GetByUser(int id);
         IEnumerable<Result> GetByTest(int id);
+        Task<Result> GetResultAsync(string userId, int testId); 
     }
 }

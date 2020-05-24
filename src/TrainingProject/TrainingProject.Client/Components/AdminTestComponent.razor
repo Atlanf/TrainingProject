@@ -8,7 +8,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text">Select category</span>
         </div>
-        <select class="form-control" id="filterSelect" @bind="testModel.CategoryName">
+        <select class="form-control" id="category" @onchange="SetCategory">
             @if (categories != null)
             {
                 <option value="" selected></option>
@@ -56,11 +56,11 @@
     protected bool ErrorOccured { get; set; } = false;
     protected List<TestCategoryDTO> categories { get; set; }
 
-    protected CreateTestDTO testModel { get; set; }
+    protected CreateTestDTO testModel { get; set; } = new CreateTestDTO();
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await HttpClient.GetAsync("/api/admin/test/get");
+        var response = await HttpClient.GetAsync("/api/Admin/test/get");
 
         try
         {
@@ -77,7 +77,7 @@
 
     protected async Task CreateTest()
     {
-        var response = await HttpClient.PostJsonAsync("api/admin/test/create", testModel);
+        var response = await HttpClient.PostJsonAsync("api/Admin/test/create", testModel);
 
         try
         {
@@ -88,5 +88,10 @@
             ErrorOccured = true;
             return;
         }
+    }
+
+    protected void SetCategory(ChangeEventArgs e)
+    {
+        testModel.CategoryName = e.Value.ToString();
     }
 }

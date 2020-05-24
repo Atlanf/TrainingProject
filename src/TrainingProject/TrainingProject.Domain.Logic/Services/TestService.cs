@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TrainingProject.Data.Interfaces;
 using TrainingProject.Domain.Logic.Interfaces;
 using TrainingProject.Domain.Logic.Models.Question;
+using TrainingProject.Domain.Logic.Models.Result;
 using TrainingProject.Domain.Logic.Models.Test;
 using TrainingProject.Domain.Models;
 
@@ -72,38 +73,11 @@ namespace TrainingProject.Domain.Logic.Services
 
             return result;
         }
-            //foreach (var test in category.Tests)
-            //{
-            //    result.Add(new TestCategoryDTO
-            //    {
-            //        CategoryName = category.Name,
 
-            //        TestFullName = test.Name,
-            //        TestShortName = test.MinimizedName
-            //    });
-            //}
-            //result = result
-            //    .GroupBy(t => t.CategoryName)
-            //    .Select(g => g.First())
-            //    .ToList();
-
-            //var result = new TestCategoryDTO()
-            //{
-            //    TestsByCategory = new Dictionary<string, IList<string>>(),
-            //    TestNames = new Dictionary<string, string>()
-            //};
-
-
-
-            //foreach(var category in categories)
-            //{
-            //    result.TestsByCategory.Add(category.Name, ExtractTestNames(category));
-            //    foreach (var test in category.Tests)
-            //    {
-            //        result.TestNames.Add(test.Name, test.MinimizedName);
-            //    }
-            //}
-
+        public async Task<ResultDTO> FinishTestAsync()
+        {
+            return null;
+        }
 
         private List<Question> GetRandomQuestions(List<Question> questions, int maxQuestions)
         {

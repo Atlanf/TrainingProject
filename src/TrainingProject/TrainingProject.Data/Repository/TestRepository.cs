@@ -70,6 +70,7 @@ namespace TrainingProject.Data.Repository
         public async Task<ICollection<Category>> GetTestsWithCategoryAsync()
         {
             return await _context.Categories
+                .Where(c => c.IsDeleted == false)
                 .Include(t => t.Tests)
                 .ToListAsync();
         }

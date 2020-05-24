@@ -29,12 +29,12 @@ namespace TrainingProject.Domain.Logic.Services
             var result = new AnswerResultDTO()
             {
                 QuestionId = questionModel.QuestionId,
-                IsCorrect = false 
+                IsCorrect = false
             };
 
             if (questionModel.Choices.Count > 0)
             {
-                var correctAnswers = await _choiceRepository.GetCorrectAnswersAsync(questionModel.QuestionId); 
+                var correctAnswers = await _choiceRepository.GetCorrectAnswersAsync(questionModel.QuestionId);
 
                 if (questionModel.Choices.SequenceEqual(correctAnswers.ToList()))
                 {
@@ -81,6 +81,19 @@ namespace TrainingProject.Domain.Logic.Services
             var question = await _questionRepository.GetQuestionAsync(questionId);
 
             var result = _mapper.Map<QuestionDTO>(question);
+
+            return result;
+        }
+
+        public async Task<AnswerDTO> GetAnswerAsync(int questionId)
+        {
+            var result = new AnswerDTO()
+            {
+                QuestionId = questionId,
+                CorrectAnswers = new List<int>()
+            };
+
+            result.CorrectAnswers = await _choiceRepository.GetCorrectAnswersAsync(questionId);
 
             return result;
         }

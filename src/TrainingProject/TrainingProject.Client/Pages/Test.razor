@@ -8,11 +8,14 @@
 
 @if (TestQuestions != null)
 {
+    int index = 0;
     foreach (var question in TestQuestions)
     {
-        <QuestionComponent QuestionModel="question" SubmitAnswer="AnswerQuestion" Result="AnswerResult">
-        </QuestionComponent>
+        <QuestionComponent QuestionModel="question" ComponentId="index++" />
+        @*<QuestionComponent QuestionModel="question" SubmitAnswer="AnswerQuestion" Result="AnswerResult">
+        </QuestionComponent>*@
     }
+    <button @onclick="FinishTest">Finish</button>
 }
 else
 {
@@ -24,6 +27,8 @@ else
     public string TestId { get; set; }
 
     public List<QuestionDTO> TestQuestions { get; set; }
+
+    public List<AnswerResultDTO> UserAnswers { get; set; }
 
     public bool ErrorOccured { get; set; }
 
@@ -52,5 +57,11 @@ else
         {
             ErrorOccured = true;
         }
+    }
+
+    protected async Task FinishTest()
+    {
+        var response = await HttpClient.PostJsonAsync($"api/test/finish", UserAnswers);
+        // POST
     }
 }

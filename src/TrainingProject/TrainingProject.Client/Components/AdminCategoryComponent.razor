@@ -4,13 +4,16 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <InputText name="name" placeholder="Category Name" @bind-Value="categoryModel.CategoryName"></InputText>
-    <label for="name">Category name</label>
-    
-    <InputTextArea name="description" placeholder="Category Description (Optional)" @bind-Value="categoryModel.CategoryDescription"></InputTextArea>
-    <label for="description">Category description</label>
+    <div class="form-group row">
+        <InputText name="name" placeholder="Category Name" @bind-Value="categoryModel.CategoryName"></InputText>
+        <label for="name">Category name</label>
+    </div>
+    <div class="form-group row">
+        <InputTextArea name="description" placeholder="Category Description (Optional)" @bind-Value="categoryModel.CategoryDescription"></InputTextArea>
+        <label for="description">Category description</label>
+    </div>
 
-    <button class="btn btn-primary" type="submit">Submit</button>
+    <button class="form-group row btn btn-primary" type="submit">Submit</button>
 </EditForm>
 
 @code {
@@ -20,7 +23,7 @@
 
     public async Task CreateCategory()
     {
-        var response = await HttpClient.PostJsonAsync("api/admin/category/create", categoryModel);
+        var response = await HttpClient.PostJsonAsync("api/Admin/category/create", categoryModel);
 
         try
         {
