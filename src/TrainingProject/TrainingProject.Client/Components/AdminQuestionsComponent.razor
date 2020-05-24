@@ -2,6 +2,24 @@
 
 @inject HttpClient HttpClient
 
+<div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Search by test name" @bind-value="_searchTerm" aria-describedby="basic-addon-2" />
+    <div class="input-group-append btn-group">
+        <button class="btn btn-primary" @onclick="ProcessSearch">Search</button>
+        <button class="btn btn-primary" @onclick="ClearSearchTerm">Clear</button>
+        <select class="custom-select" id="filterSelect" @onchange="ProcessFilter">
+            @if (QuestionCategories != null)
+            {
+                <option value="" selected></option>
+                @foreach (var cat in QuestionCategories)
+                {
+                    <option value="@cat">@cat</option>
+                }
+            }
+        </select>
+    </div>
+</div>
+
 @foreach(var q in QuestionList)
 {
     <div>
@@ -21,10 +39,20 @@
 }
 
 @code {
-    protected bool ErrorOccured { get; set; } = false;
+    public List<QuestionToApproveDTO> AllQuestions = new List<QuestionToApproveDTO>();
     public List<QuestionToApproveDTO> QuestionList = new List<QuestionToApproveDTO>();
 
     public ApproveQuestionDTO QuestionApprovement { get; set; } = new ApproveQuestionDTO();
+
+    protected bool ErrorOccured { get; set; } = false;
+    protected string ErrorMessage { get; set; } = "";
+
+
+    private List<string> QuestionCategories { get; set; }
+
+    private bool _filter { get; set; } = false;
+    private bool _search { get; set; } = false;
+    private string _searchTerm { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -39,7 +67,10 @@
             return;
         }
 
-        QuestionList = await response.Content.ReadAsJsonAsync<List<QuestionToApproveDTO>>();
+        AllQuestions = await response.Content.ReadAsJsonAsync<List<QuestionToApproveDTO>>();
+        QuestionList = AllQuestions;
+
+        QuestionCategories = ExtractCategories(AllQuestions);
     }
 
     protected async Task UpdateQuestion()
@@ -73,5 +104,58 @@
             QuestionApprovement.QuestionApproved = false;
             QuestionApprovement.DeleteQuestion = true;
         }
+    }
+
+    public void ProcessSearch()
+    {
+        if (_searchTerm == "")
+        {
+            QuestionList = AllQuestions;
+            _search = false;
+        }
+        else
+        {
+            _search = true;
+            if (!_filter)
+            {
+                QuestionList = AllQuestions;
+            }
+            QuestionList = QuestionList.Where(c => c.Description.ToLower().Contains(_searchTerm.ToLower())).ToList();
+        }
+    }
+
+    public void ProcessFilter(ChangeEventArgs e)
+    {
+        var filterTerm = e.Value.ToString();
+        if (filterTerm == "")
+        {
+            QuestionList = AllQuestions;
+            _filter = false;
+        }
+        else
+        {
+            _filter = true;
+            QuestionList = AllQuestions;
+            if (_search)
+            {
+                ProcessSearch();
+            }
+            QuestionList = QuestionList
+                .Where(category => category.CategoryName == filterTerm)
+                .ToList();
+        }
+    }
+
+    public void ClearSearchTerm()
+    {
+        _searchTerm = "";
+        _search = false;
+        _filter = false;
+        QuestionList = AllQuestions;
+    }
+
+    private List<string> ExtractCategories(List<QuestionToApproveDTO> questionModel)
+    {
+        return questionModel.Select(cat => cat.CategoryName).Distinct().ToList();
     }
 }

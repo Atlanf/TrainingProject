@@ -67,5 +67,6 @@ namespace TrainingProject.Data.Repository
                 .Where(c => c.Name == categoryName && !c.IsDeleted)
                 .FirstOrDefaultAsync();
         }
+
     }
 }

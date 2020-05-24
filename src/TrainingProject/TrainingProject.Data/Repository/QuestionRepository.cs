@@ -85,7 +85,7 @@ namespace TrainingProject.Data.Repository
             return await _context.Questions
                 .Where(a => a.IsApproved == false && a.IsDeleted == false)
                 .Include(c => c.Choices)
-                .Include(t => t.Test)
+                .Include(t => t.Test).ThenInclude(cat => cat.Category)
                 .ToListAsync();
         }
     }

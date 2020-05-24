@@ -65,7 +65,8 @@ namespace TrainingProject.Domain.Logic.Profiles
                 .ForMember(q => q.QuestionId, opt => opt.MapFrom(x => x.Id))
                 .ForMember(q => q.Description, opt => opt.MapFrom(x => x.Description))
                 .ForMember(q => q.Choices, opt => opt.MapFrom(x => x.Choices.Choices.ToList()))
-                .ForMember(q => q.TestName, opt => opt.MapFrom(x => x.Test.Name));
+                .ForMember(q => q.TestName, opt => opt.MapFrom(x => x.Test.Name))
+                .ForMember(q => q.CategoryName, opt => opt.MapFrom(x => x.Test.Category.Name)); //
 
             CreateMap<CreateCategoryDTO, Category>()
                 .ForMember(q => q.Name, opt => opt.MapFrom(x => x.CategoryName))

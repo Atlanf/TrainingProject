@@ -28,9 +28,10 @@ else
 
     public List<AnswerResultDTO> UserAnswers { get; set; }
 
-    public bool ErrorOccured { get; set; } = false;
-
     public AnswerResultDTO AnswerResult { get; set; }
+
+    public bool ErrorOccured { get; set; } = false;
+    public string ErrorMessage { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -43,6 +44,7 @@ else
         catch(HttpRequestException ex)
         {
             ErrorOccured = true;
+            ErrorMessage = ex.Message;
             return;
         }
 
@@ -60,7 +62,7 @@ else
         };
     }
 
-    protected async Task AnswerQuestion(HelperAnswerResult answerModel)
+    protected void AnswerQuestion(HelperAnswerResult answerModel)
     {
         UserAnswers[answerModel.QuestionPosition] = answerModel.AnswerResult;
     }

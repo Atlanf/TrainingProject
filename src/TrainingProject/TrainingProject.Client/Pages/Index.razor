@@ -78,13 +78,13 @@
 @code{
     List<TestCategoryDTO> testWithCategory { get; set; } = null;
 
-    TestCategoryDTO filterResult { get; set; } = null;
-
-    List<TestCategoryDTO> searchResult { get; set; } = null;
+    //TestCategoryDTO filterResult { get; set; } = null;
 
     List<TestCategoryDTO> testCategoryList { get; set; } = null;
 
     private string _searchTerm = "";
+    private bool _filter = false;
+    private bool _search = false;
 
     protected async override Task OnInitializedAsync()
     {
@@ -106,12 +106,17 @@
     {
         if (_searchTerm == "")
         {
-            searchResult = null;
+            _search = false;
             testWithCategory = testCategoryList;
         }
         else
         {
-            searchResult = new List<TestCategoryDTO>();
+            _search = true;
+            if (!_filter)
+            {
+                testWithCategory = testCategoryList;
+            }
+            var searchResult = new List<TestCategoryDTO>();
             foreach (var cat in testWithCategory)
             {
                 var names = cat.TestFullNames.Zip(cat.TestShortNames, (f, s) => new { Full = f, Short = s });
@@ -139,26 +144,47 @@
         }
     }
 
+    // TODO: Searching 2 times in a row without clearing searhing line causes "cant find anything"
     public void ProcessFilter(ChangeEventArgs e)
     {
         var filterTerm = e.Value.ToString();
+        var filterResult = new TestCategoryDTO();
         if (filterTerm == "")
         {
-            testWithCategory = testCategoryList;
+            _filter = false;
+            if (_search)
+            {
+                ProcessSearch();
+            }
         }
         else
         {
-            testWithCategory = new List<TestCategoryDTO>();
-            filterResult = testCategoryList
+            _filter = true;
+            testWithCategory = testCategoryList;
+
+            if (_search)
+            {
+                ProcessSearch();
+            }
+
+            testWithCategory = testWithCategory
                 .Where(category => category.CategoryName == filterTerm)
-                .FirstOrDefault();
-            testWithCategory.Add(filterResult);
+                .ToList();
+
+
+            //filterResult = testWithCategory
+            //    .Where(category => category.CategoryName == filterTerm)
+            //    .FirstOrDefault();
+            //testWithCategory.Add(filterResult);
         }
     }
 
     public void ClearSearchTerm()
     {
         _searchTerm = "";
+        _filter = false;
+        _search = false;
         testWithCategory = testCategoryList;
     }
 }
+
