@@ -32,11 +32,11 @@
 
     public UserInfo CurrentUser { get; set; } = new UserInfo();
 
-    //[CascadingParameter] Task<AuthenticationState> AuthenticationStateTask { get; set; }
+    [CascadingParameter] Task<AuthenticationState> AuthState { get; set; }
 
     public async Task ShowLoginComponent()
     {
-        var formModal = Modal.Show<SigninComponent>("Вход");
+        var formModal = Modal.Show<SigninComponent>("Sign In");
 
         var result = await formModal.Result;
 
@@ -48,18 +48,24 @@
             {
                 response.EnsureSuccessStatusCode();
 
-                var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                //var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 
-                var user = authState.User;
+                //var user = authState.User;
 
-                //HttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("cookie", user.Claims);
+                //if (user.Identity.IsAuthenticated)
+                //{
+                //    CurrentUser.IsAuthenticated = true;
+                //    CurrentUser.Name = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+                //    CurrentUser.Role = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+                //}
+
+                var user = (await AuthState).User;
 
                 if (user.Identity.IsAuthenticated)
                 {
-                    CurrentUser.IsAuthenticated = true;
-                    CurrentUser.Name = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
-                    CurrentUser.Role = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+
                 }
+
             }
             catch (HttpRequestException httpRequestEx)
             {
