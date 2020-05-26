@@ -12,7 +12,10 @@ namespace TrainingProject.Domain.Logic.Interfaces
     {
         public Task<ClaimsIdentity> LoginUser(LoginDTO user);
 
-        public Task<IdentityResult> RegisterUser(RegistrationDTO user);
-       
+        public Task<RegisterResultDTO> RegisterUser(RegisterDTO user);
+
+        Task<List<Claim>> GetListOfClaims(LoginDTO loginModel);
+
+
     }
 }

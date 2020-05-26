@@ -1,6 +1,18 @@
 ﻿@inject HttpClient HttpClient
 @inject IModalService Modal
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
+
+@if (ShowErrors)
+{
+    <div class="alert alert-danger" role="alert">
+        @foreach (var error in Errors)
+        {
+            <p>@error</p>
+        }
+    </div>
+}
 
 <div class="">
     <AuthorizeView>
@@ -10,7 +22,8 @@
         <Authorized>
             <div>
                 <span class="">@context.User.Identity.Name</span>
-                <a class="" href="user/signout">Выйти</a>
+                <br />
+                <input type="button" @onclick="Signout" value="Sign Out"/>
             </div>
         </Authorized>
         <NotAuthorized>
@@ -18,8 +31,7 @@
                 <input type="button" @onclick="ShowLoginComponent" value="Sign In" />
             </div>
             <div>
-                <NavLink class="" href="" @onclick="ShowRegisterComponent">Регистрация</NavLink>
-                <a class="" href="user/register">Регистрация</a>
+                <input type="button" @onclick="ShowRegisterComponent" value="Register" />
             </div>
         </NotAuthorized>
     </AuthorizeView>
@@ -34,67 +46,116 @@
 
     [CascadingParameter] Task<AuthenticationState> AuthState { get; set; }
 
+    //private LoginDTO loginModel = new LoginDTO();
+
+    private bool ShowErrors = false;
+    private IList<string> Errors = new List<string>();
+
     public async Task ShowLoginComponent()
     {
+        ShowErrors = false;
+
         var formModal = Modal.Show<SigninComponent>("Sign In");
 
-        var result = await formModal.Result;
+        var loginFormResult = await formModal.Result;
 
-        if (!result.Cancelled)
+        if (!loginFormResult.Cancelled)
         {
-            var response = await HttpClient.PostJsonAsync($"api/user/signin", result.Data as LoginDTO);
+            var loginModel = loginFormResult.Data as LoginDTO;
 
-            try
+            var result = await AuthService.Login(loginModel);
+
+            if (result.Successful)
             {
-                response.EnsureSuccessStatusCode();
-
-                //var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-
-                //var user = authState.User;
-
-                //if (user.Identity.IsAuthenticated)
-                //{
-                //    CurrentUser.IsAuthenticated = true;
-                //    CurrentUser.Name = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
-                //    CurrentUser.Role = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
-                //}
-
-                var user = (await AuthState).User;
-
-                if (user.Identity.IsAuthenticated)
-                {
-
-                }
-
+                NavigationManager.NavigateTo("/");
             }
-            catch (HttpRequestException httpRequestEx)
+            else
             {
-                ErrorOccured = true;
-                ErrorMessage = "Ошибка при входе.";
+                Errors.Clear();
+                Errors.Add(result.Error);
+                ShowErrors = true;
             }
         }
     }
 
     public async Task ShowRegisterComponent()
     {
-        var formModal = Modal.Show<RegistrationComponent>("Регистрация");
+        ShowErrors = false;
 
-        var result = await formModal.Result;
+        var formModal = Modal.Show<RegistrationComponent>("Register");
 
-        if (!result.Cancelled)
+        var registerFormResult = await formModal.Result;
+
+        if (!registerFormResult.Cancelled)
         {
-            var response = await HttpClient.PostJsonAsync($"user/register", result.Data as RegistrationDTO);
+            var registrationModel = registerFormResult.Data as RegisterDTO;
 
-            try
-            {
-                response.EnsureSuccessStatusCode();
-            }
-            catch (HttpRequestException httpRequestEx)
-            {
-                ErrorOccured = true;
-                ErrorMessage = "Ошибка при регистрации.";
-            }
+            var result = await AuthService.Register(registrationModel);
 
+            if (result.Successful)
+            {
+                NavigationManager.NavigateTo("/");
+            }
+            else
+            {
+                Errors.Clear();
+                Errors = result.Errors;
+                ShowErrors = true;
+            }
         }
     }
+
+    public async Task Signout()
+    {
+        await AuthService.Logout();
+        NavigationManager.NavigateTo("/");
+    }
 }
+
+
+
+
+@*public async Task ShowLoginComponent()
+    {
+        var formModal = Modal.Show<SigninComponent>
+    ("Sign In");
+
+    var result = await formModal.Result;
+
+    if (!result.Cancelled)
+    {
+    var response = await HttpClient.PostJsonAsync($"api/user/signin", result.Data as LoginDTO);
+
+    try
+    {
+    response.EnsureSuccessStatusCode();
+
+    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+    var user = authState.User;
+
+    //if (user.Identity.IsAuthenticated)
+    //{
+    //    CurrentUser.IsAuthenticated = true;
+    //    CurrentUser.Name = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+    //    CurrentUser.Role = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+    //}
+
+    //var user = (await AuthState).User;
+
+    if (user.Identity.IsAuthenticated)
+    {
+    if (user.IsInRole("Administrator"))
+    {
+
+    }
+    }
+
+    }
+    catch (HttpRequestException httpRequestEx)
+    {
+    ErrorOccured = true;
+    ErrorMessage = "Ошибка при входе.";
+    }
+    }
+    }*@

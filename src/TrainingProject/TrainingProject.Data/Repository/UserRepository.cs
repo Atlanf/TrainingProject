@@ -38,6 +38,7 @@ namespace TrainingProject.Data.Repository
 
         public async Task<User> GetUserByEmailAsync(string email)
         {
+            return await _userManager.FindByNameAsync(email);
             return await _userManager.FindByEmailAsync(email);
         }
 

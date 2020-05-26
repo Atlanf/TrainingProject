@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TrainingProject.Domain.Logic.Models.User
 {
-    public class RegistrationDTO
+    public class RegisterDTO
     {
         [Required(ErrorMessage = "Укажите имя пользователя")]
         public string UserName { get; set; }

@@ -1,5 +1,25 @@
-﻿<h3>RegistrationComponent</h3>
+﻿
+<div>
+    <EditForm Model="registerModel" OnValidSubmit="Register">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <input class="form-group input-group" type="text" @bind-value="registerModel.UserName" />
+        <input class="form-group input-group" type="email" @bind-value="registerModel.Email" />
+        <input class="form-group input-group" type="password" @bind-value="registerModel.Password" />
+        <input class="form-group input-group" type="password" @bind-value="registerModel.ConfirmPassword" />
+
+        <input class="btn btn-success" type="submit" value="Register" />
+    </EditForm>
+</div>
 
 @code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
 
+    protected RegisterDTO registerModel { get; set; } = new RegisterDTO();
+
+    public void Register()
+    {
+        BlazoredModal.Close(ModalResult.Ok<RegisterDTO>(registerModel));
+    }
 }

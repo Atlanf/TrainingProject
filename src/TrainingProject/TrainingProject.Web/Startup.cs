@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +21,8 @@ using TrainingProject.Domain;
 using TrainingProject.Domain.Logic;
 using TrainingProject.Domain.Logic.Profiles;
 using TrainingProject.Domain.Models;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace TrainingProject.Web
 {
@@ -46,6 +49,20 @@ namespace TrainingProject.Web
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<Domain.AppDbContext>();
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidateAudience = true,
+                            ValidateLifetime = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidIssuer = Configuration["JwtIssuer"],
+                            ValidAudience = Configuration["JwtAudience"],
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSecurityKey"]))
+                        };
+                    });
 
             services.ConfigureApplicationCookie(opt =>
             {

@@ -8,7 +8,7 @@ namespace TrainingProject.Domain.Logic.Models.User
     public class LoginDTO
     {
         [Required(ErrorMessage = "Не указан Email")]
-        [EmailAddress]
+        //[EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 

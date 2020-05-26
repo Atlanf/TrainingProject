@@ -26,12 +26,14 @@ namespace TrainingProject.Web.Controllers
         {
             var result = await _testService.GetTestsByCategoryAsync();
             
-
-            return Ok(result);
-
-
-            return StatusCode(500);
-
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

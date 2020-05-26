@@ -77,7 +77,7 @@ namespace TrainingProject.Web.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(RegistrationDTO userModel)
+        public async Task<IActionResult> Register(RegisterDTO userModel)
         {
             var u = new Domain.Logic.Services.UserService(_mapper, _userRepository, _userManager);
 
@@ -104,21 +104,3 @@ namespace TrainingProject.Web.Controllers
     }
 }
 
-
-/* 
- {
-  "testId": 1,
-  "questionDescription": "Some kind of description",
-  "multipleAnswers": false,
-  "choices": [
-    "choice numba van",
-"choice numba too",
-"choice numba tree"
-  ],
-  "answers": [
-    1
-  ],
-  "userId": 1
-}
-     
-     */

@@ -42,6 +42,8 @@ namespace TrainingProject.Web.Controllers
         [HttpPost("finish")]
         public async Task<ActionResult<ResultDTO>> FinishTest(List<AnswerResultDTO> resultsModel)
         {
+
+
             return Ok();
         }
 

@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using TrainingProject.Client.Data;
 using Blazored.Modal;
 using Microsoft.AspNetCore.Components.Authorization;
+using TrainingProject.Client.Helpers;
+using Blazored.LocalStorage;
 
 namespace TrainingProject.Client
 {
@@ -37,8 +39,11 @@ namespace TrainingProject.Client
 
             services.AddBlazoredModal();
 
+            services.AddBlazoredLocalStorage();
             services.AddAuthorizationCore();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
+            
 
             services.AddScoped(_ =>
                 new HttpClient

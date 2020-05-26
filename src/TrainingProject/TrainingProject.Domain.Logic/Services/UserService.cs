@@ -45,26 +45,38 @@ namespace TrainingProject.Domain.Logic.Services
             }
         }
 
-        public async Task<IdentityResult> RegisterUser(RegistrationDTO userModel)
+        public async Task<RegisterResultDTO> RegisterUser(RegisterDTO userModel)
         {
             var user = _mapper.Map<User>(userModel);
             var result = await _userRepository.AddUserAsync(user, userModel.Password);
             if (result.Succeeded)
             {
-                return await _userRepository.AddRoleAsync(user, "Visitor");
+                await _userRepository.AddRoleAsync(user, "Visitor");
+                return new RegisterResultDTO { Successful = true };
             }
             else
             {
-                return result;
+                return new RegisterResultDTO
+                {
+                    Successful = false,
+                    Errors = result.Errors.Select(x => x.Description).ToList()
+                };
             }
+        }
+
+        public async Task<List<Claim>> GetListOfClaims(LoginDTO loginModel)
+        {
+            var user = await _userRepository.GetUserByEmailAsync(loginModel.Email);
+            var roles = await _userRepository.GetUserRolesAsync(user);
+
+            return GetClaims(user, roles);
         }
 
         private List<Claim> GetClaims(User user, IList<string> roles)
         {
             return new List<Claim>
                 {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Name, user.Email),
                     new Claim(ClaimTypes.Role, roles.FirstOrDefault())
                 };
         }

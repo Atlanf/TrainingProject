@@ -1,9 +1,10 @@
-﻿<div>
+﻿
+<div>
     <EditForm Model="loginModel" OnValidSubmit="Signin">
         <DataAnnotationsValidator />
         <ValidationSummary />
 
-        <input class="form-group input-group" type="email" @bind-value="loginModel.Email" />
+        <input class="form-group input-group" type="text" @bind-value="loginModel.Email" />
         <input class="form-group input-group" type="password" @bind-value="loginModel.Password" />
 
         @*<input type="checkbox" @bind-value="loginModel.RememberMe" />*@
