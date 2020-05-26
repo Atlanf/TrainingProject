@@ -29,7 +29,7 @@ namespace TrainingProject.Domain.Logic.Services
 
         public async Task<ClaimsIdentity> LoginUser(LoginDTO userModel)
         {
-            var user = await _userRepository.GetUserByEmailAsync(userModel.Email);
+            var user = await _userRepository.GetUserByNameAsync(userModel.UserName);
             var roles = await _userRepository.GetUserRolesAsync(user);
 
             if (user != null && await _userManager.CheckPasswordAsync(user, userModel.Password))
@@ -66,7 +66,7 @@ namespace TrainingProject.Domain.Logic.Services
 
         public async Task<List<Claim>> GetListOfClaims(LoginDTO loginModel)
         {
-            var user = await _userRepository.GetUserByEmailAsync(loginModel.Email);
+            var user = await _userRepository.GetUserByNameAsync(loginModel.UserName);
             var roles = await _userRepository.GetUserRolesAsync(user);
 
             return GetClaims(user, roles);
@@ -76,7 +76,7 @@ namespace TrainingProject.Domain.Logic.Services
         {
             return new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, user.Email),
+                    new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(ClaimTypes.Role, roles.FirstOrDefault())
                 };
         }

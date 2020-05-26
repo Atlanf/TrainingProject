@@ -1,0 +1,15 @@
+﻿@page "/Result/"
+@page "/Result/{userName}/"
+@page "/Result/{userName}/{testName}/"
+
+<h3>Result</h3>
+
+@code {
+    [Parameter]
+    public string UserName { get; set; }
+
+    [Parameter]
+    public string TestName { get; set; }
+
+
+}

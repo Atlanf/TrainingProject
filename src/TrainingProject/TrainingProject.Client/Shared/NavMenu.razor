@@ -22,23 +22,23 @@
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
             </NavLink>
         </li>
-        @*<AuthorizeView Roles="Administrator">*@
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="admin/questions">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Managing questions
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="admin/category">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Add new category
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="admin/test">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Add new test
-            </NavLink>
-        </li>
-        @*</AuthorizeView>*@
+        <AuthorizeView Roles="Administrator">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="admin/questions">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Managing questions
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="admin/category">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Add new category
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="admin/test">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Add new test
+                </NavLink>
+            </li>
+        </AuthorizeView>
     </ul>
 </div>
 

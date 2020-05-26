@@ -18,5 +18,6 @@ namespace TrainingProject.Data.Interfaces
         Task<IdentityResult> AddRoleAsync(User user, string role);
         Task<User> GetUserByEmailAsync(string email);
         Task<bool> IsUserExist(User user);
+        Task<User> GetUserByNameAsync(string name);
     }
 }

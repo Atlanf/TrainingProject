@@ -1,5 +1,13 @@
 ﻿@inject HttpClient HttpClient
 
+@if (Success)
+{
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Success!</h4>
+        <p>New category has been added.</p>
+    </div>
+}
+
 <EditForm Model="categoryModel" OnValidSubmit="CreateCategory">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -18,22 +26,25 @@
 
 @code {
     protected bool ErrorOccured { get; set; } = false;
+    protected bool Success { get; set; } = false;
 
     public CreateCategoryDTO categoryModel { get; set; } = new CreateCategoryDTO();
 
     public async Task CreateCategory()
     {
+        Success = false;
+
         var response = await HttpClient.PostJsonAsync("api/Admin/category/create", categoryModel);
 
         try
         {
             response.EnsureSuccessStatusCode();
+            Success = true;
         }
         catch (HttpRequestException ex)
         {
             ErrorOccured = true;
             return;
         }
-
     }
 }

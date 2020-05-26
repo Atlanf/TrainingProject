@@ -10,15 +10,10 @@
     <h3>@TestInfo.Name</h3>
 
     <h2>@TestInfo.QuestionsApproved</h2>
-
-    <button @onclick="@(() => RedirectTo("test"))">Начать тест</button>
-    <button @onclick="@(() => ShowCreatingDialog())">Добавить вопрос</button>
-    @*<button @onclick="@(() => RedirectTo("create"))">Добавить вопрос</button>
-    <button @onclick="@ShowCreatingDialog">Добавить вопрос</button>
-    if (createQuestionDialog)
-    {
-        <CreateQuestionDialogComponent TestId="@TestInfo.TestId.ToString()"></CreateQuestionDialogComponent>
-    }*@
+    <AuthorizeView Roles="Visitor,Administrator">
+        <button @onclick="@(() => RedirectTo("test"))">Start Test</button>
+        <button @onclick="@(() => ShowCreatingDialog())">Add new question</button>
+    </AuthorizeView>
 }
 else
 {

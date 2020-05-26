@@ -13,9 +13,9 @@ using TrainingProject.Domain.Logic.Models.Test;
 
 namespace TrainingProject.Web.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Administrator")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;

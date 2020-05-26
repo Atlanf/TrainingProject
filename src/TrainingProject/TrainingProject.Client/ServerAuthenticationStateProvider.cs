@@ -41,38 +41,10 @@ namespace TrainingProject.Client
 
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(ParseClaimsFromJwt(savedToken), "jwt")));
         }
-        //public async override Task<AuthenticationState> GetAuthenticationStateAsync()
-        //{
-        //    var response = await _httpClient.GetAsync($"api/user/user");
-        //    try
-        //    {
-        //        response.EnsureSuccessStatusCode();
-        //    }
-        //    catch (HttpRequestException ex)
-        //    {
-        //        return null;//new AuthenticationState(new ClaimsPrincipal());
-        //    }
 
-        //    var userInfo = await response.Content.ReadAsJsonAsync<UserInfo>();
-
-        //    var identity = userInfo.IsAuthenticated
-        //        ? new ClaimsIdentity(new[]
-        //            {
-        //                new Claim(ClaimTypes.Name, userInfo.Name),
-        //                new Claim(ClaimTypes.Role, userInfo.Role)
-        //            }, "serverauth")
-        //        : new ClaimsIdentity();
-
-        //    //var authState = Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity)));
-
-        //    //NotifyAuthenticationStateChanged(authState);
-
-        //    return new AuthenticationState(new ClaimsPrincipal(identity));
-        //}
-
-        public void MarkUserAsAuthenticated(string email)
+        public void MarkUserAsAuthenticated(string userName)
         {
-            var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, email) }, "apiauth"));
+            var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, userName) }, "apiauth"));
             var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
             NotifyAuthenticationStateChanged(authState);
         }

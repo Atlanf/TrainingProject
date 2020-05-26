@@ -41,7 +41,7 @@ namespace TrainingProject.Client.Helpers
             }
 
             await _localStorage.SetItemAsync("authToken", loginResult.Token);
-            ((ServerAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.Email);
+            ((ServerAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.UserName);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResult.Token);
 
             return loginResult;

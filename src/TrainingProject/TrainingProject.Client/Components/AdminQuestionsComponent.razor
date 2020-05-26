@@ -20,25 +20,41 @@
     </div>
 </div>
 
-@foreach(var q in QuestionList)
+@if (AllQuestions != null)
 {
-    <div>
-        @{
-            int index = q.QuestionId;
-        }
-        <div>@q.QuestionId</div>
-        <div>@q.TestName</div>
-        <div>@q.Description</div>
-        <input type="radio" name="question" id="Approve" @onchange="(() => OnChangeValue(index, 'a'))" />
-        <label for="Approve">Approve</label>
-        <input type="radio" name="question" id="Delete" value="Delete" @onchange="(() => OnChangeValue(index, 'd'))" />
-        <label for="Delete">Delete</label>
-        <input type="submit" value="OK" @onclick="UpdateQuestion" />
+    foreach (var q in QuestionList)
+    {
+        <div>
+            <form >
+                @{
+                    int index = q.QuestionId;
+                }
+                <div>@q.QuestionId</div>
+                <div>@q.TestName</div>
+                <div>@q.Description</div>
+                <input type="radio" name="question" id="Approve" @onchange="(() => OnChangeValue(index, 'a'))" />
+                <label for="Approve">Approve</label>
+                <input type="radio" name="question" id="Delete" value="Delete" @onchange="(() => OnChangeValue(index, 'd'))" />
+                <label for="Delete">Delete</label>
+                <input type="submit" value="OK" @onclick="UpdateQuestion" />
+            </form>
+        </div>
+        <br />
+    }
+}
+else
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
-    <br />
 }
 
 @code {
+    private int _currentPage { get; set; } = 0;
+    private int _pageSize { get; set; } = 10;
+
     public List<QuestionToApproveDTO> AllQuestions = new List<QuestionToApproveDTO>();
     public List<QuestionToApproveDTO> QuestionList = new List<QuestionToApproveDTO>();
 
@@ -46,7 +62,6 @@
 
     protected bool ErrorOccured { get; set; } = false;
     protected string ErrorMessage { get; set; } = "";
-
 
     private List<string> QuestionCategories { get; set; }
 

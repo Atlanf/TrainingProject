@@ -1,5 +1,13 @@
 ﻿@inject HttpClient HttpClient
 
+@if (Success)
+{
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Success!</h4>
+        <p>New test has been added.</p>
+    </div>
+}
+
 <EditForm Model="testModel" OnValidSubmit="CreateTest">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -53,6 +61,7 @@
 
 
 @code {
+    protected bool Success { get; set; } = false;
     protected bool ErrorOccured { get; set; } = false;
     protected List<TestCategoryDTO> categories { get; set; }
 
@@ -77,11 +86,13 @@
 
     protected async Task CreateTest()
     {
+        Success = false;
         var response = await HttpClient.PostJsonAsync("api/Admin/test/create", testModel);
 
         try
         {
             response.EnsureSuccessStatusCode();
+            Success = true;
         }
         catch (HttpRequestException ex)
         {

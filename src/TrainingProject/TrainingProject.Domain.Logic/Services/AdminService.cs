@@ -29,7 +29,6 @@ namespace TrainingProject.Domain.Logic.Services
         {
             var dbQuestion = await _quesitonRepository.GetQuestionAsync(question.QuestionId);
 
-            /*Add mapper (?)*/
             if (dbQuestion != null)
             {
                 dbQuestion.IsApproved = question.QuestionApproved;

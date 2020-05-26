@@ -57,7 +57,7 @@ namespace TrainingProject.Web.Controllers
         [HttpPost("signin")]
         public async Task<IActionResult> SignIn(LoginDTO loginModel)
         {
-            var result = await _signInManager.PasswordSignInAsync(loginModel.Email, loginModel.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(loginModel.UserName, loginModel.Password, false, false);
 
             if (!result.Succeeded)
             {
