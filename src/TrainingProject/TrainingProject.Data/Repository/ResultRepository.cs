@@ -59,6 +59,9 @@ namespace TrainingProject.Data.Repository
         public async Task<Result> GetResultAsync(string userId, int testId)
         {
             //return await _context.Results
+            //    .Where(r => r.UserId)
+
+            //return await _context.Results
             //    .Where(r => r.UserId == userId && r.TestId == testId && r.TestFinished)
             //    .LastOrDefaultAsync();
 

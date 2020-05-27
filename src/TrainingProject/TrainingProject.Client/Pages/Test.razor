@@ -3,17 +3,18 @@
 
 @inject HttpClient HttpClient
 @inject IJSRuntime JSRuntime
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor ContextAccessor
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
 
 <h3>Test</h3>
 
 @if (TestQuestions != null)
 {
     @*for (int i = 0; i < TestQuestions.Count; i++)
-    {
-        int pageIndex = i + 1;
-        <button value="@pageIndex" @onclick="(() => _currentPage = pageIndex)">@pageIndex</button>
-    }*@
+        {
+            int pageIndex = i + 1;
+            <button value="@pageIndex" @onclick="(() => _currentPage = pageIndex)">@pageIndex</button>
+        }*@
     int index = 0;
 
     @*<QuestionComponent QuestionModel="TestQuestions[_currentPage - 1]" ComponentId="_currentPage - 1" OnAnswer="AnswerQuestion" />*@
@@ -35,10 +36,12 @@ else
 }
 
 @code {
+    [CascadingParameter] Task<AuthenticationState> AuthState { get; set; }
+
     [Parameter]
     public string TestId { get; set; }
 
-    public string UserName { get; set; }
+    private string UserName { get; set; }
 
     public List<QuestionDTO> TestQuestions { get; set; }
 
@@ -55,7 +58,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-
         var response = await HttpClient.GetAsync($"api/Test/{TestId}");
         try
         {
@@ -98,8 +100,13 @@ else
 
     protected async Task FinishTest()
     {
+        ResultingAnswers = new UserAnswersDTO();
         ResultingAnswers.TestId = Convert.ToInt32(TestId);
-        ResultingAnswers.UserName = ContextAccessor.HttpContext.User.Identity.Name;
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        ResultingAnswers.UserName = user.Identity.Name;
+
         ResultingAnswers.UserAnswers = UserAnswers;
 
         var response = await HttpClient.PostJsonAsync($"api/test/finish", ResultingAnswers);
@@ -107,7 +114,8 @@ else
         try
         {
             response.EnsureSuccessStatusCode();
-
+            var resultInfo = await response.Content.ReadAsJsonAsync<ResultDTO>();
+            NavigationManager.NavigateTo($"result/{resultInfo.UserName}/{resultInfo.TestShortName}", false);
         }
         catch (HttpRequestException ex)
         {

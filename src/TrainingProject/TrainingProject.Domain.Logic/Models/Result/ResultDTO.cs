@@ -11,6 +11,7 @@ namespace TrainingProject.Domain.Logic.Models.Result
         public int CorrectAnswers { get; set; }
         public int TotalQuestions { get; set; }
         public bool TestFinished { get; set; }
-
+        public string UserName { get; set; }
+        public string TestShortName { get; set; }
     }
 }

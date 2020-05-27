@@ -22,7 +22,7 @@ namespace TrainingProject.Domain
         public AppDbContext(DbContextOptions<AppDbContext> options) : base (options)
         {
             this.ChangeTracker.LazyLoadingEnabled = false;
-            //Database.EnsureDeleted();
+           // Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

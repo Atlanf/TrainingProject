@@ -46,12 +46,7 @@ namespace TrainingProject.Web.Controllers
 
             if (result != null)
             {
-                var shortName = await _testService.GetShortNameAsync(result.TestId);
-                if (string.IsNullOrWhiteSpace(shortName))
-                {
-                    return Problem("Something went wrong on getting test result.");
-                }
-                return Redirect($"~/{answersModel.UserName}/{shortName}");
+                return Ok(result);
             }
             else
             {

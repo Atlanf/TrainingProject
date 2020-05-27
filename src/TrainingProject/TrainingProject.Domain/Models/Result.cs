@@ -15,7 +15,7 @@ namespace TrainingProject.Domain.Models
         public int? TestId { get; set; }
         public Test Test { get; set; }
 
-        public int? UserId { get; set; }
+        public string UserId { get; set; }
         public User User { get; set; }
     }
 }

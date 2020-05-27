@@ -39,6 +39,8 @@ namespace TrainingProject.Client
 
             services.AddBlazoredModal();
 
+            services.AddHttpContextAccessor();
+
             services.AddBlazoredLocalStorage();
             services.AddAuthorizationCore();
             services.AddScoped<IAuthService, AuthService>();

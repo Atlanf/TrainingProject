@@ -87,7 +87,7 @@ namespace TrainingProject.Domain.Logic.Profiles
                 .ForMember(q => q.DateFinished, opt => opt.MapFrom(x => x.DateFinished))
                 .ForMember(q => q.TestFinished, opt => opt.MapFrom(x => x.TestFinished))
                 .ForMember(q => q.TestId, opt => opt.MapFrom(x => x.TestId))
-                .ForMember(q => q.TotalQuestions, opt => opt.Ignore());
+                .ForAllOtherMembers(q => q.Ignore());
         }
     }
 }

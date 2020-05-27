@@ -85,8 +85,8 @@ namespace TrainingProject.Domain.Logic.Services
         public async Task<ResultDTO> FinishTestAsync(UserAnswersDTO answersModel)
         {
             int correctAnswers = CountCorrectAnswers(answersModel.UserAnswers);
-            var result = new Result();
             var resultInfo = new ResultDTO();
+            var result = new Result();
 
             try
             {
@@ -99,7 +99,10 @@ namespace TrainingProject.Domain.Logic.Services
                 await _resultRepository.AddResultAsync(result);
 
                 resultInfo = _mapper.Map<ResultDTO>(result);
+                resultInfo.TotalQuestions = answersModel.UserAnswers.Count;
                 resultInfo.CorrectAnswers = correctAnswers;
+                resultInfo.TestShortName = await _testRepository.GetTestMinimizedNameAsync(answersModel.TestId);
+                resultInfo.UserName = answersModel.UserName;
             }
             catch (Exception ex)
             {
