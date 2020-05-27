@@ -22,23 +22,52 @@
 
 @if (AllQuestions != null)
 {
+    if (AllQuestions.Count == 0)
+    {
+        <h3 class="content h2">Right now there's no questions to approve</h3>
+    }
     foreach (var q in QuestionList)
     {
-        <div>
-            <form >
-                @{
-                    int index = q.QuestionId;
-                }
-                <div>@q.QuestionId</div>
-                <div>@q.TestName</div>
-                <div>@q.Description</div>
-                <input type="radio" name="question" id="Approve" @onchange="(() => OnChangeValue(index, 'a'))" />
-                <label for="Approve">Approve</label>
-                <input type="radio" name="question" id="Delete" value="Delete" @onchange="(() => OnChangeValue(index, 'd'))" />
-                <label for="Delete">Delete</label>
-                <input type="submit" value="OK" @onclick="UpdateQuestion" />
-            </form>
-        </div>
+        <form>
+            <div class="shadow p-4 mb-4 bg-white">
+                <div class="container-fluid">
+                    @{
+                        int index = q.QuestionId;
+                    }
+                    <div class="text-justify">
+                        <h3 class="content h3">@q.TestName</h3>
+                    </div>
+                    <div class="text-justify">
+                        @q.Description
+                    </div>
+                    <br />
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <ul class="list-group">
+                                    @foreach (var choice in q.Choices)
+                                    {
+                                        <li class="list-group-item">
+                                            @choice
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <label for="Approve">Approve</label>
+                    <input type="radio" name="question" id="Approve" @onchange="(() => OnChangeValue(index, 'a'))" />
+                    <label for="Delete">Delete</label>
+                    <input type="radio" name="question" id="Delete" value="Delete" @onchange="(() => OnChangeValue(index, 'd'))" />
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <input class="btn btn-primary" type="submit" value="OK" @onclick="UpdateQuestion" />
+                    </div>
+                </div>
+            </div>
+        </form>
+
         <br />
     }
 }

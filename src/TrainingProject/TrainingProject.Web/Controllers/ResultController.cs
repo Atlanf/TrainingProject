@@ -22,9 +22,15 @@ namespace TrainingProject.Web.Controllers
             _resultService = resultService;
         }
 
-        [HttpGet("best")]
-        public async Task<ActionResult<ResultDTO>> GetBestResult(ResultRequestDTO resultModel)
+        [HttpGet("best/{userName}/{testName}")]
+        public async Task<ActionResult<ResultDTO>> GetBestResult(string userName, string testName)
         {
+            var resultModel = new ResultRequestDTO()
+            {
+                UserName = userName,
+                TestName = testName
+            };
+
             var result = await _resultService.GetBestResultAsync(resultModel);
 
             if (result != null)
@@ -37,6 +43,8 @@ namespace TrainingProject.Web.Controllers
             }
         }
 
+
+        /*testName - minimized name*/
         [HttpGet("minimized/{userName}/{testName}")]
         public async Task<ActionResult<MinimizedResultDTO>> GetMinimizedResult(string userName, string testName)
         {

@@ -6,25 +6,16 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
 
-<h3>Test</h3>
-
 @if (TestQuestions != null)
 {
-    @*for (int i = 0; i < TestQuestions.Count; i++)
-        {
-            int pageIndex = i + 1;
-            <button value="@pageIndex" @onclick="(() => _currentPage = pageIndex)">@pageIndex</button>
-        }*@
     int index = 0;
 
-    @*<QuestionComponent QuestionModel="TestQuestions[_currentPage - 1]" ComponentId="_currentPage - 1" OnAnswer="AnswerQuestion" />*@
-
-    foreach (var question in TestQuestions)
+    @foreach (var question in TestQuestions)
     {
         <QuestionComponent QuestionModel="question" ComponentId="index++" OnAnswer="AnswerQuestion" />
     }
     <button class="btn btn-primary" @onclick="FinishTest">Finish</button>
-    <label>@_currentPage</label>
+    <br />
 }
 else
 {
@@ -87,15 +78,14 @@ else
     protected async Task AnswerQuestion(HelperAnswerResult answerModel)
     {
         UserAnswers[answerModel.QuestionPosition] = answerModel.AnswerResult;
-        if (_currentPage < TestQuestions.Count)
-        {
-            _currentPage++;
-        }
-        else
-        {
-            // Call modal form with submit to finish test
-            await FinishTest();
-        }
+        //if (_currentPage < TestQuestions.Count)
+        //{
+        //    _currentPage++;
+        //}
+        //else
+        //{
+        //    await FinishTest();
+        //}
     }
 
     protected async Task FinishTest()
@@ -121,8 +111,5 @@ else
         {
             ErrorOccured = true;
         }
-
-
-        // POST
     }
 }

@@ -4,16 +4,24 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
 
-        <label class="col-form-label font-weight-bolder" for="UserName">Your User Name</label>
-        <input class="form-group input-group" type="text" id="UserName" @bind-value="registerModel.UserName" />
-        <label class="col-form-label font-weight-bolder" for="Email">Your Email</label>
-        <input class="form-group input-group" type="email" id="Email" @bind-value="registerModel.Email" />
-        <label class="col-form-label font-weight-bolder" for="Password">Password</label>
-        <input class="form-group input-group" type="password" id="Password" @bind-value="registerModel.Password" />
-        <label class="col-form-label font-weight-bolder" for="Confirm">Confirm password</label>
-        <input class="form-group input-group" type="password" id="Confirm" @bind-value="registerModel.ConfirmPassword" />
-
-        <input class="btn btn-success" type="submit" value="Register" />
+        <div class="form-group">
+            <label for="UserName">Your User Name</label>
+            <input class="form-group input-group" type="text" id="UserName" placeholder="User name" @bind-value="registerModel.UserName" />
+        </div>
+        <div class="form-group">
+            <label for="Email">Your Email</label>
+            <input class="form-group input-group" type="email" id="Email" placeholder="Email" @bind-value="registerModel.Email" />
+        </div>
+        <div class="form-group">
+            <label for="Password">Password</label>
+            <input class="form-group input-group" type="password" id="Password" placeholder="Password" @bind-value="registerModel.Password" />
+        </div>
+        <div class="form-group">
+            <label for="Confirm">Confirm password</label>
+            <input class="form-group input-group" type="password" id="Confirm" placeholder="Confirm" @bind-value="registerModel.ConfirmPassword" />
+        </div>
+        <div class="form-group row"></div>
+        <input class="btn btn-block btn-primary" type="submit" value="Register" />
     </EditForm>
 </div>
 

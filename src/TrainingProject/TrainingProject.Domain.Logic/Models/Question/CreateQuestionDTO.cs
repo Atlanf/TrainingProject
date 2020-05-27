@@ -12,23 +12,23 @@ namespace TrainingProject.Domain.Logic.Models.Question
         public int TestId { get; set; }
         public int UserId { get; set; }
 
-        [Required(ErrorMessage = "Введите, пожалуйста, вопрос")]
-        [MinLength(25, ErrorMessage = "Длина вопроса вопроса должна быть не менее 25 символов.")]
-        [MaxLength(255, ErrorMessage = "Длина вопроса вопроса должна быть не более 255 символов.")]
+        [Required(ErrorMessage = "Enter the question")]
+        [MinLength(25, ErrorMessage = "Question must be larger than 25 characters.")]
+        [MaxLength(255, ErrorMessage = "Question must be shorter than 255 characters.")]
         public string QuestionDescription { get; set; }
         public bool MultipleAnswers { get; set; } = false;
         public IFormFile QuestionImage { get; set; }
 
-        [Required(ErrorMessage = "Укажите, пожалуйста, варианты ответа.")]
-        [MinLength(2, ErrorMessage = "В вопросе должно быть не менее 2 вариантов ответа.")]
-        [MaxLength(6, ErrorMessage = "В вопросе должно быть не более 6 вариантов ответа.")]
-        [EnsureListIsNotEmpty(ErrorMessage = "Требуется заполнить все поля")]
-        [EnsureNoForbiddenCharacters(ErrorMessage = "Символ \" | \" является запрещенным.")]
+        [Required(ErrorMessage = "Enter choices.")]
+        [MinLength(2, ErrorMessage = "There's must be more than 2 choices.")]
+        [MaxLength(6, ErrorMessage = "There's must be more than 4 choices.")]
+        [EnsureListIsNotEmpty(ErrorMessage = "All fields should be filled.")]
+        [EnsureNoForbiddenCharacters(ErrorMessage = "Symbol \" | \" is forbidden.")]
         public IList<string> Choices { get; set; }
 
-        [Required(ErrorMessage = "Укажите, пожалуйста, верные варианты ответа.")]
-        [MinLength(1, ErrorMessage = "В вопросе должно быть не менее 1 верного варианта ответа.")]
-        [MaxLength(6, ErrorMessage = "В вопросе должно быть не более 6 верных вариантов ответа.")]
+        [Required(ErrorMessage = "Choose the answer.")]
+        [MinLength(1, ErrorMessage = "There's must be more at least 1 answer.")]
+        [MaxLength(6, ErrorMessage = "There's must be less than 4 answers.")]
         public IList<int> Answers { get; set; }    
     }
 }

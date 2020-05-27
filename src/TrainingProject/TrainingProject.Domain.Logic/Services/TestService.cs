@@ -157,7 +157,7 @@ namespace TrainingProject.Domain.Logic.Services
 
         private bool SetFinishedTestResult(int totalQuestions, int correctAnswers)
         {
-            int percentage = (totalQuestions / correctAnswers) * 100;
+            int percentage = (correctAnswers / totalQuestions) * 100;
             return percentage >= 50 ? true : false;
         }
     }

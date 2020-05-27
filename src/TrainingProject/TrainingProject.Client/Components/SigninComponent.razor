@@ -1,22 +1,20 @@
-﻿<EditForm Model="loginModel" OnValidSubmit="Signin">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <div class="form-group row">
-        <label class="col-form-label font-weight-bolder" for="UserName">User Name</label>
-        <div class="col-sm-10">
-            <input class="form-group input-group" type="text" id="UserName" @bind-value="loginModel.UserName" />
+﻿<div>
+    <EditForm Model="loginModel" OnValidSubmit="Signin">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label for="UserName">User Name</label>
+            <input class="form-control" type="text" id="UserName" placeholder="User name" @bind-value="loginModel.UserName" />
         </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-form-label font-weight-bolder" for="Password">Password</label>
-        <div class="col-sm-10">
-            <input class="form-group input-group" type="password" id="Password" @bind-value="loginModel.Password" />
+        <div class="form-group">
+            <label for="Password">Password</label>
+            <input class="form-control" type="password" id="Password" placeholder="Password" @bind-value="loginModel.Password" />
         </div>
-    </div>
-    <div class="form-group row">
-        <input class="btn btn-success" type="submit" value="Войти" />
-    </div>
-</EditForm>
+        <div class="form-group row">
+            <input class="btn btn-block btn-primary" type="submit" value="Sign In" />
+        </div>
+    </EditForm>
+</div>
 
 @code {
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
