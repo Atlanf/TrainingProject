@@ -2,6 +2,8 @@
 
 @inject HttpClient HttpClient
 
+@attribute [Authorize(Roles = "Administrator")]
+
 <div class="input-group mb-3">
     <input type="text" class="form-control" placeholder="Search by test name" @bind-value="_searchTerm" aria-describedby="basic-addon-2" />
     <div class="input-group-append btn-group">

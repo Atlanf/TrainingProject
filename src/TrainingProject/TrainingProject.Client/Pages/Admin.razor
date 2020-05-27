@@ -1,6 +1,8 @@
 ﻿@page "/admin"
 @page "/admin/{pageType}"
 
+@attribute [Authorize(Roles ="Administrator")]
+
 @using TrainingProject.Client.Components;
 
 @if (PageType == "questions")

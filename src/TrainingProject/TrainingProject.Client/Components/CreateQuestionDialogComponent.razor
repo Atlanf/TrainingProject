@@ -1,5 +1,7 @@
 ﻿@inject HttpClient HttpClient
 
+@attribute [Authorize]
+
 <div>
     <div class="">
         <EditForm Model="questionModel" OnValidSubmit="CreateQuestion">
@@ -45,14 +47,14 @@
                 }
 
                 @*@if (questionModel.Choices != null && questionModel.Answers != null)
-                {
-                    for (int i = 0; i < questionModel.Choices.Count; i++)
                     {
-                        int index = i;
-                        <input type="@_controlType" name="answer" @onchange="(() => OnChangeAnswer(index, _controlType))" />
-                        <input type="text" @bind-value="questionModel.Choices[index]" />
-                    }
-                }*@
+                        for (int i = 0; i < questionModel.Choices.Count; i++)
+                        {
+                            int index = i;
+                            <input type="@_controlType" name="answer" @onchange="(() => OnChangeAnswer(index, _controlType))" />
+                            <input type="text" @bind-value="questionModel.Choices[index]" />
+                        }
+                    }*@
                 <br />
 
                 <div class="form-group row">

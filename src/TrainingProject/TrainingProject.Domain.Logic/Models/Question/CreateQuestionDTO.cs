@@ -27,7 +27,7 @@ namespace TrainingProject.Domain.Logic.Models.Question
         public IList<string> Choices { get; set; }
 
         [Required(ErrorMessage = "Choose the answer.")]
-        [MinLength(1, ErrorMessage = "There's must be more at least 1 answer.")]
+        [MinLength(1, ErrorMessage = "There's must be at least 1 answer.")]
         [MaxLength(6, ErrorMessage = "There's must be less than 4 answers.")]
         public IList<int> Answers { get; set; }    
     }

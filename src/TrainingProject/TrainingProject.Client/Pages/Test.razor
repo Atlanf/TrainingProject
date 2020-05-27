@@ -6,6 +6,8 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
 
+@attribute [Authorize]
+
 @if (TestQuestions != null)
 {
     int index = 0;
