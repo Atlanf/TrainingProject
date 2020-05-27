@@ -88,6 +88,11 @@ namespace TrainingProject.Domain.Logic.Profiles
                 .ForMember(q => q.TestFinished, opt => opt.MapFrom(x => x.TestFinished))
                 .ForMember(q => q.TestId, opt => opt.MapFrom(x => x.TestId))
                 .ForAllOtherMembers(q => q.Ignore());
+
+            CreateMap<Result, MinimizedResultDTO>()
+                .ForMember(q => q.CorrectAnswers, opt => opt.MapFrom(x => x.CorrectAnswers))
+                .ForMember(q => q.TestFinished, opt => opt.MapFrom(x => x.TestFinished))
+                .ForMember(q => q.TotalQuestions, opt => opt.Ignore());
         }
     }
 }

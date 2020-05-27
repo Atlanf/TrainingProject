@@ -4,7 +4,19 @@
 
 @inject HttpClient HttpClient
 
-<h3>Result</h3>
+<div>
+    <p><h3>Thanks for finishing @MinimizedResultDTO.TestName test!</h3></p>
+    <p>Your score is @MinimizedResultDTO.CorrectAnswers / @MinimizedResultDTO.TotalQuestions</p>
+    
+    @if (MinimizedResultDTO.TestFinished)
+    {
+        <p>With such score you have successfully finished it!</p>
+    }
+    else
+    {
+        <p>Sorry, but this is not enough to finish this test. Try again.</p>
+    }
+</div>
 
 @code {
     [Parameter]
@@ -13,7 +25,25 @@
     [Parameter]
     public string TestName { get; set; }
 
+    private bool ErrorOccured { get; set; } = false;
+
+    private MinimizedResultDTO MinimizedResultDTO { get; set; } = new MinimizedResultDTO();
+
     protected override async Task OnInitializedAsync()
     {
+        ErrorOccured = false;
+
+        var response = await HttpClient.GetAsync($"api/result/minimized/{UserName}/{TestName}");
+
+        try
+        {
+            response.EnsureSuccessStatusCode();
+
+            MinimizedResultDTO = await response.Content.ReadAsJsonAsync<MinimizedResultDTO>();
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorOccured = true;
+        }
     }
 }

@@ -56,16 +56,28 @@ namespace TrainingProject.Data.Repository
             throw new NotImplementedException();
         }
         
+        public async Task<Result> GetBestResultAsync(string userId, int testId)
+        {
+            return await _context.Results
+                .Where(r => r.UserId == userId && r.TestId == testId && r.TestFinished)
+                .OrderByDescending(r => r.CorrectAnswers)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<Result> GetResultAsync(string userId, int testId)
         {
-            //return await _context.Results
-            //    .Where(r => r.UserId)
+            return await _context.Results
+                .Where(r => r.UserId == userId && r.TestId == testId && r.TestFinished)
+                .OrderByDescending(r => r.CorrectAnswers)
+                .FirstOrDefaultAsync();
+        }
 
-            //return await _context.Results
-            //    .Where(r => r.UserId == userId && r.TestId == testId && r.TestFinished)
-            //    .LastOrDefaultAsync();
-
-            return null;
+        public async Task<Result> GetLastResultAsync(string userId, int testId)
+        {
+            return await _context.Results
+                .Where(r => r.UserId == userId && r.TestId == testId)
+                .OrderByDescending(r => r.DateFinished)
+                .FirstOrDefaultAsync();
         }
     }
 }

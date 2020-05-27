@@ -9,7 +9,9 @@ namespace TrainingProject.Data.Interfaces
     public interface IResultRepository
     {
         Task<Result> AddResultAsync(Result result);
+        Task<Result> GetBestResultAsync(string userId, int testId);
         Task<Result> GetResultAsync(string userId, int testId);
+        Task<Result> GetLastResultAsync(string userId, int testId);
 
         Result Get(int id);
         IEnumerable<Result> GetAll();
