@@ -86,11 +86,20 @@
     private bool _filter = false;
     private bool _search = false;
 
+    private bool ErrorOccured { get; set; } = false;
+
     protected async override Task OnInitializedAsync()
     {
         var response = await HttpClient.GetAsync($"api/Index");
 
-        response.EnsureSuccessStatusCode();
+        try
+        {
+            response.EnsureSuccessStatusCode();
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorOccured = true;
+        }
 
         testCategoryList = await response.Content.ReadAsJsonAsync<List<TestCategoryDTO>>();
 

@@ -18,12 +18,20 @@ namespace TrainingProject.Domain.Logic.Services
         private readonly IMapper _mapper;
         private readonly ITestRepository _testRepository;
         private readonly IQuestionRepository _questionRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IResultRepository _resultRepository;
 
-        public TestService(IMapper mapper, ITestRepository testRepository, IQuestionRepository questionRepository)
+        public TestService( IMapper mapper,
+                            ITestRepository testRepository,
+                            IQuestionRepository questionRepository,
+                            IUserRepository userRepository,
+                            IResultRepository resultRepository)
         {
             _mapper = mapper;
             _testRepository = testRepository;
             _questionRepository = questionRepository;
+            _userRepository = userRepository;
+            _resultRepository = resultRepository;
         }
 
         public async Task<TestDetailsDTO> GetTestDetailsAsync(string shortName)
@@ -74,9 +82,36 @@ namespace TrainingProject.Domain.Logic.Services
             return result;
         }
 
-        public async Task<ResultDTO> FinishTestAsync()
+        public async Task<ResultDTO> FinishTestAsync(UserAnswersDTO answersModel)
         {
-            return null;
+            int correctAnswers = CountCorrectAnswers(answersModel.UserAnswers);
+            var result = new Result();
+            var resultInfo = new ResultDTO();
+
+            try
+            {
+                result.User = await _userRepository.GetUserByNameAsync(answersModel.UserName);
+                result.Test = await _testRepository.GetAsync(answersModel.TestId);
+                result.DateFinished = DateTime.UtcNow;
+                result.CorrectAnswers = correctAnswers;
+                result.TestFinished = SetFinishedTestResult(answersModel.UserAnswers.Count, correctAnswers);
+
+                await _resultRepository.AddResultAsync(result);
+
+                resultInfo = _mapper.Map<ResultDTO>(result);
+                resultInfo.CorrectAnswers = correctAnswers;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+            return resultInfo;
+        }
+
+        public async Task<string> GetShortNameAsync(int testId)
+        {
+            return await _testRepository.GetTestMinimizedNameAsync(testId);
         }
 
         private List<Question> GetRandomQuestions(List<Question> questions, int maxQuestions)
@@ -110,6 +145,17 @@ namespace TrainingProject.Domain.Logic.Services
             }
 
             return result;
+        }
+
+        private int CountCorrectAnswers(List<AnswerResultDTO> answerResults)
+        {
+            return answerResults.Where(a => a.IsCorrect).Count();
+        }
+
+        private bool SetFinishedTestResult(int totalQuestions, int correctAnswers)
+        {
+            int percentage = (totalQuestions / correctAnswers) * 100;
+            return percentage >= 50 ? true : false;
         }
     }
 }

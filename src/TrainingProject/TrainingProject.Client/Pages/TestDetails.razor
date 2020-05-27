@@ -27,11 +27,20 @@ else
 
     private bool createQuestionDialog = false;
 
+    private bool ErrorOccured { get; set; } = false;
+
     protected override async Task OnInitializedAsync()
     {
         var response = await HttpClient.GetAsync($"api/TestDetails/{ShortName}");
 
-        response.EnsureSuccessStatusCode();
+        try
+        {
+            response.EnsureSuccessStatusCode();
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorOccured = true;
+        }
 
         TestInfo = await response.Content.ReadAsJsonAsync<TestDetailsDTO>();
     }
@@ -65,9 +74,4 @@ else
         response.EnsureSuccessStatusCode();
     }
 
-    /* Структура страницы
-     * Описание теста, количество вопросов, текущий статус для пользователя(?), кнопка "пройти тест", кнопка "добавить вопрос"
-     * При нажатии "Пройти тест страница ререндерится в список вопросов.
-     * Решить: структура теста (количество вопросов, как они размещены)"
-     */
 }

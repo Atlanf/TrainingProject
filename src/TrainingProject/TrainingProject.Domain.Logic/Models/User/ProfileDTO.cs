@@ -12,7 +12,5 @@ namespace TrainingProject.Domain.Logic.Models.User
 
         [EmailAddress]
         public string Email { get; set; }
-
-        // List of results; profile picture(?); 
     }
 }

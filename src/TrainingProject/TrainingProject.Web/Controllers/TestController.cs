@@ -40,11 +40,23 @@ namespace TrainingProject.Web.Controllers
         }
 
         [HttpPost("finish")]
-        public async Task<ActionResult<ResultDTO>> FinishTest(List<AnswerResultDTO> resultsModel)
+        public async Task<ActionResult<ResultDTO>> FinishTest(UserAnswersDTO answersModel)
         {
+            var result = await _testService.FinishTestAsync(answersModel);
 
-
-            return Ok();
+            if (result != null)
+            {
+                var shortName = await _testService.GetShortNameAsync(result.TestId);
+                if (string.IsNullOrWhiteSpace(shortName))
+                {
+                    return Problem("Something went wrong on getting test result.");
+                }
+                return Redirect($"~/{answersModel.UserName}/{shortName}");
+            }
+            else
+            {
+                return Problem("Something went wrong on writing result.");
+            }
         }
 
         [HttpGet("{testId}")]

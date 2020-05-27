@@ -19,9 +19,11 @@ namespace TrainingProject.Data.Repository
             _context = context;
         }
 
-        public void Add(Result result)
+        public async Task<Result> AddResultAsync(Result result)
         {
-            throw new NotImplementedException();
+            await _context.Results.AddAsync(result);
+            await _context.SaveChangesAsync();
+            return result;
         }
 
         public void Delete(int id)

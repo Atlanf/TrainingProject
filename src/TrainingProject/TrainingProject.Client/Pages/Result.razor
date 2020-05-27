@@ -2,6 +2,8 @@
 @page "/Result/{userName}/"
 @page "/Result/{userName}/{testName}/"
 
+@inject HttpClient HttpClient
+
 <h3>Result</h3>
 
 @code {
@@ -11,5 +13,8 @@
     [Parameter]
     public string TestName { get; set; }
 
-
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await HttpClient.GetAsync("")
+    }
 }

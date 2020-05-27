@@ -9,6 +9,7 @@ using TrainingProject.Domain.Logic.Models.Question;
 using TrainingProject.Domain.Logic.Models.Test;
 using System.Linq;
 using TrainingProject.Domain.Logic.Models.Admin;
+using TrainingProject.Domain.Logic.Models.Result;
 
 namespace TrainingProject.Domain.Logic.Profiles
 {
@@ -79,6 +80,14 @@ namespace TrainingProject.Domain.Logic.Profiles
                 .ForMember(q => q.Description, opt => opt.MapFrom(x => x.TestDescription))
                 .ForMember(q => q.DateCreated, opt => opt.MapFrom(x => DateTime.UtcNow))
                 .ForAllOtherMembers(q => q.Ignore());
+
+            /* Result profiles */
+            CreateMap<Result, ResultDTO>()
+                .ForMember(q => q.CorrectAnswers, opt => opt.MapFrom(x => x.CorrectAnswers))
+                .ForMember(q => q.DateFinished, opt => opt.MapFrom(x => x.DateFinished))
+                .ForMember(q => q.TestFinished, opt => opt.MapFrom(x => x.TestFinished))
+                .ForMember(q => q.TestId, opt => opt.MapFrom(x => x.TestId))
+                .ForMember(q => q.TotalQuestions, opt => opt.Ignore());
         }
     }
 }

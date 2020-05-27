@@ -18,5 +18,6 @@ namespace TrainingProject.Data.Interfaces
         Task<ICollection<Category>> GetTestsWithCategoryAsync();
         Task<Test> GetTestDetailsAsync(string shortName);
         Task<string> GetTestNameAsync(string testName, string shortName);
+        Task<string> GetTestMinimizedNameAsync(int testId);
     }
 }

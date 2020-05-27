@@ -89,5 +89,13 @@ namespace TrainingProject.Data.Repository
                 .Select(n => n.Name)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<string> GetTestMinimizedNameAsync(int testId)
+        {
+            return await _context.Tests
+                .Where(t => t.Id == testId)
+                .Select(t => t.MinimizedName)
+                .FirstOrDefaultAsync();
+        }
     }
 }

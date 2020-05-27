@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using TrainingProject.Domain.Logic.Models.Question;
+using TrainingProject.Domain.Logic.Models.Result;
 using TrainingProject.Domain.Logic.Models.Test;
 
 namespace TrainingProject.Domain.Logic.Interfaces
@@ -12,5 +13,7 @@ namespace TrainingProject.Domain.Logic.Interfaces
         public Task<List<QuestionDTO>> GetTestAsync(int testId);
         public Task<List<TestCategoryDTO>> GetTestsByCategoryAsync();
         Task<TestDetailsDTO> GetTestDetailsAsync(string shortName);
+        Task<ResultDTO> FinishTestAsync(UserAnswersDTO answersModel);
+        Task<string> GetShortNameAsync(int testId);
     }
 }
