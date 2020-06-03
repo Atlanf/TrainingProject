@@ -40,11 +40,21 @@
                 </div>
             </fieldset>
         </div>
-        <div class="form-group row">
-            <div class="col-sm-10">
-                <input class="btn btn-primary" type="button" value="Submit answer" @onclick="AnswerQuestion" />
+
+        @if (QuestionAnswered)
+        {
+            <div class="alert alert-info" role="alert">
+                <p>Your answer was submitted. if you want to change it - select another one.</p>
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <input class="btn btn-primary" type="button" value="Submit answer" @onclick="AnswerQuestion" />
+                </div>
+            </div>
+        }
     </div>
     <br />
 </form>
@@ -66,6 +76,11 @@
     public List<int> UserChoices { get; set; } = new List<int>();
 
     public bool ErrorOccured { get; set; } = false;
+
+    private bool QuestionAnswered { get; set; } = false;
+
+    private string AnswerIcon { get; } = "glyphicon glyphicon-ok";
+    private string AnswerIconStyles { get; } = "color:green";
 
     protected override async Task OnInitializedAsync()
     {
@@ -100,6 +115,7 @@
         {
             UserChoices.Add(choice);
         }
+        QuestionAnswered = false;
     }
 
     protected void AssignValueRadio(ChangeEventArgs e, int choice)
@@ -107,6 +123,7 @@
         choice += 1;
         UserChoices.Clear();
         UserChoices.Add(choice);
+        QuestionAnswered = false;
     }
 
     private QuestionAnswerDTO SetValues()
@@ -126,6 +143,7 @@
             Result.QuestionId = CorrectAnswer.QuestionId;
             Result.IsCorrect = true;
         }
+        QuestionAnswered = true;
         OnAnswer.InvokeAsync(new HelperAnswerResult()
         {
             AnswerResult = Result,

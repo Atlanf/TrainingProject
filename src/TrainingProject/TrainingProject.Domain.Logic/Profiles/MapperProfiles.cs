@@ -87,6 +87,9 @@ namespace TrainingProject.Domain.Logic.Profiles
                 .ForMember(q => q.DateFinished, opt => opt.MapFrom(x => x.DateFinished))
                 .ForMember(q => q.TestFinished, opt => opt.MapFrom(x => x.TestFinished))
                 .ForMember(q => q.TestId, opt => opt.MapFrom(x => x.TestId))
+                .ForMember(q => q.UserName, opt => opt.MapFrom(x => x.User.UserName))
+                .ForMember(q => q.TestShortName, opt => opt.MapFrom(x => x.Test.MinimizedName))
+                .ForMember(q => q.TotalQuestions, opt => opt.MapFrom(x => x.Test.MaxQuestions))
                 .ForAllOtherMembers(q => q.Ignore());
 
             CreateMap<Result, MinimizedResultDTO>()

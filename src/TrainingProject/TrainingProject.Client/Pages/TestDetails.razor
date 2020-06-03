@@ -31,7 +31,7 @@
     else
     {
         <div class="text-justify">
-            <p>Sorry, but right now this test has no questions available. But you can help add questions to this test.</p>
+            <p>Sorry, right now this test has no questions available. But you can help add questions to this test.</p>
         </div>
         <AuthorizeView Roles="Visitor,Administrator">
             <button class="btn btn-primary" @onclick="@(() => ShowCreatingDialog())">Add new question</button>
@@ -45,14 +45,14 @@
         {
             <div class="alert alert-success mt-2" role="alert">
                 <h4 class="alert-heading">This test is completed.</h4>
-                <p>You have completed this test. Your best score on this test is @BestResult.CorrectAnswers / @BestResult.TotalQuestions </p>
+                <p>You've already completed this test. Your best score is @BestResult.CorrectAnswers / @BestResult.TotalQuestions </p>
             </div>
         }
         else
         {
             <div class="alert alert-warning mt-2" role="alert">
                 <h4 class="alert-heading">This test is not completed</h4>
-                <p>You did not completed this test. Your best score on this test is @BestResult.CorrectAnswers / @BestResult.TotalQuestions </p>
+                <p>You did not completed this test. Your best score is @BestResult.CorrectAnswers / @BestResult.TotalQuestions </p>
             </div>
         }
     }

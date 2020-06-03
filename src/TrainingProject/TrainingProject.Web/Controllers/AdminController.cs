@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -36,7 +37,10 @@ namespace TrainingProject.Web.Controllers
             }
             else
             {
-                return Problem();
+                return Problem(
+                    title: "Questions to approve error.",
+                    detail: "Error occured while loading list of questions. Try again later.",
+                    statusCode: 500);
             }
         }
 
@@ -59,7 +63,10 @@ namespace TrainingProject.Web.Controllers
             }
             else
             {
-                return Problem("Such category already exists. Please, try again with different name");
+                return Problem(
+                    title: "Create category error.",
+                    detail: "Error occured on creating new category. Try again.",
+                    statusCode: 500);
             }
         }
 
@@ -74,7 +81,10 @@ namespace TrainingProject.Web.Controllers
             }
             else
             {
-                return Problem("Something went wrong");
+                return Problem(
+                    title: "Create test error.",
+                    detail: "Error occured on new test. Try again.",
+                    statusCode: 500);
             }
         }
 
@@ -83,7 +93,17 @@ namespace TrainingProject.Web.Controllers
         {
             var result = await _testService.GetTestsByCategoryAsync();
 
-            return Ok(result);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return Problem(
+                    title: "Get category error.",
+                    detail: "Error occured while you tried to get list of categories. Try again later.",
+                    statusCode: 500);
+            }
         }
     }
 }

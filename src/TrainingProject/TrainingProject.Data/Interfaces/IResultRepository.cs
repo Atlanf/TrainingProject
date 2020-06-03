@@ -12,6 +12,8 @@ namespace TrainingProject.Data.Interfaces
         Task<Result> GetBestResultAsync(string userId, int testId);
         Task<Result> GetResultAsync(string userId, int testId);
         Task<Result> GetLastResultAsync(string userId, int testId);
+        Task<List<Result>> GetFinishedUserResultsAsync(string userId);
+        Task<List<Result>> GetUserResultsAsync(string userId, bool finishedOnly);
 
         Result Get(int id);
         IEnumerable<Result> GetAll();

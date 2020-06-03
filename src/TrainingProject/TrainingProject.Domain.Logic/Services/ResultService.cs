@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TrainingProject.Data.Interfaces;
 using TrainingProject.Domain.Logic.Interfaces;
 using TrainingProject.Domain.Logic.Models.Result;
+using TrainingProject.Domain.Models;
 
 namespace TrainingProject.Domain.Logic.Services
 {
@@ -30,16 +31,19 @@ namespace TrainingProject.Domain.Logic.Services
         public async Task<MinimizedResultDTO> GetBestResultAsync(ResultRequestDTO resultModel)
         {
             var user = await _userRepository.GetUserByNameAsync(resultModel.UserName);
-            var userId = user.Id.ToString();
-
             var test = await _testRepository.GetTestDetailsAsync(resultModel.TestName);
-            var testId = test.Id;
 
-            var userResult = await _resultRepository.GetResultAsync(userId, testId);
-
+            var userResult = await _resultRepository.GetBestResultAsync(user.Id.ToString(), test.Id);
             var result = _mapper.Map<MinimizedResultDTO>(userResult);
-            result.TotalQuestions = test.MaxQuestions;
-            result.TestName = test.Name;
+            if (userResult != null)
+            {
+                result.TotalQuestions = test.MaxQuestions;
+                result.TestName = test.Name;
+            }
+            else
+            {
+                result = null;
+            }
 
             return result;
         }
@@ -47,39 +51,40 @@ namespace TrainingProject.Domain.Logic.Services
         public async Task<ResultDTO> GetLastResultAsync(ResultRequestDTO resultModel)
         {
             var user = await _userRepository.GetUserByNameAsync(resultModel.UserName);
-            var userId = user.Id.ToString();
-
             var test = await _testRepository.GetTestDetailsAsync(resultModel.TestName);
-            var testId = test.Id;
 
-            var userResult = await _resultRepository.GetLastResultAsync(userId, testId);
+            var userResult = await _resultRepository.GetLastResultAsync(user.Id.ToString(), test.Id);
 
-            var result = _mapper.Map<ResultDTO>(userResult);
+            var result = new ResultDTO(); _mapper.Map<ResultDTO>(userResult);
 
-            result.UserName = user.UserName;
-            result.TestShortName = test.MinimizedName;
-            result.TotalQuestions = test.MaxQuestions;
-
+            if (userResult != null)
+            {
+                result = _mapper.Map<ResultDTO>(userResult);
+            }
+            else
+            {
+                result = null;
+            }
             return result;
         }
 
-        public async Task<ResultDTO> GetUserResultAsync(ResultRequestDTO resultModel)
+        public async Task<List<ResultDTO>> GetUserResultsAsync(string userName, bool finishedOnly = false)
         {
-            //var user = await _userRepository.GetUserByNameAsync(resultModel.UserName);
-            //var userId = user.Id.ToString();
+            var user = await _userRepository.GetUserByNameAsync(userName);
+            var result = new List<ResultDTO>();
+            var userResult = await _resultRepository.GetUserResultsAsync(user.Id, finishedOnly);
 
-            //var test = await _testRepository.GetTestDetailsAsync(resultModel.TestName);
-            //var testId = test.Id;
+            if (userResult != null)
+            {
+                result = _mapper.Map<List<Result>, List<ResultDTO>>(userResult);
+                
+            }
+            else
+            {
+                result = null;
+            }
 
-            //var userResult = await _resultRepository.GetResultAsync(userId, testId);
-
-            //var result = _mapper.Map<ResultDTO>(userResult);
-
-            //result.UserName = user.UserName;
-            //result.TestShortName = test.MinimizedName;
-            //result.TotalQuestions = test.MaxQuestions;
-
-            return null;
+            return result;
         }
     }
 }

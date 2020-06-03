@@ -20,14 +20,14 @@
             <text>...</text>
         </Authorizing>
         <Authorized>
-            <div class="form-group justify-content-center">
+            <div class="form-group justify-content-center ml-3">
                 <span class="text-white">Hello, @context.User.Identity.Name !</span>
                 <br />
                 <input class="btn btn-primary" type="button" @onclick="Signout" value="Sign Out"/>
             </div>
         </Authorized>
         <NotAuthorized>
-            <div class="btn-group justify-content-center">
+            <div class="btn-group justify-content-center ml-3">
                 <input class="btn btn-primary" type="button" @onclick="ShowLoginComponent" value="Sign In" />
                 <input class="btn btn-secondary" type="button" @onclick="ShowRegisterComponent" value="Register" />
             </div>

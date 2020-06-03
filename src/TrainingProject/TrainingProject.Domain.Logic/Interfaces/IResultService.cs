@@ -8,7 +8,7 @@ namespace TrainingProject.Domain.Logic.Interfaces
 {
     public interface IResultService
     {
-        Task<ResultDTO> GetUserResultAsync(ResultRequestDTO resultModel);
+        Task<List<ResultDTO>> GetUserResultsAsync(string userName, bool finishedOnly = false);
         Task<MinimizedResultDTO> GetBestResultAsync(ResultRequestDTO resultModel);
         Task<ResultDTO> GetLastResultAsync(ResultRequestDTO resultModel);
     }

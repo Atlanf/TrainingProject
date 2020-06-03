@@ -39,7 +39,10 @@ namespace TrainingProject.Web.Controllers
             }
             else
             {
-                return Problem("Error occured on getting best result.");
+                return Problem(
+                    title: "Get best result error",
+                    detail: "Error occured on getting best result. Try again later",
+                    statusCode: 500);
             }
         }
 
@@ -62,7 +65,28 @@ namespace TrainingProject.Web.Controllers
             }
             else
             {
-                return Problem("Problem occured on getting last result.");
+                return Problem(
+                    title: "Get last result error",
+                    detail: "Error occured on getting last result. Try again later",
+                    statusCode: 500);
+            }
+        }
+
+        [HttpGet("{userName}/{finisedOnly?}")]
+        public async Task<ActionResult<List<ResultDTO>>> GetUserResults(string userName, bool finishedOnly = false)
+        {
+            var result = await _resultService.GetUserResultsAsync(userName, finishedOnly);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return Problem(
+                    title: "Get user results error",
+                    detail: "Error occured on getting all user results. Try again.",
+                    statusCode: 500);
             }
         }
     }
