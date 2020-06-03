@@ -10,7 +10,7 @@ namespace TrainingProject.Domain.Logic.Interfaces
     public interface IQuestionService
     {
         Task<QuestionDTO> GetQuestion(int questionId);
-        Task CreateQuestion(CreateQuestionDTO questionModel);
+        Task<bool> CreateQuestion(CreateQuestionDTO questionModel);
         Task ApproveQuestion(ApproveQuestionDTO questionModel);
         Task<AnswerResultDTO> AnswerQuestion(QuestionAnswerDTO questionModel);
         Task<AnswerDTO> GetAnswerAsync(int questionId);

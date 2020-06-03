@@ -60,7 +60,7 @@ namespace TrainingProject.Domain.Logic.Services
             }
         }
 
-        public async Task CreateQuestion(CreateQuestionDTO questionModel)
+        public async Task<bool> CreateQuestion(CreateQuestionDTO questionModel)
         {
             var question = _mapper.Map<Question>(questionModel);
             var choices = _mapper.Map<Choice>(questionModel);
@@ -73,6 +73,14 @@ namespace TrainingProject.Domain.Logic.Services
             }
 
             var result = await _questionRepository.AddAsync(question);
+            if (result != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         //

@@ -25,13 +25,18 @@ namespace TrainingProject.Web.Controllers
         [HttpPost]
         public async Task<ActionResult<QuestionDTO>> Post(CreateQuestionDTO questionModel)
         {
-            if (ModelState.IsValid)
+            var result = await _questionService.CreateQuestion(questionModel);
+            if (result)
             {
-                await _questionService.CreateQuestion(questionModel);
-
                 return Ok();
             }
-            return Problem();
+            else
+            {
+                return Problem(
+                    title: "Error on creating question.",
+                    detail: "Error occured on creating new question. Try again.",
+                    statusCode: 500);
+            }
         }
     }
 }

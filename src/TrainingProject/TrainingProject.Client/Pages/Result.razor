@@ -6,19 +6,26 @@
 
 @inject HttpClient HttpClient
 
-<div>
-    <p><h3>Thanks for finishing @MinimizedResultDTO.TestName test!</h3></p>
-    <p>Your score is @MinimizedResultDTO.CorrectAnswers / @MinimizedResultDTO.TotalQuestions</p>
-    
-    @if (MinimizedResultDTO.TestFinished)
-    {
-        <p>With this score you have successfully finished it!</p>
-    }
-    else
-    {
-        <p>Sorry, but this is not enough to finish this test. Try again.</p>
-    }
-</div>
+@if (MinimizedResultDTO != null)
+{
+    <div>
+        <p><h3>Thanks for finishing @MinimizedResultDTO.TestName test!</h3></p>
+        <p>Your score is @MinimizedResultDTO.CorrectAnswers / @MinimizedResultDTO.TotalQuestions</p>
+
+        @if (MinimizedResultDTO.TestFinished)
+        {
+            <p>With this score you have successfully finished it!</p>
+        }
+        else
+        {
+            <p>Sorry, but this is not enough to finish this test. Try again.</p>
+        }
+    </div>
+}
+else
+{
+    <SpinnerComponent />
+}
 
 @code {
     [Parameter]

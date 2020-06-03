@@ -1,0 +1,42 @@
+﻿@page "/profile/"
+@page "/profile/{userName}"
+
+@inject HttpClient HttpClient
+
+@attribute [Authorize]
+
+@if (UserResults != null)
+{
+    <div>
+
+    </div>
+}
+else
+{
+    if (ResponseHelper.ErrorOccured)
+    {
+        <ShowErrorComponent TError="ResultDTO" ResponseHelper="ResponseHelper" />
+    }
+    else
+    {
+        <SpinnerComponent/>
+    }
+}
+
+@code {
+    [Parameter]
+    public string UserName { get; set; }
+
+    public ResultDTO UserResults { get; set; }
+
+    private ResponseHandlingHelper<ResultDTO> ResponseHelper { get; set; } = new ResponseHandlingHelper<ResultDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        ResponseHelper = new ResponseHandlingHelper<ResultDTO>();
+
+        var response = await HttpClient.GetAsync($"/api/result/{UserName}/");
+
+        UserResults = await ResponseHelper.GetResponseResult(response);
+    }
+}

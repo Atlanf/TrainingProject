@@ -1,0 +1,11 @@
+﻿@typeparam TError
+
+<div class="alert alert-danger mt-2" role="alert">
+    <h4 class="alert-heading">@ResponseHelper.ErrorDetails.Title</h4>
+    <p>@ResponseHelper.ErrorDetails.Detail</p>
+</div>
+
+@code {
+    [Parameter]
+    public ResponseHandlingHelper<TError> ResponseHelper { get; set; }
+}
