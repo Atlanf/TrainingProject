@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using TrainingProject.Domain.Logic.Models.User;
+using TrainingProject.Domain.Models.User;
 using System.Net.Http.Headers;
 using System.Text.Json;
 

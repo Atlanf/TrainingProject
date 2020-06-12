@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TrainingProject.Domain.Logic.Models.Question;
+using TrainingProject.Domain.Models.Question;
 
 namespace TrainingProject.Client.Helpers
 {

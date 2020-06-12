@@ -1,4 +1,4 @@
-﻿@using TrainingProject.Domain.Logic.Models.Admin;
+﻿@using TrainingProject.Domain.Models.Admin;
 
 @inject HttpClient HttpClient
 
@@ -102,7 +102,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await HttpClient.GetAsync("api/Admin");
+        var response = await HttpClient.GetAsync("api/admin/questions");
         try
         {
             response.EnsureSuccessStatusCode();

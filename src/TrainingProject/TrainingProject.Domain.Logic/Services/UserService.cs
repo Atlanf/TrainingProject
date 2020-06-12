@@ -9,8 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TrainingProject.Data.Interfaces;
 using TrainingProject.Domain.Logic.Interfaces;
-using TrainingProject.Domain.Logic.Models.User;
-using TrainingProject.Domain.Models;
+using TrainingProject.Domain.Models.User;
+using TrainingProject.Data.Models;
 
 namespace TrainingProject.Domain.Logic.Services
 {

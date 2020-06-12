@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TrainingProject.Domain;
-using TrainingProject.Domain.Models;
+using TrainingProject.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using TrainingProject.Data.Interfaces;

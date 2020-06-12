@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using TrainingProject.Domain.Models;
+using TrainingProject.Data.Models;
 
 namespace TrainingProject.Data.Interfaces
 {
@@ -14,14 +14,5 @@ namespace TrainingProject.Data.Interfaces
         Task<Result> GetLastResultAsync(string userId, int testId);
         Task<List<Result>> GetFinishedUserResultsAsync(string userId);
         Task<List<Result>> GetUserResultsAsync(string userId, bool finishedOnly);
-
-        Result Get(int id);
-        IEnumerable<Result> GetAll();
-        void Update(Result resultToUpdate, int id);
-        void Delete(int id);
-        
-        IEnumerable<Result> GetByUser(int id);
-        IEnumerable<Result> GetByTest(int id);
-         
     }
 }

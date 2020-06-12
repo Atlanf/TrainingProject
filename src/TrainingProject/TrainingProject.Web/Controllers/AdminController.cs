@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TrainingProject.Domain.Logic.Interfaces;
-using TrainingProject.Domain.Logic.Models.Admin;
-using TrainingProject.Domain.Logic.Models.Question;
-using TrainingProject.Domain.Logic.Models.Test;
+using TrainingProject.Domain.Models.Admin;
+using TrainingProject.Domain.Models.Question;
+using TrainingProject.Domain.Models.Test;
 
 namespace TrainingProject.Web.Controllers
 {
@@ -27,7 +27,7 @@ namespace TrainingProject.Web.Controllers
             _testService = testService;
         }
 
-        [HttpGet]
+        [HttpGet("questions")]
         public async Task<ActionResult<List<QuestionToApproveDTO>>> GetQuestionsToApprove()
         {
             var questions = await _adminService.GetQuestionsToApproveAsync();
@@ -105,5 +105,21 @@ namespace TrainingProject.Web.Controllers
                     statusCode: 500);
             }
         }
+
+        //[HttpGet("questions")]
+        //public async Task<ActionResult<List<QuestionToApproveDTO>>> GetByPages(int? page = null, int? pageSize = 5)
+        //{
+        //    if (!page.HasValue)
+        //    {
+        //        return Ok(await _adminService.GetQuestionsToApproveAsync());
+        //    }
+
+        //    var questions = await _adminService.GetQuestionsByPageAsync(page, pageSize);
+
+        //    return Problem(
+        //        title: "Get questions error.",
+        //        detail: "Error occured while you tried to get list of questions to approve. Try again later.",
+        //        statusCode: 500);
+        //}
     }
 }

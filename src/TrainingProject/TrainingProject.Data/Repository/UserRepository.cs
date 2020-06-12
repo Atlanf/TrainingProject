@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using TrainingProject.Domain;
-using TrainingProject.Domain.Models;
+using TrainingProject.Data.Models;
 using TrainingProject.Data.Interfaces;
 
 namespace TrainingProject.Data.Repository
@@ -45,32 +45,5 @@ namespace TrainingProject.Data.Repository
         {
             return await _userManager.FindByNameAsync(name);
         }
-
-        public Task DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<User>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> GetAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> IsUserExist(User user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> UpdateAsync(User userToUpdate)
-        {
-            throw new NotImplementedException();
-        }
-
-
     }
 }

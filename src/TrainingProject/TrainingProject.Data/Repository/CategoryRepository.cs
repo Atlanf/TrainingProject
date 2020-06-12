@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TrainingProject.Domain;
-using TrainingProject.Domain.Models;
+using TrainingProject.Data.Models;
 using TrainingProject.Data.Interfaces;
 
 namespace TrainingProject.Data.Repository

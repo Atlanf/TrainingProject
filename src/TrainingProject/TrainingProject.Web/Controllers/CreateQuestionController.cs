@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrainingProject.Data.Interfaces;
 using TrainingProject.Domain.Logic.Interfaces;
-using TrainingProject.Domain.Logic.Models.Question;
+using TrainingProject.Domain.Models.Question;
 
 namespace TrainingProject.Web.Controllers
 {

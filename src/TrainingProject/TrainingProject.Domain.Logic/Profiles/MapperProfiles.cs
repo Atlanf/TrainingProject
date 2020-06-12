@@ -2,14 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TrainingProject.Domain.Logic.Models.User;
-using TrainingProject.Domain.Models;
+using TrainingProject.Domain.Models.User;
+using TrainingProject.Data.Models;
 using System.Security.Cryptography;
-using TrainingProject.Domain.Logic.Models.Question;
-using TrainingProject.Domain.Logic.Models.Test;
+using TrainingProject.Domain.Models.Question;
+using TrainingProject.Domain.Models.Test;
 using System.Linq;
-using TrainingProject.Domain.Logic.Models.Admin;
-using TrainingProject.Domain.Logic.Models.Result;
+using TrainingProject.Domain.Models.Admin;
+using TrainingProject.Domain.Models.Result;
 
 namespace TrainingProject.Domain.Logic.Profiles
 {
@@ -30,7 +30,6 @@ namespace TrainingProject.Domain.Logic.Profiles
             CreateMap<CreateQuestionDTO, Question>()
                 .ForMember(q => q.Description, opt => opt.MapFrom(x => x.QuestionDescription))
                 .ForMember(q => q.MultipleAnswers, opt => opt.MapFrom(x => x.MultipleAnswers))
-                .ForMember(q => q.Image, opt => opt.MapFrom(x => x.QuestionImage))
                 .ForMember(q => q.AuthorId, opt => opt.MapFrom(x => x.UserId))
                 .ForMember(q => q.TestId, opt => opt.MapFrom(x => x.TestId))
                 .ForMember(q => q.Choices, opt => opt.Ignore());

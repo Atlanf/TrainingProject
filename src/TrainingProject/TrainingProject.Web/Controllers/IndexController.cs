@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using TrainingProject.Domain.Logic.Interfaces;
-using TrainingProject.Domain.Logic.Models.Test;
+using TrainingProject.Domain.Models.Test;
 
 namespace TrainingProject.Web.Controllers
 {

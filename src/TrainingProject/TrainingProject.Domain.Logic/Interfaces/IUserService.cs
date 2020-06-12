@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using TrainingProject.Domain.Logic.Models.User;
+using TrainingProject.Domain.Models.User;
 
 namespace TrainingProject.Domain.Logic.Interfaces
 {

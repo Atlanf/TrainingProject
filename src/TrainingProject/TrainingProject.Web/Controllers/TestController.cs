@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrainingProject.Domain.Logic.Interfaces;
-using TrainingProject.Domain.Logic.Models.Question;
-using TrainingProject.Domain.Logic.Models.Result;
-using TrainingProject.Domain.Logic.Models.Test;
+using TrainingProject.Domain.Models.Question;
+using TrainingProject.Domain.Models.Result;
+using TrainingProject.Domain.Models.Test;
 
 namespace TrainingProject.Web.Controllers
 {

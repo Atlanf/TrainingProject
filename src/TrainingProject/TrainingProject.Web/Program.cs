@@ -10,8 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using TrainingProject.Domain;
-using TrainingProject.Domain.Models;
+using TrainingProject.Data;
+using TrainingProject.Data.Models;
 
 namespace TrainingProject.Web
 {

@@ -23,6 +23,7 @@ using TrainingProject.Domain.Logic.Profiles;
 using TrainingProject.Domain.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TrainingProject.Data.Models;
 
 namespace TrainingProject.Web
 {
@@ -40,14 +41,10 @@ namespace TrainingProject.Web
         {
             services.AddLogging();
 
-            services.AddDbContext<Domain.AppDbContext>(options =>
-            {
-                options.UseSqlServer(
-                        Configuration.GetConnectionString("TrainingProjectDBConnection"),
-                        builder => builder.MigrationsAssembly("TrainingProject.Domain"));
-            });
+            services.AddDomainServices(Configuration);
+
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<Domain.AppDbContext>();
+                .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
@@ -75,8 +72,6 @@ namespace TrainingProject.Web
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
-
-            services.AddDomainServices();
             
             services.AddControllers();
 
@@ -84,9 +79,6 @@ namespace TrainingProject.Web
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerDocument();
-
-            services.AddRazorPages();
-            services.AddServerSideBlazor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,30 +97,7 @@ namespace TrainingProject.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }
-
-/*
-{
-  "email": "mail@example.com",
-  "password": "Admin_1",
-  "rememberMe": true
-}
-
-
-{
-  "userName": "Name",
-  "email": "user@example.com",
-  "password": "1_User",
-  "confirmPassword": "1_User"
-}
-
-{
-  "email": "test@example.com",
-  "password": "T_est1",
-  "rememberMe": true
-}
-*/

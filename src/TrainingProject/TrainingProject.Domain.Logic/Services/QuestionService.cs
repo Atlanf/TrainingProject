@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TrainingProject.Data.Interfaces;
 using TrainingProject.Domain.Logic.Interfaces;
-using TrainingProject.Domain.Logic.Models.Question;
-using TrainingProject.Domain.Models;
+using TrainingProject.Domain.Models.Question;
+using TrainingProject.Data.Models;
+using TrainingProject.Domain.Models.Admin;
 
 namespace TrainingProject.Domain.Logic.Services
 {

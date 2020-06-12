@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TrainingProject.Data.Interfaces;
 using TrainingProject.Domain.Logic.Interfaces;
-using TrainingProject.Domain.Logic.Models.Admin;
-using TrainingProject.Domain.Logic.Models.Question;
-using TrainingProject.Domain.Models;
+using TrainingProject.Domain.Models.Admin;
+using TrainingProject.Domain.Models.Question;
+using TrainingProject.Data.Models;
 
 namespace TrainingProject.Domain.Logic.Services
 {
@@ -89,6 +89,11 @@ namespace TrainingProject.Domain.Logic.Services
             {
                 return false;
             }
+        }
+
+        public Task<List<QuestionToApproveDTO>> GetQuestionsByPageAsync(int page, int pageSize)
+        {
+            throw new NotImplementedException();
         }
     }
 }
