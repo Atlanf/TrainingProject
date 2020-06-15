@@ -126,5 +126,26 @@ namespace TrainingProject.Web.Controllers
                     statusCode: 500);
             }
         }
+
+        [HttpPost("questions/search")]
+        public async Task<ActionResult<PagedResultDTO<QuestionToApproveDTO>>> Search(
+            [FromBody] string searchRequest,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 5)
+        {
+            var pagedResult = await _adminService.GetPagedQuestionsAsync(page, pageSize, searchRequest);
+
+            if (pagedResult != null && pagedResult.Items != null)
+            {
+                return Ok(pagedResult);
+            }
+            else
+            {
+                return Problem(
+                    title: "Search questions error.",
+                    detail: "Error occured while you tried to search questions to approve. Try again later.",
+                    statusCode: 500);
+            }
+        }
     }
 }

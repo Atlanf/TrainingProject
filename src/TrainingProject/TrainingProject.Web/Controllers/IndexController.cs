@@ -32,7 +32,10 @@ namespace TrainingProject.Web.Controllers
             }
             else
             {
-                return StatusCode(500);
+                return Problem(
+                    title: "Get index error.",
+                    detail: "Error occured on loading Index page. Try again later.",
+                    statusCode: 500);
             }
         }
     }

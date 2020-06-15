@@ -15,8 +15,6 @@ namespace TrainingProject.Domain.Logic.Services
 {
     public class AdminService : IAdminService
     {
-        private readonly int _defaultPageSize = 5;
-
         private readonly IMapper _mapper;
         private readonly IQuestionRepository _quesitonRepository;
         private readonly ICategoryRepository _categoryRepository;
@@ -95,17 +93,21 @@ namespace TrainingProject.Domain.Logic.Services
             }
         }
 
-        public async Task<PagedResultDTO<QuestionToApproveDTO>> GetPagedQuestionsAsync(int page, int pageSize)
+        public async Task<PagedResultDTO<QuestionToApproveDTO>> GetPagedQuestionsAsync(
+            int page,
+            int pageSize,
+            string searchRequest = "")
         {
             var pagedResult = new PagedResultDTO<QuestionToApproveDTO>();
 
-            var unapprovedQuestions = await _quesitonRepository.GetUnapprovedQuestionsCountAsync();
+            var unapprovedQuestions = await _quesitonRepository.GetUnapprovedQuestionsCountAsync(searchRequest);
             pageSize = PageVerifier.CheckPageSize(pageSize, unapprovedQuestions);
 
             pagedResult.TotalPages = (int)Math.Ceiling(unapprovedQuestions / (float)pageSize);
             page = PageVerifier.CheckPage(page, pagedResult.TotalPages);
 
-            pagedResult.Items = _mapper.Map<List<QuestionToApproveDTO>>(await _quesitonRepository.GetQuesitonsPageAsync(page, pageSize));
+            pagedResult.Items = _mapper.Map<List<QuestionToApproveDTO>>(
+                await _quesitonRepository.GetQuesitonsPageAsync(page, pageSize, searchRequest));
 
             if (pagedResult.Items == null)
             {

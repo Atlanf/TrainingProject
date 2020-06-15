@@ -89,12 +89,12 @@ namespace TrainingProject.Data.Repository
                 .ToListAsync();
         }
 
-        public async Task<IList<Question>> GetQuesitonsPageAsync(int page, int pageSize)
+        public async Task<IList<Question>> GetQuesitonsPageAsync(int page, int pageSize, string searchRequest)
         {
             try
             {
                 return await _context.Questions
-                    .Where(a => a.IsApproved == false && a.IsDeleted == false)
+                    .Where(a => a.IsApproved == false && a.IsDeleted == false && a.Description.Contains(searchRequest))
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .Include(c => c.Choices)
@@ -107,10 +107,10 @@ namespace TrainingProject.Data.Repository
             }
         }
 
-        public async Task<int> GetUnapprovedQuestionsCountAsync()
+        public async Task<int> GetUnapprovedQuestionsCountAsync(string searchRequest)
         {
             return await _context.Questions
-                .Where(a => a.IsApproved == false && a.IsDeleted == false)
+                .Where(a => a.IsApproved == false && a.IsDeleted == false && a.Description.Contains(searchRequest))
                 .CountAsync();
         }
     }
