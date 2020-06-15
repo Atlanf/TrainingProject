@@ -88,5 +88,30 @@ namespace TrainingProject.Data.Repository
                 .Include(t => t.Test).ThenInclude(cat => cat.Category)
                 .ToListAsync();
         }
+
+        public async Task<IList<Question>> GetQuesitonsPageAsync(int page, int pageSize)
+        {
+            try
+            {
+                return await _context.Questions
+                    .Where(a => a.IsApproved == false && a.IsDeleted == false)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .Include(c => c.Choices)
+                    .Include(t => t.Test).ThenInclude(cat => cat.Category)
+                    .ToListAsync();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<int> GetUnapprovedQuestionsCountAsync()
+        {
+            return await _context.Questions
+                .Where(a => a.IsApproved == false && a.IsDeleted == false)
+                .CountAsync();
+        }
     }
 }

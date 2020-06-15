@@ -18,5 +18,7 @@ namespace TrainingProject.Data.Interfaces
 
         Task<Question> ApproveQuestionAsync(Question question);
         Task<IList<Question>> GetUnapprovedQuestionsAsync();
+        Task<IList<Question>> GetQuesitonsPageAsync(int page, int pageSize);
+        Task<int> GetUnapprovedQuestionsCountAsync();
     }
 }

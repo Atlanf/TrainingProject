@@ -8,11 +8,15 @@ using TrainingProject.Domain.Logic.Interfaces;
 using TrainingProject.Domain.Models.Admin;
 using TrainingProject.Domain.Models.Question;
 using TrainingProject.Data.Models;
+using TrainingProject.Domain.Models;
+using TrainingProject.Domain.Logic.Helpers;
 
 namespace TrainingProject.Domain.Logic.Services
 {
     public class AdminService : IAdminService
     {
+        private readonly int _defaultPageSize = 5;
+
         private readonly IMapper _mapper;
         private readonly IQuestionRepository _quesitonRepository;
         private readonly ICategoryRepository _categoryRepository;
@@ -91,9 +95,24 @@ namespace TrainingProject.Domain.Logic.Services
             }
         }
 
-        public Task<List<QuestionToApproveDTO>> GetQuestionsByPageAsync(int page, int pageSize)
+        public async Task<PagedResultDTO<QuestionToApproveDTO>> GetPagedQuestionsAsync(int page, int pageSize)
         {
-            throw new NotImplementedException();
+            var pagedResult = new PagedResultDTO<QuestionToApproveDTO>();
+
+            var unapprovedQuestions = await _quesitonRepository.GetUnapprovedQuestionsCountAsync();
+            pageSize = PageVerifier.CheckPageSize(pageSize, unapprovedQuestions);
+
+            pagedResult.TotalPages = (int)Math.Ceiling(unapprovedQuestions / (float)pageSize);
+            page = PageVerifier.CheckPage(page, pagedResult.TotalPages);
+
+            pagedResult.Items = _mapper.Map<List<QuestionToApproveDTO>>(await _quesitonRepository.GetQuesitonsPageAsync(page, pageSize));
+
+            if (pagedResult.Items == null)
+            {
+                return null;
+            }
+
+            return pagedResult;
         }
     }
 }

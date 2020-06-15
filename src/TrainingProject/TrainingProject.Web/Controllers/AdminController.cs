@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TrainingProject.Domain.Logic.Interfaces;
+using TrainingProject.Domain.Models;
 using TrainingProject.Domain.Models.Admin;
 using TrainingProject.Domain.Models.Question;
 using TrainingProject.Domain.Models.Test;
@@ -27,22 +28,22 @@ namespace TrainingProject.Web.Controllers
             _testService = testService;
         }
 
-        [HttpGet("questions")]
-        public async Task<ActionResult<List<QuestionToApproveDTO>>> GetQuestionsToApprove()
-        {
-            var questions = await _adminService.GetQuestionsToApproveAsync();
-            if (questions != null)
-            {
-                return Ok(questions);
-            }
-            else
-            {
-                return Problem(
-                    title: "Questions to approve error.",
-                    detail: "Error occured while loading list of questions. Try again later.",
-                    statusCode: 500);
-            }
-        }
+        //[HttpGet("questions")]
+        //public async Task<ActionResult<List<QuestionToApproveDTO>>> GetQuestionsToApprove()
+        //{
+        //    var questions = await _adminService.GetQuestionsToApproveAsync();
+        //    if (questions != null)
+        //    {
+        //        return Ok(questions);
+        //    }
+        //    else
+        //    {
+        //        return Problem(
+        //            title: "Questions to approve error.",
+        //            detail: "Error occured while loading list of questions. Try again later.",
+        //            statusCode: 500);
+        //    }
+        //}
 
         [HttpPut]
         public async Task<ActionResult> ApproveQuestion(ApproveQuestionDTO questionModel)
@@ -106,20 +107,24 @@ namespace TrainingProject.Web.Controllers
             }
         }
 
-        //[HttpGet("questions")]
-        //public async Task<ActionResult<List<QuestionToApproveDTO>>> GetByPages(int? page = null, int? pageSize = 5)
-        //{
-        //    if (!page.HasValue)
-        //    {
-        //        return Ok(await _adminService.GetQuestionsToApproveAsync());
-        //    }
+        [HttpGet("questions")]
+        public async Task<ActionResult<PagedResultDTO<QuestionToApproveDTO>>> GetByPages(
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 5)
+        {
+            var pagedResult = await _adminService.GetPagedQuestionsAsync(page, pageSize);
 
-        //    var questions = await _adminService.GetQuestionsByPageAsync(page, pageSize);
-
-        //    return Problem(
-        //        title: "Get questions error.",
-        //        detail: "Error occured while you tried to get list of questions to approve. Try again later.",
-        //        statusCode: 500);
-        //}
+            if (pagedResult != null && pagedResult.Items != null)
+            {
+                return Ok(pagedResult);
+            }
+            else
+            {
+                return Problem(
+                    title: "Get questions error.",
+                    detail: "Error occured while you tried to get list of questions to approve. Try again later.",
+                    statusCode: 500);
+            }
+        }
     }
 }
