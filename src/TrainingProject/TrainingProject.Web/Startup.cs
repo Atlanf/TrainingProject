@@ -39,6 +39,15 @@ namespace TrainingProject.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("ReactClient",
+                    builder =>
+                    {
+                        builder.WithOrigins(Configuration["ReactClient"]).AllowAnyMethod();
+                    });
+            });
+
             services.AddLogging();
 
             services.AddDomainServices(Configuration);
@@ -89,10 +98,14 @@ namespace TrainingProject.Web
                 app.UseDeveloperExceptionPage();
                 app.UseOpenApi().UseSwaggerUi3();
             }
-
-            app.UseHttpsRedirection();
+            else
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseRouting();
+
+            app.UseCors("ReactClient");
 
             app.UseAuthentication();
             app.UseAuthorization();
