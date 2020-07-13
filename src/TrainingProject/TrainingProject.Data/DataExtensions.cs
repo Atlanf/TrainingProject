@@ -19,14 +19,19 @@ namespace TrainingProject.Data
                         builder => builder.MigrationsAssembly("TrainingProject.Domain"));
             });
 
+            services.AddRepositories();
+
+            return services;
+        }
+
+        private static void AddRepositories(this IServiceCollection services)
+        {
             services.AddTransient<ITestRepository, TestRepository>();
             services.AddTransient<IChoiceRepository, ChoiceRepository>();
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IResultRepository, ResultRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
-
-            return services;
         }
     }
 }

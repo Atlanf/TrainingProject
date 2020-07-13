@@ -25,6 +25,11 @@ namespace TrainingProject.Web.Controllers
         [HttpPost]
         public async Task<ActionResult<QuestionDTO>> Post(CreateQuestionDTO questionModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _questionService.CreateQuestion(questionModel);
             if (result)
             {

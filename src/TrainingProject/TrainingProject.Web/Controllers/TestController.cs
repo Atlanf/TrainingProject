@@ -50,7 +50,10 @@ namespace TrainingProject.Web.Controllers
             }
             else
             {
-                return Problem("Something went wrong on writing result.");
+                return Problem(
+                    title: "Error on finishing test.",
+                    detail: "Something went wrong on writing result.",
+                    statusCode: 500);
             }
         }
 
@@ -67,7 +70,10 @@ namespace TrainingProject.Web.Controllers
             }
             else
             {
-                return Problem();
+                return Problem(
+                    title: "Test not found.",
+                    detail: "Test with these parameters not found.",
+                    statusCode: 404);
             }
         }
 
@@ -82,7 +88,10 @@ namespace TrainingProject.Web.Controllers
             }
             else
             {
-                return Problem();
+                return Problem(
+                    title: "Question not found.",
+                    detail: "Question with these parameters not found.",
+                    statusCode: 404);
             }
         }
     }

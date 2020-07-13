@@ -48,6 +48,11 @@ namespace TrainingProject.Web.Controllers
         [HttpPut]
         public async Task<ActionResult> ApproveQuestion(ApproveQuestionDTO questionModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             await _adminService.ApproveQuestionAsync(questionModel);
 
             return Ok();
@@ -56,8 +61,12 @@ namespace TrainingProject.Web.Controllers
         [HttpPost("category/create")]
         public async Task<ActionResult> CreateCategory(CreateCategoryDTO categoryModel)
         {
-            var result = await _adminService.CreateCategoryAsync(categoryModel);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
+            var result = await _adminService.CreateCategoryAsync(categoryModel);
             if (result)
             {
                 return Ok();

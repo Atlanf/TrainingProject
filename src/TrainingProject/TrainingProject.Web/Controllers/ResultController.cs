@@ -40,9 +40,9 @@ namespace TrainingProject.Web.Controllers
             else
             {
                 return Problem(
-                    title: "Get best result error",
-                    detail: "Error occured on getting best result. Try again later",
-                    statusCode: 500);
+                    title: "Result not found",
+                    detail: "Result for this user not found",
+                    statusCode: 404);
             }
         }
 
@@ -66,9 +66,9 @@ namespace TrainingProject.Web.Controllers
             else
             {
                 return Problem(
-                    title: "Get last result error",
-                    detail: "Error occured on getting last result. Try again later",
-                    statusCode: 500);
+                    title: "Result not found",
+                    detail: "Result for this user not found",
+                    statusCode: 404);
             }
         }
 
@@ -84,9 +84,9 @@ namespace TrainingProject.Web.Controllers
             else
             {
                 return Problem(
-                    title: "Get user results error",
-                    detail: "Error occured on getting all user results. Try again.",
-                    statusCode: 500);
+                    title: "Result not found",
+                    detail: "Result for this user not found",
+                    statusCode: 404);
             }
         }
     }

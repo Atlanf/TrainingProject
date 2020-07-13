@@ -11,15 +11,22 @@ namespace TrainingProject.Domain.Validators
     {
         public override bool IsValid(object value)
         {
-            var list = (IList<string>)value;
-            foreach (var element in list)
+            if (value != null)
             {
-                if (element == "" || element == null)
+                var list = (IList<string>)value;
+                foreach (var element in list)
                 {
-                    return false;
+                    if (element == "" || element == null)
+                    {
+                        return false;
+                    }
                 }
+                return true;
             }
-            return true;
+            else
+            {
+                return false;
+            }
         }
     }
 }

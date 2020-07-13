@@ -77,7 +77,6 @@ namespace TrainingProject.Domain.Logic.Services
             if (userResult != null)
             {
                 result = _mapper.Map<List<Result>, List<ResultDTO>>(userResult);
-                
             }
             else
             {

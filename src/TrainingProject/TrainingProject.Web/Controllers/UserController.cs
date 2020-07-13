@@ -56,6 +56,11 @@ namespace TrainingProject.Web.Controllers
         [HttpPost("signin")]
         public async Task<IActionResult> SignIn(LoginDTO loginModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _signInManager.PasswordSignInAsync(loginModel.UserName, loginModel.Password, false, false);
 
             if (!result.Succeeded)
