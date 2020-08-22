@@ -16,6 +16,6 @@ namespace TrainingProject.Domain.Logic.Interfaces
 
         Task<List<Claim>> GetListOfClaims(LoginDTO loginModel);
 
-
+        Task<ProfileDTO> GetUserInfo(string userName);
     }
 }

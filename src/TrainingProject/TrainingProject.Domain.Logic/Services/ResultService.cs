@@ -7,6 +7,8 @@ using TrainingProject.Data.Interfaces;
 using TrainingProject.Domain.Logic.Interfaces;
 using TrainingProject.Domain.Models.Result;
 using TrainingProject.Data.Models;
+using TrainingProject.Domain.Models.User;
+using System.Linq;
 
 namespace TrainingProject.Domain.Logic.Services
 {
@@ -77,6 +79,38 @@ namespace TrainingProject.Domain.Logic.Services
             if (userResult != null)
             {
                 result = _mapper.Map<List<Result>, List<ResultDTO>>(userResult);
+            }
+            else
+            {
+                result = null;
+            }
+
+            return result;
+        }
+
+        public async Task<UserResultsDTO> GetProfileResultsAsync(string userName)
+        {
+            var result = new UserResultsDTO() {
+                CompletedTestNames = new Dictionary<string,string>(),
+                NotCompletedTestNames = new Dictionary<string, string>()
+            };
+            var user = await _userRepository.GetUserByNameAsync(userName);
+            var userResult = await _resultRepository.GetResultsByBestAsync(user.Id);
+
+            if (userResult != null)
+            {
+                userResult = userResult.GroupBy(r => r.TestId).Select(r => r.FirstOrDefault()).ToList();
+                foreach (var res in userResult)
+                {
+                    if (res.TestFinished)
+                    {
+                        result.CompletedTestNames.Add(res.Test.MinimizedName, res.Test.Name);
+                    }
+                    else
+                    {
+                        result.NotCompletedTestNames.Add(res.Test.MinimizedName, res.Test.Name);
+                    }
+                }
             }
             else
             {

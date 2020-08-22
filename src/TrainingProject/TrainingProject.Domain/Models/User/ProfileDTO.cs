@@ -8,9 +8,7 @@ namespace TrainingProject.Domain.Models.User
     public class ProfileDTO
     {
         public string UserName { get; set; }
-        public string FullName { get; set; }
-
-        [EmailAddress]
         public string Email { get; set; }
+        public bool EmailConfirmed { get; set; }
     }
 }

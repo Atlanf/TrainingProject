@@ -76,5 +76,14 @@ namespace TrainingProject.Data.Repository
 
             return result;
         }
+
+        public async Task<List<Result>> GetResultsByBestAsync(string userId)
+        {
+            return await _context.Results
+                .Where(r => r.UserId == userId)
+                .OrderByDescending(r => r.CorrectAnswers)
+                .Include(r => r.Test)
+                .ToListAsync();
+        }
     }
 }

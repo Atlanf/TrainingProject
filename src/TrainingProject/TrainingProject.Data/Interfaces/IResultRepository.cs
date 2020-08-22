@@ -14,5 +14,6 @@ namespace TrainingProject.Data.Interfaces
         Task<Result> GetLastResultAsync(string userId, int testId);
         Task<List<Result>> GetFinishedUserResultsAsync(string userId);
         Task<List<Result>> GetUserResultsAsync(string userId, bool finishedOnly);
+        Task<List<Result>> GetResultsByBestAsync(string userId);
     }
 }

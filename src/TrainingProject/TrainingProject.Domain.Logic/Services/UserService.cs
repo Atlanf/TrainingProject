@@ -19,11 +19,13 @@ namespace TrainingProject.Domain.Logic.Services
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
         private readonly UserManager<User> _userManager;
+        private readonly IResultRepository _resultRepository;
 
-        public UserService(IMapper mapper, IUserRepository userRepository, UserManager<User> userManager)
+        public UserService(IMapper mapper, IUserRepository userRepository, IResultRepository resultRepository, UserManager<User> userManager)
         {
             _mapper = mapper;
             _userRepository = userRepository;
+            _resultRepository = resultRepository;
             _userManager = userManager;
         }
 
@@ -61,6 +63,20 @@ namespace TrainingProject.Domain.Logic.Services
                     Successful = false,
                     Errors = result.Errors.Select(x => x.Description).ToList()
                 };
+            }
+        }
+
+        public async Task<ProfileDTO> GetUserInfo(string userName)
+        {
+            var user = await _userRepository.GetUserByNameAsync(userName);
+            
+            if (user != null)
+            {
+                return _mapper.Map<ProfileDTO>(user);
+            }
+            else
+            {
+                return null;
             }
         }
 

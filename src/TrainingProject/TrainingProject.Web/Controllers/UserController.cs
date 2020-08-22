@@ -23,35 +23,37 @@ namespace TrainingProject.Web.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IResultService _resultService;
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _config;
 
         private static UserInfo LoggedOutUser = new UserInfo { IsAuthenticated = false };
 
-        public UserController(IUserService userService, SignInManager<User> signInManager, IConfiguration config)
+        public UserController(IUserService userService, IResultService resultService, SignInManager<User> signInManager, IConfiguration config)
         {
             _userService = userService;
+            _resultService = resultService;
             _signInManager = signInManager;
             _config = config;
         }
 
-        [HttpGet("user")]
-        public UserInfo GetUser()
-        {
+        //[HttpGet("user")]
+        //public UserInfo GetUser()
+        //{
             
-            if (User.Identity.IsAuthenticated)
-            {
-                var result = new UserInfo();
-                result.Name = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
-                result.Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
-                result.IsAuthenticated = User.Identity.IsAuthenticated;
-                return result;
-            }
-            else
-            {
-                return LoggedOutUser;
-            }
-        }
+        //    if (User.Identity.IsAuthenticated)
+        //    {
+        //        var result = new UserInfo();
+        //        result.Name = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
+        //        result.Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+        //        result.IsAuthenticated = User.Identity.IsAuthenticated;
+        //        return result;
+        //    }
+        //    else
+        //    {
+        //        return LoggedOutUser;
+        //    }
+        //}
 
         [HttpPost("signin")]
         public async Task<IActionResult> SignIn(LoginDTO loginModel)
@@ -103,6 +105,40 @@ namespace TrainingProject.Web.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return Redirect("~/");
+        }
+
+        [HttpGet("{userName}")]
+        public async Task<IActionResult> GetUserInfo(string userName)
+        {
+            var profile = await _userService.GetUserInfo(userName);
+            if (profile != null)
+            {
+                return Ok(profile);
+            }
+            else
+            {
+                return Problem(
+                    title: "User not found.",
+                    detail: "Requested user not found.",
+                    statusCode: 404);
+            }
+        }
+
+        [HttpGet("{userName}/userResults")]
+        public async Task<IActionResult> GetAllResults(string userName)
+        {
+            var results = await _resultService.GetProfileResultsAsync(userName);
+            if (results != null)
+            {
+                return Ok(results);
+            }
+            else
+            {
+                return Problem(
+                    title: "Results not found.",
+                    detail: "Results for this user not found.",
+                    statusCode: 204);
+            }
         }
     }
 }

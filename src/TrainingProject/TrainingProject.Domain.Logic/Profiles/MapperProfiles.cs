@@ -21,6 +21,8 @@ namespace TrainingProject.Domain.Logic.Profiles
             CreateMap<LoginDTO, User>()
                 .ForMember(u => u.PasswordHash, opt => opt.MapFrom(x => x.Password));
             CreateMap<RegisterDTO, User>();
+            CreateMap<User, ProfileDTO>();
+
             // Configure
             CreateMap<User, ProfileDTO>();
             CreateMap<ProfileDTO, User>();
