@@ -47,7 +47,11 @@ namespace TrainingProject.Data.Repository
         {
             _context.Entry(questionToUpdate).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return questionToUpdate;
+
+            return _context.Questions
+                .Include(q => q.Test)
+                .Include(q => q.Choices)
+                .FirstOrDefault(q => q.Id == questionToUpdate.Id);
         }
 
         public async Task<Question> GetQuestionAsync(int id)

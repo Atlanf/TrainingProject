@@ -15,5 +15,6 @@ namespace TrainingProject.Domain.Logic.Interfaces
         Task<bool> CreateCategoryAsync(CreateCategoryDTO categoryModel);
         Task<bool> CreateTestAsync(CreateTestDTO testModel);
         Task<PagedResultDTO<QuestionToApproveDTO>> GetPagedQuestionsAsync(int page, int pageSize, string searchRequest = "");
+        Task<QuestionDTO> EditQuestionAsync(UpdatedQuestionDTO updatedQuestion);
     }
 }

@@ -82,6 +82,10 @@ namespace TrainingProject.Domain.Logic.Profiles
                 .ForMember(q => q.DateCreated, opt => opt.MapFrom(x => DateTime.UtcNow))
                 .ForAllOtherMembers(q => q.Ignore());
 
+            CreateMap<UpdatedQuestionDTO, Question>()
+                .ForPath(q => q.Choices.Choices, opt => opt.MapFrom(x => x.Choices));
+                //.ForMember(q => q.Choices.Choices, opt => opt.MapFrom(x => x.Choices));
+
             /* Result profiles */
             CreateMap<Result, ResultDTO>()
                 .ForMember(q => q.CorrectAnswers, opt => opt.MapFrom(x => x.CorrectAnswers))

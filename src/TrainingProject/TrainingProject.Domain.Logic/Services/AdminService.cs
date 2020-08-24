@@ -93,6 +93,29 @@ namespace TrainingProject.Domain.Logic.Services
             }
         }
 
+        public async Task<QuestionDTO> EditQuestionAsync(UpdatedQuestionDTO updatedQuestion)
+        {
+            var question = await _quesitonRepository.GetQuestionAsync(updatedQuestion.QuestionId);
+
+            if (updatedQuestion.Choices.Count != question.Choices.Choices.Length)
+            {
+                return null;
+            }
+
+            _mapper.Map(updatedQuestion, question);
+
+            var result = await _quesitonRepository.UpdateAsync(question);
+
+            if (result != null)
+            {
+                return _mapper.Map<QuestionDTO>(result);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public async Task<PagedResultDTO<QuestionToApproveDTO>> GetPagedQuestionsAsync(
             int page,
             int pageSize,

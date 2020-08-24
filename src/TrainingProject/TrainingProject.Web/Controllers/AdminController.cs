@@ -156,5 +156,28 @@ namespace TrainingProject.Web.Controllers
                     statusCode: 500);
             }
         }
+
+        [HttpPut("questions/update")]
+        public async Task<ActionResult> EditQuestion(UpdatedQuestionDTO updatedQuestion)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _adminService.EditQuestionAsync(updatedQuestion);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return Problem(
+                    title: "Problem on updating question.",
+                    detail: "Problem occured on updating question.",
+                    statusCode: 500);
+            }
+        }
     }
 }
